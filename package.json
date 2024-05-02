@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "format": "prettier --write src/**/*.tsx",
+    "ci:format": "prettier --check src/**/*.tsx",
     "dev": "vite",
     "build:prod": "tsc && vite build",
     "build:dev": "tsc && vite build --mode development",
