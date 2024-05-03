@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "test": "jest",
     "format": "prettier --write src/**/*.tsx",
     "ci:format": "prettier --check src/**/*.tsx",
     "dev": "vite",
@@ -28,6 +29,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.4.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "husky": "^9.0.11",
