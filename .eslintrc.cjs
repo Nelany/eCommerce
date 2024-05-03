@@ -28,14 +28,14 @@ module.exports = {
     ],
 
    
-    "@typescript-eslint/no-explicit-any": 2,
-    "implicit-arrow-linebreak": 0,
+    "@typescript-eslint/no-explicit-any": "error",
+    "implicit-arrow-linebreak": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "error",
     "import/extensions": [
       "error",
       "ignorePackages",
-      {
+      { 
         "js": "never",
         "jsx": "never",
         "ts": "never",
@@ -45,8 +45,17 @@ module.exports = {
   },
 
   settings: {
-    "import/resolver": {
-      "typescript": {}
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx']
+    },
+
+    'import/resolver': {
+      alias: {
+        map: [
+          ['', './public']
+        ],
+        extensions: ['.ts', '.tsx']
+      }
     }
   }
 };
