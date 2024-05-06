@@ -8,13 +8,13 @@ The application is powered by CommerceTools 🌐. CommerceTools offers a cloud-n
 
 Pages in the application:
 
-* Login and Registration pages
-* Main page
-* Catalog Product page
-* Detailed Product page
-* User Profile page
-* Basket page
-* About Us page
+- Login and Registration pages
+- Main page
+- Catalog Product page
+- Detailed Product page
+- User Profile page
+- Basket page
+- About Us page
 
 The goal of the project is to work as a team to create an eCommerce application using a technology stack
 
@@ -44,5 +44,6 @@ The goal of the project is to work as a team to create an eCommerce application 
 2. Opened this project in Visual Studio Code
 3. Open the terminal window in VS Code. This automatically means you're at the root of project
 4. Install dependencies: Run in the terminal npm install to install all dependencies listed in the package.json file
-5. Start development server: Run in the terminal npm run dev
-6. This command will start the development server, and you should be able to access this React app at http://localhost:5174
+5. Rename .env-example to .env and fill in the corresponding variables with the data obtained when creating the API client
+6. Start development server: Run in the terminal npm run dev
+7. This command will start the development server, and you should be able to access this React app at http://localhost:5174
