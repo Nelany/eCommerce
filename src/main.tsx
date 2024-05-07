@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import './index.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './common/router/Router';
 
   const rootElement = document.createElement('div');
   rootElement.id = 'root';
@@ -9,6 +10,6 @@ import './index.css';
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
+     <RouterProvider router={router} />
   </React.StrictMode>
 );
