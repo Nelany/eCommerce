@@ -15,7 +15,7 @@ const to = { SIGN_IN: '/sign-in', SIGN_UP: '/sign-up' };
 const Header = () => {
   const navigate = useNavigate();
   const onClick = (to: string) => {
-    navigate(to, {replace: true});
+    navigate(to, { replace: true });
   };
   return (
     <header className="nav">
@@ -24,7 +24,6 @@ const Header = () => {
       ))}
       <div className="sign-container">
         <Button
-          style={{ backgroundColor: '#091D9E' }}
           variant="contained"
           onClick={() => onClick(to.SIGN_IN)}
         >
@@ -32,13 +31,11 @@ const Header = () => {
         </Button>
 
         <Button
-          style={{ backgroundColor: '#091D9E' }}
           variant="contained"
           onClick={() => onClick(to.SIGN_UP)}
         >
           Sign Up
         </Button>
-
       </div>
     </header>
   );
