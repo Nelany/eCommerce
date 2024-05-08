@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './Main.scss';
 import { getCustomers } from '../../auth/api/auth';
-import { Link } from 'react-router-dom';
 import { useNavigateToMain } from '../../../common/hooks/useNavigateToMain';
+import Header from '../../../common/components/header/Header';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,11 +27,8 @@ function App() {
 
   return (
     <>
-    <div className="nav">
-    <Link to={'/sign-in'}>Sign In</Link>
-    <Link to={'/sign-up'}>Sign Up</Link>
-    </div>
-      <h1>Main</h1>
+      <Header />
+      <h1>COOLSTORE</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
