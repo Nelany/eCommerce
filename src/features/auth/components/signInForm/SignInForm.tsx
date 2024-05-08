@@ -36,7 +36,7 @@ const SignInForm = () => {
     <PopUp>
       <LoginTitle>Sign in </LoginTitle>
        <LoginForm>
-        <TextField autoFocus id='e-mail' label='E-mail:' type='text'/>
+        <TextField autoFocus autoComplete='off' id='e-mail' label='E-mail:' type='text'/>
         <TextField  id='password' label='Password:' type='password'/>
         <Button type='button' variant="contained" onClick={checkForm}> Sign In </Button>
       </LoginForm>
