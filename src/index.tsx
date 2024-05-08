@@ -9,7 +9,6 @@ import muiTheme from './common/themes/muiTheme';
 
 const theme = createTheme(muiTheme);
 
-
 const rootElement = document.createElement('div');
 rootElement.id = 'root';
 document.body.appendChild(rootElement);
