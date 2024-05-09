@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './Main.scss';
 import { getCustomers } from '../../auth/api/auth';
 import { useNavigateToMain } from '../../../common/hooks/useNavigateToMain';
-import Header from '../../../common/components/header/Header';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,7 +26,6 @@ function App() {
 
   return (
     <>
-      <Header />
       <h1>COOLSTORE</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
