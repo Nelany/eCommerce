@@ -10,35 +10,36 @@
   flex-wrap: wrap;
   padding: 2em;
   gap: 2em;
-  color: #091D9E;
-font-size: smaller;
-padding-top: 0;
+  color: $blue;
+  font-size: smaller;
+  padding-top: 0;
 }
 
-.sign-container{
+.sign-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   gap: 5px;
 }
 
-.header-button.header-button{
+.header-button.header-button {
   font-size: 10px;
 
-    }
+}
 
-@media(max-width:800px){
-  .nav-tittle{
+@media(max-width:800px) {
+  .nav-tittle {
     display: none;
   }
 
-  .header-button.header-button{
-font-size: 9px;
+  .header-button.header-button {
+    font-size: 9px;
 
   }
 }
 
-@media(max-width:390px){
-  .sign-container{
-    flex-direction:row;
-  }}
+@media(max-width:390px) {
+  .sign-container {
+    flex-direction: row;
+  }
+}
