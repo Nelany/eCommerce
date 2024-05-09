@@ -1,8 +1,13 @@
 // import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoginFormTypes } from '../../types/authTypes'
 import './SignInForm.scss';
+
+type LoginFormTypes = {
+  email: string;
+  password: string;
+};
+
 
 
 const SignInForm = () => {
