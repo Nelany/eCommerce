@@ -33,8 +33,13 @@ const SignInForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className='login-form'>
         <input type='text' placeholder='E-mail' className='input' autoComplete='off' {
           ...register('email', {
-            required: 'Please, enter your e-mail!'
+            required: 'Please, enter your e-mail!',
+            minLength: {
+              value: 8,
+              message: 'error message'
+            }
           })
+         
         }/>
 
         {errors?.email && (
@@ -43,7 +48,12 @@ const SignInForm = () => {
 
         <input  type='password' placeholder='Password' className='input' {
           ...register('password', {
-            required: 'Please, enter your password!'
+            required: 'Please, enter your password!',
+            minLength: {
+              value: 8,
+              message: 'error message'
+            }
+            
           })
         }/>
 
