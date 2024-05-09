@@ -1,6 +1,7 @@
 // import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useCallback, useState } from 'react';
 import './SignInForm.scss';
 
 type LoginFormTypes = {
@@ -9,9 +10,14 @@ type LoginFormTypes = {
 };
 
 
-
 const SignInForm = () => {
   // const navigateToMain = useNavigateToMain();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const changePasswordIcon = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, [])
 
   const {
     register,
@@ -46,21 +52,32 @@ const SignInForm = () => {
           <div className='error'>{errors.email.message}</div>
         )}
 
-        <input  type='password' placeholder='Password' className='input' {
-          ...register('password', {
-            required: 'Please, enter your password!',
-            minLength: {
-              value: 8,
-              message: 'error message'
-            }
-            
-          })
-        }/>
+        <div className='password-wrapper'>
+          <input  placeholder='Password' className='input' 
+            type={
+              showPassword ? "text" : "password"
+            } 
+            {
+            ...register('password', {
+              required: 'Please, enter your password!',
+              minLength: {
+                value: 8,
+                message: 'error message'
+              }
+              
+            })
+          }/>
+
+          <a href='#' className={showPassword ? 'password-controller show' : 'password-controller'}
+            onClick={changePasswordIcon}></a>
+
+        </div>
 
         {errors?.password && (
-          <div className='error'>{errors.password.message}</div>
-        )}
+            <div className='error'>{errors.password.message}</div>
+          )}
 
+      
         <Button type='submit' variant="contained"> Sign In </Button>
       </form>
     </div>
