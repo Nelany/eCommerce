@@ -1,0 +1,18 @@
+.form-register {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 35vw;
+}
+
+.form-register__input {
+    height: 30px;
+    border: 2px solid rgb(80, 78, 78);
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 14px;
+    &:focus {
+        outline: rgb(39, 18, 135);
+        border-color: rgb(39, 18, 135);
+    }
+}
