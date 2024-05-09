@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import './Main.scss';
 import { getCustomers } from '../../auth/api/auth';
-import { useNavigateToMain } from '../../../common/hooks/useNavigateToMain';
 import Header from '../../../common/components/header/Header';
 
-function App() {
+function Main() {
   const [count, setCount] = useState(0);
-  const navigateToMain = useNavigateToMain();
   const onClick = () => {
-    navigateToMain();
     getCustomers('johndoe@example.com').then(console.log).catch(console.error);
     // пример создания пользователя:
     // createCustomer({
@@ -39,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default Main;

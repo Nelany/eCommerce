@@ -1,14 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import './Header.scss';
-import NavItem from '../navItem/NavItem';
 import Button from '@mui/material/Button';
+import NavMenu from '../navMenu/NavMenu';
 
-const nav = [
-  { text: 'Home', imgSrc: '/home2.png' },
-  { text: 'Catalog', imgSrc: '/book2.png' },
-  { text: 'Cart', imgSrc: '/cart.png' },
-  { text: 'Profile', imgSrc: '/hindu2.png' },
-];
 
 const to = { SIGN_IN: '/sign-in', SIGN_UP: '/sign-up' };
 
@@ -17,11 +11,11 @@ const Header = () => {
   const onClick = (to: string) => {
     navigate(to);
   };
+
   return (
     <header className="nav">
-      {nav.map((navItem, index) => (
-        <NavItem text={navItem.text} imgSrc={navItem.imgSrc} key={index} />
-      ))}
+      <NavMenu />
+      
       <div className="sign-container">
         <Button variant="contained" onClick={() => onClick(to.SIGN_IN)}>
           Sign In
