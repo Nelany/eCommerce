@@ -1,0 +1,41 @@
+.pop-up {
+  width: 400px;
+  height: max-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: inherit;
+}
+
+.login-title {
+  font-size: 24px;
+}
+
+.input {
+  height: 40px;
+  padding: 5px 20px;
+
+  font-size: 24px;
+
+  &:focus {
+    border-color: rgb(39, 18, 135);
+}
+}
+
+.error {
+  margin-top: -5px;
+  align-self: flex-start;
+
+  font-size: 10px;
+  color: red;
+}
+
