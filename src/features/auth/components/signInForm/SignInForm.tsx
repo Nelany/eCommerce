@@ -68,8 +68,8 @@ const SignInForm = () => {
             })
           }/>
 
-          <a href='#' className={showPassword ? 'password-controller show' : 'password-controller'}
-            onClick={changePasswordIcon}></a>
+          <span href='#' className={showPassword ? 'password-controller show' : 'password-controller'}
+            onClick={changePasswordIcon}></span>
 
         </div>
 
