@@ -54,7 +54,7 @@ const SignInForm = () => {
         )}
 
         <div className='password-wrapper'>
-          <input  placeholder='Password' className='input password' 
+          <input  placeholder='Password' className='input password' autoComplete='off'
             type={
               showPassword ? "text" : "password"
             } 
@@ -62,8 +62,8 @@ const SignInForm = () => {
             ...register('password', {
               required: 'Please, enter your password!',
               pattern: {
-                value: / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/,
-                message: 'You password is weak'
+                value: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/,
+                message: 'Your password does not match the pattern'
               }
               
             })
