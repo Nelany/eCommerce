@@ -40,9 +40,9 @@ const SignInForm = () => {
         <input type='text' placeholder='E-mail' className='input' autoComplete='off' {
           ...register('email', {
             required: 'Please, enter your e-mail!',
-            minLength: {
-              value: 8,
-              message: 'error message'
+            pattern: {
+              value: /^\S+@\S+\.\S+$/i,
+              message: 'error'
             }
           })
          
@@ -60,9 +60,9 @@ const SignInForm = () => {
             {
             ...register('password', {
               required: 'Please, enter your password!',
-              minLength: {
-                value: 8,
-                message: 'error message'
+              pattern: {
+                value: / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/i,
+                message: 'error'
               }
               
             })
