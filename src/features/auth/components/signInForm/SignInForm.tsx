@@ -1,6 +1,6 @@
 // import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import Button from '@mui/material/Button';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useCallback, useState } from 'react';
 import './SignInForm.scss';
 
@@ -16,7 +16,7 @@ const SignInForm = () => {
 
   const changePasswordIcon = useCallback(() => {
     setShowPassword((prev) => !prev);
-  }, [])
+  }, []);
 
   const {
     register,
@@ -33,49 +33,56 @@ const SignInForm = () => {
   };
 
   return (
-    <div className='pop-up'>
-      <h2 className='login-title'>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className='login-form'>
-        <input type='text' placeholder='E-mail' className='input' autoComplete='off' {
-          ...register('email', {
+    <div className="pop-up">
+      <h2 className="login-title">Login</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+        <input
+          type="text"
+          placeholder="E-mail"
+          className="input"
+          autoComplete="off"
+          {...register('email', {
             required: 'Please, enter your e-mail!',
             pattern: {
               value: /^\S+@\S+\.\S+$/i,
-              message: 'error'
-            }
-          })
-         
-        }/>
+              message: 'error',
+            },
+          })}
+        />
 
         {errors?.email && <div className="error">{errors.email.message}</div>}
 
-        <div className='password-wrapper'>
-          <input  placeholder='Password' className='input' 
-            type={
-              showPassword ? "text" : "password"
-            } 
-            {
-            ...register('password', {
+        <div className="password-wrapper">
+          <input
+            placeholder="Password"
+            className="input"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password', {
               required: 'Please, enter your password!',
               pattern: {
-                value: / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/i,
-                message: 'error'
-              }
-              
-            })
-          }/>
+                value:
+                  / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/i,
+                message: 'error',
+              },
+            })}
+          />
 
-          <span className={showPassword ? 'password-controller show' : 'password-controller'}
-            onClick={changePasswordIcon}></span>
-
+          <span
+            className={
+              showPassword ? 'password-controller show' : 'password-controller'
+            }
+            onClick={changePasswordIcon}
+          ></span>
         </div>
 
         {errors?.password && (
-            <div className='error'>{errors.password.message}</div>
-          )}
+          <div className="error">{errors.password.message}</div>
+        )}
 
-      
-        <Button type='submit' variant="contained"> Sign In </Button>
+        <Button type="submit" variant="contained">
+          {' '}
+          Sign In{' '}
+        </Button>
       </form>
     </div>
   );
