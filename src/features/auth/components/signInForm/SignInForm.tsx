@@ -9,7 +9,6 @@ type LoginFormTypes = {
   password: string;
 };
 
-
 const SignInForm = () => {
   // const navigateToMain = useNavigateToMain();
 
@@ -22,16 +21,16 @@ const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    formState: {errors},
-    reset
-  } = useForm<LoginFormTypes>({mode: 'onChange'})
+    formState: { errors },
+    reset,
+  } = useForm<LoginFormTypes>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<LoginFormTypes> = data => {
-     // тут проверка, после которой:
-     // navigateToMain();
+  const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
+    // тут проверка, после которой:
+    // navigateToMain();
     console.log(data);
     reset();
-  }
+  };
 
   return (
     <div className='pop-up'>
@@ -48,9 +47,7 @@ const SignInForm = () => {
          
         }/>
 
-        {errors?.email && (
-          <div className='error'>{errors.email.message}</div>
-        )}
+        {errors?.email && <div className="error">{errors.email.message}</div>}
 
         <div className='password-wrapper'>
           <input  placeholder='Password' className='input' 
@@ -81,7 +78,7 @@ const SignInForm = () => {
         <Button type='submit' variant="contained"> Sign In </Button>
       </form>
     </div>
-  )
+  );
 };
 
 export default SignInForm;
