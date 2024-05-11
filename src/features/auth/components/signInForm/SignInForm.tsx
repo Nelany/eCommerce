@@ -1,6 +1,7 @@
 // import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useCallback, useState } from 'react';
 import './SignInForm.scss';
 
 type LoginFormTypes = {
@@ -10,6 +11,12 @@ type LoginFormTypes = {
 
 const SignInForm = () => {
   // const navigateToMain = useNavigateToMain();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const changePasswordIcon = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
 
   const {
     register,
@@ -36,19 +43,37 @@ const SignInForm = () => {
           autoComplete="off"
           {...register('email', {
             required: 'Please, enter your e-mail!',
+            pattern: {
+              value: /^\S+@\S+\.\S+$/i,
+              message: 'error',
+            },
           })}
         />
 
         {errors?.email && <div className="error">{errors.email.message}</div>}
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="input"
-          {...register('password', {
-            required: 'Please, enter your password!',
-          })}
-        />
+        <div className="password-wrapper">
+          <input
+            placeholder="Password"
+            className="input"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password', {
+              required: 'Please, enter your password!',
+              pattern: {
+                value:
+                  / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/i,
+                message: 'error',
+              },
+            })}
+          />
+
+          <span
+            className={
+              showPassword ? 'password-controller show' : 'password-controller'
+            }
+            onClick={changePasswordIcon}
+          ></span>
+        </div>
 
         {errors?.password && (
           <div className="error">{errors.password.message}</div>
