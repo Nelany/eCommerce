@@ -2,6 +2,7 @@
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useCallback, useState } from 'react';
+import { Tooltip } from 'react-tooltip';
 import './SignInForm.scss';
 
 type LoginFormTypes = {
@@ -39,13 +40,13 @@ const SignInForm = () => {
         <input
           type="text"
           placeholder="E-mail"
-          className="input"
+          className="input email"
           autoComplete="off"
           {...register('email', {
             required: 'Please, enter your e-mail!',
             pattern: {
               value: /^\S+@\S+\.\S+$/i,
-              message: 'error',
+              message: 'E-mail should look like example@test.com',
             },
           })}
         />
@@ -55,29 +56,45 @@ const SignInForm = () => {
         <div className="password-wrapper">
           <input
             placeholder="Password"
-            className="input"
+            className="input password"
+            autoComplete="off"
             type={showPassword ? 'text' : 'password'}
             {...register('password', {
               required: 'Please, enter your password!',
               pattern: {
-                value:
-                  / ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s).{8,}$/i,
-                message: 'error',
+                value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{7,}/,
+                message: 'Your password does not match the pattern',
               },
             })}
           />
 
-          <span
+          <a
+            href="#"
             className={
               showPassword ? 'password-controller show' : 'password-controller'
             }
             onClick={changePasswordIcon}
-          ></span>
+          ></a>
         </div>
 
         {errors?.password && (
           <div className="error">{errors.password.message}</div>
         )}
+
+        <Tooltip
+          anchorSelect=".email"
+          place="bottom-end"
+          className="clue"
+        ></Tooltip>
+        <Tooltip anchorSelect=".password" place="bottom-end" className="clue">
+          <ul className="password-rules">
+            <li>must be at least 8 characters long.</li>
+            <li>must contain at least one uppercase letter (A-Z).</li>
+            <li>must contain at least one lowercase letter (a-z).</li>
+            <li>must contain at least one digit (0-9).</li>
+            <li>must not contain leading or trailing whitespace.</li>
+          </ul>
+        </Tooltip>
 
         <Button type="submit" variant="contained">
           {' '}
