@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import './Main.scss';
 import { getCustomers } from '../../auth/api/auth';
-import { useNavigateToMain } from '../../../common/hooks/useNavigateToMain';
+import useSelectUser from '../../auth/hooks/useSelectUser';
+import useDispatchUserId from '../../auth/hooks/useDispatchUserId';
 
 function App() {
   const [count, setCount] = useState(0);
-  const navigateToMain = useNavigateToMain();
+  const userId = useSelectUser();
+  const setUser = useDispatchUserId();
+
   const onClick = () => {
-    navigateToMain();
+    // сохраняет пользователя в локалсторэдж и редаксстор:
+    setUser('Coolguy' + Math.random());
+    // пример получения данных пользователя Джона:
     getCustomers('johndoe@example.com').then(console.log).catch(console.error);
     // пример создания пользователя:
     // createCustomer({
@@ -30,6 +35,7 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+          {userId}
         </button>
       </div>
       <button onClick={onClick}>click me</button>
