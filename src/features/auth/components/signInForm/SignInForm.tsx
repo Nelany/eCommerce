@@ -43,7 +43,7 @@ const SignInForm = () => {
             required: 'Please, enter your e-mail!',
             pattern: {
               value: /^\S+@\S+\.\S+$/i,
-              message: 'E-mail is incorrect'
+              message: 'E-mail should look like example@test.com'
             }
           })
          
@@ -62,7 +62,7 @@ const SignInForm = () => {
             ...register('password', {
               required: 'Please, enter your password!',
               pattern: {
-                value: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/,
+                value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{7,}/,
                 message: 'Your password does not match the pattern'
               }
               
@@ -78,14 +78,13 @@ const SignInForm = () => {
             <div className='error'>{errors.password.message}</div>
           )}
 
-          <Tooltip anchorSelect=".email" place="bottom-end" className='clue'>should look like test@test.com</Tooltip>
+          <Tooltip anchorSelect=".email" place="bottom-end" className='clue'></Tooltip>
           <Tooltip anchorSelect=".password" place="bottom-end" className='clue'>
             <ul className='password-rules'>
               <li>must be at least 8 characters long.</li>
               <li>must contain at least one uppercase letter (A-Z).</li>
               <li>must contain at least one lowercase letter (a-z).</li>
               <li>must contain at least one digit (0-9).</li>
-              <li>must contain at least one special character (e.g., !@#$%^&*).</li>
               <li>must not contain leading or trailing whitespace.</li>
             </ul>
 
