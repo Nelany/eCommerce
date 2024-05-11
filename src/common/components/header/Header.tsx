@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 import NavItem from '../navItem/NavItem';
 import Button from '@mui/material/Button';
-import useDispatchUserId from '../../../features/auth/hooks/useDispatchUserId';
 
 const nav = [
   { text: 'Home', imgSrc: '/home2.png', path: '/main' },
@@ -15,9 +14,7 @@ const to = { SIGN_IN: '/sign-in', SIGN_UP: '/sign-up' };
 
 const Header = () => {
   const navigate = useNavigate();
-  const setUser = useDispatchUserId();
   const onClick = (to: string) => {
-    setUser('Svetochka' + Math.random());
     navigate(to);
   };
   return (

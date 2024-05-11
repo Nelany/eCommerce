@@ -5,7 +5,12 @@ const useDispatchUserId = () => {
   const dispatch = useAppDispatch();
 
   return (userId: string) => {
-    localStorage.setItem('userId', userId);
+    if (!userId) {
+      localStorage.removeItem('userId');
+    } else {
+      localStorage.setItem('userId', userId);
+    }
+
     dispatch(setUser(userId));
   };
 };
