@@ -6,6 +6,7 @@
 }
 
 .form-register__input {
+    width: 100%;
     height: 30px;
     border: 2px solid rgb(80, 78, 78);
     border-radius: 3px;
@@ -22,4 +23,23 @@
     font-size: 10px;
     align-self: flex-start;
     margin-top: -5px;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-controller {
+    position: absolute;
+    top: calc(50% - 10px);
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../../assets/show-password.png);
+    background-size: cover;
+  
+    &.show {
+      background-image: url(../../../../assets/hide-password.png);
+    }
 }
