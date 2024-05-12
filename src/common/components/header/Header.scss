@@ -1,13 +1,48 @@
+@import '/src/common/utils/variables.scss';
+
 .nav {
+  width: 100%;
+  max-width: 1400px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 2em;
   gap: 2em;
+  background-image: linear-gradient(45deg, $orange, $blue, $blue, $blue, $blue );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: smaller;
+  padding-top: 0;
 }
 
-.sign-container{
+.sign-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   gap: 5px;
+}
+
+.header-button.header-button {
+  font-size: 10px;
+
+}
+
+@media(max-width:800px) {
+  .nav-tittle {
+    display: none;
+  }
+
+  .header-button.header-button {
+    font-size: 9px;
+
+  }
+}
+
+@media(max-width:390px) {
+  .sign-container {
+    flex-direction: row;
+  }
 }

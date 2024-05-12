@@ -1,13 +1,19 @@
+import { NavLink } from 'react-router-dom';
 import './NavItem.scss';
 
-type Props = { text: string; imgSrc: string; className?: string };
+type Props = { text: string; imgSrc: string; to: string; className?: string };
 
-const NavItem = ({ text, imgSrc, className }: Props) => {
+const NavItem = ({ text, imgSrc, to }: Props) => {
   return (
-    <div className={`nav-icon-container ${className}`}>
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        isActive ? 'nav-icon-container active' : 'nav-icon-container'
+      }
+    >
       <img className="nav-icon" src={imgSrc} alt={text} />
       {text.toUpperCase()}
-    </div>
+    </NavLink>
   );
 };
 

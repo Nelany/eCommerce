@@ -1,12 +1,45 @@
-.nav-icon-container{
-  width: 7%;
+@import '/src/common/utils/variables.scss';
+
+.nav-icon-container {
+  width: 4%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  color: $darkGrey;
+  transition: all 0.4s;
 }
 
-.nav-icon{
+.nav-icon {
   width: 80%;
   filter: brightness(0) saturate(100%) invert(24%) sepia(3%) saturate(24%) hue-rotate(358deg) brightness(99%) contrast(86%);
+  transition: all 0.4s;
+}
+
+.nav-icon-container:hover .nav-icon {
+  filter: brightness(0) saturate(100%) invert(40%) sepia(59%) saturate(3417%) hue-rotate(215deg) brightness(101%) contrast(103%);
+}
+
+.nav-icon-container.active {
+  color: $blue;
+
+}
+
+.nav-icon-container.active .nav-icon {
+  filter: brightness(0) saturate(100%) invert(11%) sepia(99%) saturate(3130%) hue-rotate(233deg) brightness(92%) contrast(114%);
+}
+
+@media (max-width: 800px) {
+  .nav {
+    font-size: 12px;
+  }
+
+  .nav-icon-container {
+    width: 7%;}
+}
+
+@media (max-width: 500px) {
+
+  .nav-icon-container {
+    width: 10%;}
 }
