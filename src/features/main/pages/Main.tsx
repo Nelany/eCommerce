@@ -1,5 +1,5 @@
 import './Main.scss';
-import { getCustomers } from '../../auth/api/auth';
+import { auth } from '../../auth/api/auth';
 import useSelectUser from '../../auth/hooks/useSelectUser';
 import useDispatchUserId from '../../auth/hooks/useDispatchUserId';
 
@@ -11,7 +11,10 @@ function App() {
     // сохраняет пользователя в локалсторэдж и редаксстор:
     setUser(userId);
     // пример получения данных пользователя Джона:
-    getCustomers('johndoe@example.com').then(console.log).catch(console.error);
+    auth
+      .getCustomers('johndoe@example.com')
+      .then(console.log)
+      .catch(console.error);
     // пример создания пользователя:
     // createCustomer({
     //   email: 'sveto4ka@example.com',
@@ -25,6 +28,12 @@ function App() {
     // .catch((error) => {
     //   console.error('Error creating customer:', error);
     // });
+  };
+  const login = () => {
+    auth
+      .login({ username: 'johndoe@example.com', password: 'secret123' })
+      .then(console.log)
+      .catch(console.warn);
   };
 
   return (
@@ -41,9 +50,12 @@ function App() {
           (LOG OUT)
         </button>
       </div>
-      <button onClick={() => onClick(`Collguy ${Math.random()}`)}>
-        create User In Localstorage!!! (LOG IN)
-      </button>
+      <div className="flex">
+        <button onClick={() => onClick(`Collguy ${Math.random()}`)}>
+          create User In Localstorage!!!
+        </button>
+        <button onClick={login}>LOG IN!!!!!!!!!!!!!!!!!!!</button>
+      </div>
     </>
   );
 }
