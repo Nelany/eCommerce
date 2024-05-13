@@ -5,7 +5,7 @@ export interface Address {
     postalCode: string;
 }
 
-export interface registerDate {
+export interface registerData {
     name: string;
     lastName: string;
     email: string;

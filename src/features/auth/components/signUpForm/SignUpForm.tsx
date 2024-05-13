@@ -2,7 +2,8 @@ import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import './SignUpForm.scss';
 import { Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { registerDate } from '../../types/app.interface';
+import { registerData } from '../../types/app.interface';
+import { useCallback, useState } from 'react';
 
 const SignUpForm = () => {
   const {
@@ -10,12 +11,18 @@ const SignUpForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<registerDate>();
+  } = useForm<registerData>();
   const navigateToMain = useNavigateToMain();
-  const onSubmit: SubmitHandler<registerDate> = () => {
+  const onSubmit: SubmitHandler<registerData> = () => {
     reset();
     navigateToMain();
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const changePasswordIcon = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
 
   function updateInputPattern() {
     const select = document.getElementById(
@@ -92,19 +99,27 @@ const SignUpForm = () => {
         {errors?.email && (
           <span className="error-validation">{errors.email.message}</span>
         )}
-        <input
-          className={'form-register__input'}
-          {...register('password', {
-            required: 'Please, enter your password',
-            pattern: {
-              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-              message:
-                'Password must contain minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number',
-            },
-          })}
-          placeholder="Password"
-          type="password"
-        />
+        <div className="password-wrapper">
+          <input
+            className={'form-register__input'}
+            type={showPassword ? 'text' : 'password'}
+            {...register('password', {
+              required: 'Please, enter your password',
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                message:
+                  'Password must contain minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number',
+              },
+            })}
+            placeholder="Password"
+          />
+          <span
+            className={
+              showPassword ? 'password-controller show' : 'password-controller'
+            }
+            onClick={changePasswordIcon}
+          ></span>
+        </div>
         {errors.password && (
           <span className="error-validation">{errors.password.message}</span>
         )}
