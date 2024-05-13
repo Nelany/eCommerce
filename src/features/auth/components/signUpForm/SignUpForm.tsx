@@ -63,6 +63,17 @@ const SignUpForm = () => {
     }
   }
 
+  const [sameAsDelivery, setSameAsDelivery] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setSameAsDelivery(!sameAsDelivery);
+    if (!sameAsDelivery) {
+      document.querySelector('.billing-address-wrapper')?.classList.add('inactive');
+    } else {
+      document.querySelector('.billing-address-wrapper')?.classList.remove('inactive');
+    }
+  };
+
   return (
     <div>
       <h2>Register Form</h2>
@@ -220,77 +231,79 @@ const SignUpForm = () => {
           </div>
         </div>
         <div className={'checkbox-input-wrapper'}>
-          <input type="checkbox" />
+          <input type="checkbox" checked={sameAsDelivery} onChange={handleCheckboxChange} />
           <span>{'Set as default address'}</span>
         </div>
-        <h4>Billing address</h4>
-        <div className={'address-wrapper'}>
-          <select
-            className={'form-register__input'}
-            id="countrySelectBilling"
-            onChange={updateInputPattern}
-          >
-            <option selected={true} disabled={true}>
-              Select country
-            </option>
-            <option value="GB">United Kingdom</option>
-            <option value="US">United States</option>
-          </select>
-          <div className={'address-input-wrapper'}>
-            <input
+        <div className={'billing-address-wrapper'}>
+          <h4>Billing address</h4>
+          <div className={'address-wrapper'}>
+            <select
               className={'form-register__input'}
-              id='cityBilling'
-              {...register('addressBilling.cityBilling', {
-                required: 'Please, enter your city',
-                minLength: 1,
-                pattern: {
-                  value: /[a-zA-Z]/,
-                  message:
-                    'City must contain at least one character and no special characters or numbers',
-                },
-              })}
-              placeholder="City"
-              type="text"
-            />
-            {errors.addressBilling?.cityBilling && (
-              <span className="error-validation">
-                {errors.addressBilling?.cityBilling.message}
-              </span>
-            )}
-          </div>
-          <div className={'address-input-wrapper'}>
-            <input
-              className={'form-register__input'}
-              id='streetBilling'
-              {...register('addressBilling.streetBilling', {
-                required: 'Please, enter your street',
-                minLength: 1,
-              })}
-              placeholder="Street"
-              type="text"
-            />
-            {errors.addressBilling?.streetBilling && (
-              <span className="error-validation">{`Please, enter your street`}</span>
-            )}
-          </div>
-          <div className={'address-input-wrapper'}>
-            <input
-              className={'form-register__input'}
-              id="postalCodeInputBilling"
-              {...register('addressBilling.postalCodeBilling', {
-                required: true,
-              })}
-              placeholder="Postal Code"
-              type="text"
-              disabled
-            />
-            {errors.addressBilling?.postalCodeBilling && (
-              <span className="error-validation">
-                {
-                  'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
-                }
-              </span>
-            )}
+              id="countrySelectBilling"
+              onChange={updateInputPattern}
+            >
+              <option selected={true} disabled={true}>
+                Select country
+              </option>
+              <option value="GB">United Kingdom</option>
+              <option value="US">United States</option>
+            </select>
+            <div className={'address-input-wrapper'}>
+              <input
+                className={'form-register__input'}
+                id="cityBilling"
+                {...register('addressBilling.cityBilling', {
+                  required: 'Please, enter your city',
+                  minLength: 1,
+                  pattern: {
+                    value: /[a-zA-Z]/,
+                    message:
+                      'City must contain at least one character and no special characters or numbers',
+                  },
+                })}
+                placeholder="City"
+                type="text"
+              />
+              {errors.addressBilling?.cityBilling && (
+                <span className="error-validation">
+                  {errors.addressBilling?.cityBilling.message}
+                </span>
+              )}
+            </div>
+            <div className={'address-input-wrapper'}>
+              <input
+                className={'form-register__input'}
+                id="streetBilling"
+                {...register('addressBilling.streetBilling', {
+                  required: 'Please, enter your street',
+                  minLength: 1,
+                })}
+                placeholder="Street"
+                type="text"
+              />
+              {errors.addressBilling?.streetBilling && (
+                <span className="error-validation">{`Please, enter your street`}</span>
+              )}
+            </div>
+            <div className={'address-input-wrapper'}>
+              <input
+                className={'form-register__input'}
+                id="postalCodeInputBilling"
+                {...register('addressBilling.postalCodeBilling', {
+                  required: true,
+                })}
+                placeholder="Postal Code"
+                type="text"
+                disabled
+              />
+              {errors.addressBilling?.postalCodeBilling && (
+                <span className="error-validation">
+                  {
+                    'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
+                  }
+                </span>
+              )}
+            </div>
           </div>
         </div>
         <Button variant="contained" type="submit" fullWidth>
