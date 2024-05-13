@@ -1,8 +1,15 @@
-export interface Address {
-    country: string;
-    city: string;
-    street: string;
-    postalCode: string;
+export interface AddressShipping {
+    countryShipping: string;
+    cityShipping: string;
+    streetShipping: string;
+    postalCodeShipping: string;
+}
+
+export interface AddressBilling {
+    countryBilling: string;
+    cityBilling: string;
+    streetBilling: string;
+    postalCodeBilling: string;
 }
 
 export interface registerData {
@@ -11,5 +18,6 @@ export interface registerData {
     email: string;
     password: string;
     dateBirth: string;
-    address: Address;
+    addressShipping: AddressShipping;
+    addressBilling: AddressBilling;
 }

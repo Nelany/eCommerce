@@ -1,8 +1,8 @@
 .form-register {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 35vw;
+    gap: 5px;
+    width: 50vw;
 }
 
 .form-register__input {
@@ -42,4 +42,21 @@
     &.show {
       background-image: url(../../../../assets/hide-password.png);
     }
+}
+
+.address-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.address-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.checkbox-input-wrapper {
+    display: flex;
+    text-align: center;
 }
