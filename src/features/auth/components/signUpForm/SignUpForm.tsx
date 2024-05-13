@@ -113,13 +113,12 @@ const SignUpForm = () => {
             })}
             placeholder="Password"
           />
-          <a
-            href="#"
+          <span
             className={
               showPassword ? 'password-controller show' : 'password-controller'
             }
             onClick={changePasswordIcon}
-          ></a>
+          ></span>
         </div>
         {errors.password && (
           <span className="error-validation">{errors.password.message}</span>
