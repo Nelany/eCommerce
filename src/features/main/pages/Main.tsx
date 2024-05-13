@@ -2,11 +2,20 @@ import './Main.scss';
 import { auth } from '../../auth/api/auth';
 import useSelectUser from '../../auth/hooks/useSelectUser';
 import useDispatchUserId from '../../auth/hooks/useDispatchUserId';
+import { mainApi } from '../api/mainApi';
+import useApi from '../../../common/hooks/useApi';
 
 function App() {
   const userId = useSelectUser();
   const setUser = useDispatchUserId();
+  const apiCall = useApi();
 
+  const getProduct = async () => {
+    const product = await apiCall(
+      mainApi.getProductByKey('classic-coffee-cup')
+    );
+    console.log(product);
+  };
   const onClick = (userId: string) => {
     // сохраняет пользователя в локалсторэдж и редаксстор:
     setUser(userId);
@@ -55,6 +64,7 @@ function App() {
           create User In Localstorage!!!
         </button>
         <button onClick={login}>LOG IN!!!!!!!!!!!!!!!!!!!</button>
+        <button onClick={getProduct}>Product</button>
       </div>
     </>
   );
