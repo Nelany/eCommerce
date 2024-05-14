@@ -68,9 +68,13 @@ const SignUpForm = () => {
   const handleCheckboxChange = () => {
     setSameAsDelivery(!sameAsDelivery);
     if (!sameAsDelivery) {
-      document.querySelector('.billing-address-wrapper')?.classList.add('inactive');
+      document
+        .querySelector('.billing-address-wrapper')
+        ?.classList.add('inactive');
     } else {
-      document.querySelector('.billing-address-wrapper')?.classList.remove('inactive');
+      document
+        .querySelector('.billing-address-wrapper')
+        ?.classList.remove('inactive');
     }
   };
 
@@ -231,7 +235,11 @@ const SignUpForm = () => {
           </div>
         </div>
         <div className={'checkbox-input-wrapper'}>
-          <input type="checkbox" checked={sameAsDelivery} onChange={handleCheckboxChange} />
+          <input
+            type="checkbox"
+            checked={sameAsDelivery}
+            onChange={handleCheckboxChange}
+          />
           <span>{'Set as default address'}</span>
         </div>
         <div className={'billing-address-wrapper'}>
