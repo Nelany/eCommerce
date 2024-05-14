@@ -42,7 +42,9 @@ function App() {
   const login = () => {
     auth
       .login({ username: 'johndoe@example.com', password: 'secret123' })
-      .then(console.log)
+      .then(() => {
+        setUser(`Collguy ${Math.random()}`);
+      })
       .catch(console.warn);
   };
 
@@ -50,15 +52,7 @@ function App() {
     <>
       <h1>COOLSTORE</h1>
       <div className="card">
-        <button
-          onClick={
-            () => onClick('')
-            // еще очистить стор и локалсторэдж от других возможных данных
-          }
-        >
-          {userId}
-          (LOG OUT)
-        </button>
+        <button>{userId}</button>
       </div>
       <div className="flex">
         <button onClick={() => onClick(`Collguy ${Math.random()}`)}>

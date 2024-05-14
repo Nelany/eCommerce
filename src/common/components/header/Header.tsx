@@ -2,6 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 import NavItem from '../navItem/NavItem';
 import Button from '@mui/material/Button';
+import useDispatchUserId from '../../../features/auth/hooks/useDispatchUserId';
+import useSelectUser from '../../../features/auth/hooks/useSelectUser';
+import useDispatchCartId from '../../../features/cart/hooks/useDispatchCart';
+import { useNavigateToMain } from '../../hooks/useNavigateToMain';
 
 const nav = [
   { text: 'Home', imgSrc: '/home2.png', path: '/main' },
@@ -13,14 +17,26 @@ const nav = [
 const to = { SIGN_IN: '/sign-in', SIGN_UP: '/sign-up' };
 
 const Header = () => {
+  const navigateToMain = useNavigateToMain();
   const navigate = useNavigate();
+  const setUser = useDispatchUserId();
+  const userId = useSelectUser();
+  const { dispatchEmptyCart } = useDispatchCartId();
+  const filteredNav = userId ? nav : nav.slice(0, -1);
+
   const onClick = (to: string) => {
     navigate(to);
+  };
+  const logOut = () => {
+    navigateToMain();
+    setUser('');
+    dispatchEmptyCart();
+    // еще очистить стор и локалсторэдж от других возможных данных
   };
   return (
     <header className="nav">
       <h2 className="nav-tittle">COOLSTORE</h2>
-      {nav.map((navItem, index) => (
+      {filteredNav.map((navItem, index) => (
         <NavItem
           text={navItem.text}
           imgSrc={navItem.imgSrc}
@@ -29,21 +45,32 @@ const Header = () => {
         />
       ))}
       <div className="sign-container">
-        <Button
-          className="header-button"
-          variant="contained"
-          onClick={() => onClick(to.SIGN_IN)}
-        >
-          Sign In
-        </Button>
-
-        <Button
-          className="header-button"
-          variant="contained"
-          onClick={() => onClick(to.SIGN_UP)}
-        >
-          Sign Up
-        </Button>
+        {userId ? (
+          <Button
+            className="header-button"
+            variant="contained"
+            onClick={() => logOut()}
+          >
+            Log Out
+          </Button>
+        ) : (
+          <>
+            <Button
+              className="header-button"
+              variant="contained"
+              onClick={() => onClick(to.SIGN_IN)}
+            >
+              Sign In
+            </Button>
+            <Button
+              className="header-button"
+              variant="contained"
+              onClick={() => onClick(to.SIGN_UP)}
+            >
+              Sign Up
+            </Button>
+          </>
+        )}
       </div>
     </header>
   );
