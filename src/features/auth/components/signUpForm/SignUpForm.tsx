@@ -3,7 +3,7 @@ import './SignUpForm.scss';
 import { Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerData } from '../../types/app.interface';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 const SignUpForm = () => {
   const {
@@ -24,57 +24,46 @@ const SignUpForm = () => {
     setShowPassword((prev) => !prev);
   }, []);
 
-  function updateInputPattern() {
-    const selectShipping = document.getElementById(
-      'countrySelectShipping'
-    ) as HTMLSelectElement;
-    const postalCodeInputShipping = document.getElementById(
-      'postalCodeInputShipping'
-    ) as HTMLInputElement;
-    const selectBilling = document.getElementById(
-      'countrySelectBilling'
-    ) as HTMLSelectElement;
-    const postalCodeInputBilling = document.getElementById(
-      'postalCodeInputBilling'
-    ) as HTMLInputElement;
+  const selectShipping = useRef<HTMLSelectElement>(null);
+  const postalCodeInputShipping = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const selectBilling = useRef<HTMLSelectElement>(null);
+  const postalCodeInputBilling = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-    if (selectShipping.value === 'GB') {
-      postalCodeInputShipping.pattern =
+  function updateInputPattern() {
+    if (selectShipping.current?.value === 'GB') {
+      postalCodeInputShipping.current.pattern =
         '^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$';
-      postalCodeInputShipping.title =
+      postalCodeInputShipping.current.title =
         'Please, enter your postal code, for example B294HJ';
-      postalCodeInputShipping.disabled = false;
-    } else if (selectShipping.value === 'US') {
-      postalCodeInputShipping.pattern = '^[0-9]{5}(-[0-9]{4})?$';
-      postalCodeInputShipping.title =
+      postalCodeInputShipping.current.disabled = false;
+    } else if (selectShipping.current?.value === 'US') {
+      postalCodeInputShipping.current.pattern = '^[0-9]{5}(-[0-9]{4})?$';
+      postalCodeInputShipping.current.title =
         'Please, enter your postal code, for example 32344-4444';
-      postalCodeInputShipping.disabled = false;
-    } else if (selectBilling.value === 'GB') {
-      postalCodeInputBilling.pattern =
+      postalCodeInputShipping.current.disabled = false;
+    } else if (selectBilling.current?.value === 'GB') {
+      postalCodeInputBilling.current.pattern =
         '^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$';
-      postalCodeInputBilling.title =
+      postalCodeInputBilling.current.title =
         'Please, enter your postal code, for example B294HJ';
-      postalCodeInputBilling.disabled = false;
-    } else if (selectBilling.value === 'US') {
-      postalCodeInputBilling.pattern = '^[0-9]{5}(-[0-9]{4})?$';
-      postalCodeInputBilling.title =
+      postalCodeInputBilling.current.disabled = false;
+    } else if (selectBilling.current?.value === 'US') {
+      postalCodeInputBilling.current.pattern = '^[0-9]{5}(-[0-9]{4})?$';
+      postalCodeInputBilling.current.title =
         'Please, enter your postal code, for example 32344-4444';
-      postalCodeInputBilling.disabled = false;
+      postalCodeInputBilling.current.disabled = false;
     }
   }
 
   const [sameAsDelivery, setSameAsDelivery] = useState(false);
+  const billingAddressWrapper = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const handleCheckboxChange = () => {
     setSameAsDelivery(!sameAsDelivery);
     if (!sameAsDelivery) {
-      document
-        .querySelector('.billing-address-wrapper')
-        ?.classList.add('inactive');
+      billingAddressWrapper.current.style.display = "none";
     } else {
-      document
-        .querySelector('.billing-address-wrapper')
-        ?.classList.remove('inactive');
+      billingAddressWrapper.current.style.display = "block";
     }
   };
 
@@ -167,11 +156,17 @@ const SignUpForm = () => {
         {errors.dateBirth && (
           <span className="error-validation">{`The age must be over 18 years old`}</span>
         )}
+        <h4 className={'address-title'}>Shipping address</h4>
+        <div className={'checkbox-input-wrapper'}>
+          <input type="checkbox" />
+          <span>{'Set as default address'}</span>
+        </div>
         <div className={'address-wrapper'}>
           <select
             className={'form-register__input'}
             id="countrySelectShipping"
             onChange={updateInputPattern}
+            ref={selectShipping}
           >
             <option selected={true} disabled={true}>
               Select country
@@ -224,6 +219,7 @@ const SignUpForm = () => {
               placeholder="Postal Code"
               type="text"
               disabled
+              ref={postalCodeInputShipping}
             />
             {errors.addressShipping?.postalCodeShipping && (
               <span className="error-validation">
@@ -240,15 +236,20 @@ const SignUpForm = () => {
             checked={sameAsDelivery}
             onChange={handleCheckboxChange}
           />
-          <span>{'Set as default address'}</span>
+          <span>{'Shipping and billing addresses are the same'}</span>
         </div>
-        <div className={'billing-address-wrapper'}>
-          <h4>Billing address</h4>
+        <div className={'billing-address-wrapper'} ref={billingAddressWrapper}>
+          <h4 className={'address-title'}>Billing address</h4>
+          <div className={'checkbox-input-wrapper'}>
+            <input type="checkbox" />
+            <span>{'Set as default address'}</span>
+          </div>
           <div className={'address-wrapper'}>
             <select
               className={'form-register__input'}
               id="countrySelectBilling"
               onChange={updateInputPattern}
+              ref={selectBilling}
             >
               <option selected={true} disabled={true}>
                 Select country
@@ -303,6 +304,7 @@ const SignUpForm = () => {
                 placeholder="Postal Code"
                 type="text"
                 disabled
+                ref={postalCodeInputBilling}
               />
               {errors.addressBilling?.postalCodeBilling && (
                 <span className="error-validation">
