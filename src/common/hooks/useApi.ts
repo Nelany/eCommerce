@@ -9,7 +9,7 @@ const useNewApi = () => {
     } catch (error) {
       setToast({
         message: JSON.stringify((error as Error).message),
-        type: 'error',
+        type: 'info',
         isToastOpen: true,
       });
     }

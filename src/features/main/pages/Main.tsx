@@ -14,6 +14,7 @@ function App() {
     const product = await apiCall(
       mainApi.getProductByKey('classic-coffee-cup')
     );
+
     console.log(product);
   };
   const onClick = (userId: string) => {
