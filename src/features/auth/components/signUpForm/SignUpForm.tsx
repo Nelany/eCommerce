@@ -25,9 +25,11 @@ const SignUpForm = () => {
   }, []);
 
   const selectShipping = useRef<HTMLSelectElement>(null);
-  const postalCodeInputShipping = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const postalCodeInputShipping =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
   const selectBilling = useRef<HTMLSelectElement>(null);
-  const postalCodeInputBilling = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const postalCodeInputBilling =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
 
   function updateInputPattern() {
     if (selectShipping.current?.value === 'GB') {
@@ -56,14 +58,15 @@ const SignUpForm = () => {
   }
 
   const [sameAsDelivery, setSameAsDelivery] = useState(false);
-  const billingAddressWrapper = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const billingAddressWrapper =
+    useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const handleCheckboxChange = () => {
     setSameAsDelivery(!sameAsDelivery);
     if (!sameAsDelivery) {
-      billingAddressWrapper.current.style.display = "none";
+      billingAddressWrapper.current.style.display = 'none';
     } else {
-      billingAddressWrapper.current.style.display = "block";
+      billingAddressWrapper.current.style.display = 'block';
     }
   };
 
