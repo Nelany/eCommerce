@@ -14,6 +14,7 @@ const SignInForm = () => {
   const saveUserId = useDispatchUserId();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const changePasswordIcon = useCallback(() => {
     setShowPassword((prev) => !prev);
@@ -27,13 +28,18 @@ const SignInForm = () => {
   } = useForm<UserData>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<UserData> = async (data) => {
-    const response = await auth.login(data);
-    console.log(response.statusCode);
+    setServerError('');
 
-    if (response.statusCode === 200) {
+    try {
+      const response = await auth.login(data);
       reset();
       navigateToMain();
       saveUserId(response.body.customer.id);
+    } catch (error) {
+      setServerError(
+        'The entered data is invalid. Please check your email and password!'
+      );
+      console.warn(error);
     }
   };
 
@@ -102,9 +108,13 @@ const SignInForm = () => {
           </ul>
         </Tooltip>
 
+        <div className={serverError ? 'server-error show' : 'server-error'}>
+          <p className="error-icon"></p>
+          <p>{serverError}</p>
+        </div>
+
         <Button type="submit" variant="contained">
-          {' '}
-          Sign In{' '}
+          Sign In
         </Button>
       </form>
     </div>
