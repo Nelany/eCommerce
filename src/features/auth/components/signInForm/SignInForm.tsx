@@ -5,8 +5,9 @@ import { useCallback, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { auth } from '../../api/auth';
 import { UserData } from '../../../../common/types';
-import './SignInForm.scss';
 import useDispatchUserId from '../../hooks/useDispatchUserId';
+
+import './SignInForm.scss';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
