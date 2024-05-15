@@ -1,17 +1,17 @@
-// import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
+import { useNavigateToMain } from '../../../../common/hooks/useNavigateToMain';
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useCallback, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
+import { auth } from '../../api/auth';
+import { UserData } from '../../../../common/types';
+import useDispatchUserId from '../../hooks/useDispatchUserId';
+
 import './SignInForm.scss';
 
-type LoginFormTypes = {
-  email: string;
-  password: string;
-};
-
 const SignInForm = () => {
-  // const navigateToMain = useNavigateToMain();
+  const navigateToMain = useNavigateToMain();
+  const saveUserId = useDispatchUserId();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,13 +24,17 @@ const SignInForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<LoginFormTypes>({ mode: 'onChange' });
+  } = useForm<UserData>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
-    // тут проверка, после которой:
-    // navigateToMain();
-    console.log(data);
-    reset();
+  const onSubmit: SubmitHandler<UserData> = async (data) => {
+    const response = await auth.login(data);
+    console.log(response.statusCode);
+
+    if (response.statusCode === 200) {
+      reset();
+      navigateToMain();
+      saveUserId(response.body.customer.id);
+    }
   };
 
   return (
@@ -42,7 +46,7 @@ const SignInForm = () => {
           placeholder="E-mail"
           className="input email"
           autoComplete="off"
-          {...register('email', {
+          {...register('username', {
             required: 'Please, enter your e-mail!',
             pattern: {
               value: /^\S+@\S+\.\S+$/i,
@@ -51,7 +55,9 @@ const SignInForm = () => {
           })}
         />
 
-        {errors?.email && <div className="error">{errors.email.message}</div>}
+        {errors?.username && (
+          <div className="error">{errors.username.message}</div>
+        )}
 
         <div className="password-wrapper">
           <input
