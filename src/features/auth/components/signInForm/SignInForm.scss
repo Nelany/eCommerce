@@ -83,7 +83,27 @@
   margin-top: -5px;
   align-self: flex-start;
 
-  font-size: 10px;
   color: red;
+  font-size: 10px;
+}
+
+.server-error {
+  display: none;
+  gap: 10px;
+
+  font-size: 12px;
+  color: red;
+
+  &.show {
+    display: flex;
+  }
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+
+  background-image: url(../../../../assets/server-error.png);
+  background-size: cover;
 }
 
