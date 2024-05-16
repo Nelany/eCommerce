@@ -4,6 +4,8 @@ import { Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerData } from '../../types/app.interface';
 import { useCallback, useRef, useState } from 'react';
+import { auth } from '../../api/auth';
+import useApi from '../../../../common/hooks/useApi';
 
 const SignUpForm = () => {
   const {
@@ -12,10 +14,25 @@ const SignUpForm = () => {
     reset,
     formState: { errors },
   } = useForm<registerData>();
+
   const navigateToMain = useNavigateToMain();
-  const onSubmit: SubmitHandler<registerData> = () => {
-    reset();
-    navigateToMain();
+  const apiCall = useApi();
+  const onSubmit: SubmitHandler<registerData> = async (data) => {
+    const response = await auth.createCustomer({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+    });
+    console.log(response);
+    if (response) {
+      reset();
+      navigateToMain();
+      const userData = await apiCall(
+        auth.login({ username: data.email, password: data.password })
+      );
+      console.log(userData);
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -86,7 +103,7 @@ const SignUpForm = () => {
       <form className={'form-register'} onSubmit={handleSubmit(onSubmit)}>
         <input
           className={'form-register__input'}
-          {...register('name', {
+          {...register('firstName', {
             required: 'Please, enter your name',
             minLength: 1,
             pattern: {
@@ -98,8 +115,8 @@ const SignUpForm = () => {
           placeholder="Name"
           type="text"
         />
-        {errors?.name && (
-          <span className="error-validation">{errors.name.message}</span>
+        {errors?.firstName && (
+          <span className="error-validation">{errors.firstName.message}</span>
         )}
         <input
           className={'form-register__input'}
@@ -228,7 +245,7 @@ const SignUpForm = () => {
               className={'form-register__input'}
               id="postalCodeInputShipping"
               {...register('addressShipping.postalCodeShipping', {
-                required: true,
+                required: false,
               })}
               placeholder="Postal Code"
               type="text"
@@ -311,7 +328,7 @@ const SignUpForm = () => {
                 className={'form-register__input'}
                 id="postalCodeInputBilling"
                 {...register('addressBilling.postalCodeBilling', {
-                  required: !sameAsDelivery,
+                  required: false,
                 })}
                 placeholder="Postal Code"
                 type="text"
