@@ -6,12 +6,15 @@ import { Tooltip } from 'react-tooltip';
 import { auth } from '../../api/auth';
 import { UserData } from '../../../../common/types';
 import useDispatchUserId from '../../hooks/useDispatchUserId';
+import useDispatchToast from '../../../../common/hooks/useDispatchToast';
+import type { HttpErrorType } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
 
 import './SignInForm.scss';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
   const saveUserId = useDispatchUserId();
+  const setToast = useDispatchToast();
 
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState('');
@@ -36,10 +39,20 @@ const SignInForm = () => {
       navigateToMain();
       saveUserId(response.body.customer.id);
     } catch (error) {
-      setServerError(
-        'The entered data is invalid. Please check your email and password!'
-      );
-      console.warn(error);
+      const serverError = error as HttpErrorType;
+
+      if (
+        serverError.body?.statusCode === 400 &&
+        serverError.body?.error === 'invalid_customer_account_credentials'
+      ) {
+        setServerError(serverError.message);
+      } else {
+        setToast({
+          message: serverError.message,
+          type: 'info',
+          isToastOpen: true,
+        });
+      }
     }
   };
 
@@ -110,7 +123,12 @@ const SignInForm = () => {
 
         <div className={serverError ? 'server-error show' : 'server-error'}>
           <p className="error-icon"></p>
-          <p>{serverError}</p>
+          <div>
+            <p className="error-message">{serverError}</p>
+            <p className="error-message">
+              Please, check your e-mail and password and try again.
+            </p>
+          </div>
         </div>
 
         <Button type="submit" variant="contained">

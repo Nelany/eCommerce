@@ -77,8 +77,8 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 
 const anonymousClient = new ClientBuilder()
   .withProjectKey(VITE_PROJECT_KEY)
-  .withPasswordFlow(passwordOptions)
-  .withHttpMiddleware(anonymousOptions)
+  .withAnonymousSessionFlow(anonymousOptions)
+  .withHttpMiddleware(httpMiddlewareOptions)
   .build();
 
 const userClient = new ClientBuilder()
