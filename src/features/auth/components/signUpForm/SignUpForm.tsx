@@ -13,6 +13,7 @@ const SignUpForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<registerData>();
 
   const navigateToMain = useNavigateToMain();
@@ -41,48 +42,42 @@ const SignUpForm = () => {
     setShowPassword((prev) => !prev);
   }, []);
 
-  const selectShipping = document.getElementById(
-    'countrySelectShipping'
-  ) as HTMLSelectElement;
-  const postalCodeInputShipping = document.getElementById(
-    'postalCodeInputShipping'
-  ) as HTMLInputElement;
-  const selectBilling = document.getElementById(
-    'countrySelectBilling'
-  ) as HTMLSelectElement;
-  const postalCodeInputBilling = document.getElementById(
-    'postalCodeInputBilling'
-  ) as HTMLInputElement;
+  const postalCodeInputShipping =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
+  const postalCodeInputBilling =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  function updateInputPatternShipping() {
-    if (selectShipping.value === 'GB') {
-      postalCodeInputShipping.pattern =
+  const updateInputPatternShipping = (e: { target: { value: string } }) => {
+    setValue('addressShipping.countryShipping', e.target.value);
+    if (e.target.value === 'GB') {
+      postalCodeInputShipping.current.pattern =
         '^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$';
-      postalCodeInputShipping.title =
+      postalCodeInputShipping.current.title =
         'Please, enter your postal code, for example B294HJ';
-      postalCodeInputShipping.disabled = false;
-    } else if (selectShipping.value === 'US') {
-      postalCodeInputShipping.pattern = '^[0-9]{5}(-[0-9]{4})?$';
-      postalCodeInputShipping.title =
+      postalCodeInputShipping.current.disabled = false;
+    } else if (e.target.value === 'US') {
+      postalCodeInputShipping.current.pattern = '^[0-9]{5}(-[0-9]{4})?$';
+      postalCodeInputShipping.current.title =
         'Please, enter your postal code, for example 32344-4444';
-      postalCodeInputShipping.disabled = false;
+      postalCodeInputShipping.current.disabled = false;
     }
-  }
+  };
 
-  function updateInputPatternBilling() {
-    if (selectBilling.value === 'GB') {
-      postalCodeInputBilling.pattern =
+  const updateInputPatternBilling = (e: { target: { value: string } }) => {
+    setValue('addressBilling.countryBilling', e.target.value);
+    if (e.target.value === 'GB') {
+      postalCodeInputBilling.current.pattern =
         '^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$';
-      postalCodeInputBilling.title =
+      postalCodeInputBilling.current.title =
         'Please, enter your postal code, for example B294HJ';
-      postalCodeInputBilling.disabled = false;
-    } else if (selectBilling.value === 'US') {
-      postalCodeInputBilling.pattern = '^[0-9]{5}(-[0-9]{4})?$';
-      postalCodeInputBilling.title =
+      postalCodeInputBilling.current.disabled = false;
+    } else if (e.target.value === 'US') {
+      postalCodeInputBilling.current.pattern = '^[0-9]{5}(-[0-9]{4})?$';
+      postalCodeInputBilling.current.title =
         'Please, enter your postal code, for example 32344-4444';
-      postalCodeInputBilling.disabled = false;
+      postalCodeInputBilling.current.disabled = false;
     }
-  }
+  };
 
   const [sameAsDelivery, setSameAsDelivery] = useState(false);
   const billingAddressWrapper =
@@ -163,6 +158,7 @@ const SignUpForm = () => {
               },
             })}
             placeholder="Password"
+            autoComplete="off"
           />
           <span
             className={
@@ -196,10 +192,9 @@ const SignUpForm = () => {
             className={'form-register__input'}
             id="countrySelectShipping"
             onChange={updateInputPatternShipping}
+            defaultValue={'Select country'}
           >
-            <option selected={true} disabled={true}>
-              Select country
-            </option>
+            <option disabled={true}>Select country</option>
             <option value="GB">United Kingdom</option>
             <option value="US">United States</option>
           </select>
@@ -245,11 +240,12 @@ const SignUpForm = () => {
               className={'form-register__input'}
               id="postalCodeInputShipping"
               {...register('addressShipping.postalCodeShipping', {
-                required: false,
+                required: true,
               })}
               placeholder="Postal Code"
               type="text"
               disabled
+              ref={postalCodeInputShipping}
             />
             {errors.addressShipping?.postalCodeShipping && (
               <span className="error-validation">
@@ -279,10 +275,9 @@ const SignUpForm = () => {
               className={'form-register__input'}
               id="countrySelectBilling"
               onChange={updateInputPatternBilling}
+              defaultValue={'Select country'}
             >
-              <option selected={true} disabled={true}>
-                Select country
-              </option>
+              <option disabled={true}>Select country</option>
               <option value="GB">United Kingdom</option>
               <option value="US">United States</option>
             </select>
@@ -328,7 +323,7 @@ const SignUpForm = () => {
                 className={'form-register__input'}
                 id="postalCodeInputBilling"
                 {...register('addressBilling.postalCodeBilling', {
-                  required: false,
+                  required: !sameAsDelivery,
                 })}
                 placeholder="Postal Code"
                 type="text"
