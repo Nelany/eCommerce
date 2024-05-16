@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier --write src/**/*.tsx",
     "ci:format": "prettier --check src/**/*.tsx",
-    "test": "jest",
+    "test": "jest --collectCoverage --collectCoverageFrom=\"src/**/*.{ts,tsx}\" --coveragePathIgnorePatterns=\"src/common/utils/constants.ts\"",
     "dev": "vite",
     "build:prod": "tsc && vite build",
     "build:dev": "tsc && vite build --mode development",
