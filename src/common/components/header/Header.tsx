@@ -36,14 +36,17 @@ const Header = () => {
   return (
     <header className="nav">
       <h2 className="nav-tittle">COOLSTORE</h2>
-      {filteredNav.map((navItem, index) => (
-        <NavItem
-          text={navItem.text}
-          imgSrc={navItem.imgSrc}
-          to={navItem.path}
-          key={index}
-        />
-      ))}
+      <div className="nav-container">
+        {filteredNav.map((navItem, index) => (
+          <NavItem
+            text={navItem.text}
+            imgSrc={navItem.imgSrc}
+            to={navItem.path}
+            key={index}
+          />
+        ))}
+      </div>
+
       <div className="sign-container">
         {userId ? (
           <Button
