@@ -13,11 +13,12 @@ export interface AddressBilling {
 }
 
 export interface registerData {
-    name: string;
+    firstName: string;
     lastName: string;
     email: string;
     password: string;
     dateBirth: string;
     addressShipping: AddressShipping;
     addressBilling: AddressBilling;
+    showBilling: boolean;
 }
