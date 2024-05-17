@@ -4,6 +4,10 @@ import { Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerData } from '../../types/app.interface';
 import { useCallback, useState } from 'react';
+import { auth } from '../../api/auth';
+import useApi from '../../../../common/hooks/useApi';
+import useDispatchUserId from '../../hooks/useDispatchUserId';
+import useNewUser from '../../../../common/hooks/newUser';
 
 const SignUpForm = () => {
   const {
@@ -16,10 +20,23 @@ const SignUpForm = () => {
   } = useForm<registerData>();
   const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
+  const saveUserId = useDispatchUserId();
 
-  const onSubmit: SubmitHandler<registerData> = () => {
-    reset();
-    navigateToMain();
+  const apiCall = useApi();
+  const userMessage = useNewUser();
+  const onSubmit: SubmitHandler<registerData> = async (data) => {
+    const response = await apiCall(auth.createCustomer(data));
+    console.log(response);
+    if (response) {
+      reset();
+      navigateToMain();
+      saveUserId(response.body.customer.id);
+      const userData = await apiCall(
+        auth.login({ username: data.email, password: data.password })
+      );
+      console.log(userData);
+      userMessage();
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
