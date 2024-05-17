@@ -1,3 +1,12 @@
+.form-wrapper {
+    width: 550px;
+    height: max-content;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
 .form-register {
     display: flex;
     flex-direction: column;
@@ -60,4 +69,14 @@
 
 .address-title {
     margin: 5px;
+}
+
+@media screen and (width < 650px) {
+    .form-wrapper {
+        width: 90%;
+    }
+
+    .error-validation {
+    font-size: 8px;
+    }
 }

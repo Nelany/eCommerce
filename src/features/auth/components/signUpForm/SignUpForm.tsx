@@ -13,7 +13,7 @@ const SignUpForm = () => {
     reset,
     formState: { errors },
     getValues,
-  } = useForm<registerData>();
+  } = useForm<registerData>({ mode: 'onChange' });
   const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
 
@@ -29,7 +29,7 @@ const SignUpForm = () => {
   }, []);
 
   return (
-    <div className="pop-up">
+    <div className="form-wrapper">
       <h2>Register Form</h2>
       <form className={'form-register'} onSubmit={handleSubmit(onSubmit)}>
         <input
