@@ -89,9 +89,9 @@
 
 .server-error {
   display: none;
-  gap: 10px;
+  gap: 20px;
 
-  font-size: 12px;
+  font-size: 14px;
   color: red;
 
   &.show {
@@ -105,5 +105,10 @@
 
   background-image: url(../../../../assets/server-error.png);
   background-size: cover;
+}
+
+.error-message {
+  margin: 0;
+  text-align: start;
 }
 
