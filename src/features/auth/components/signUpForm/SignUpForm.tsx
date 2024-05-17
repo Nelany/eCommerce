@@ -3,36 +3,23 @@ import './SignUpForm.scss';
 import { Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerData } from '../../types/app.interface';
-import { useCallback, useRef, useState } from 'react';
-import { auth } from '../../api/auth';
-import useApi from '../../../../common/hooks/useApi';
+import { useCallback, useState } from 'react';
 
 const SignUpForm = () => {
   const {
+    watch,
     register,
     handleSubmit,
     reset,
     formState: { errors },
     getValues,
   } = useForm<registerData>();
+  const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
-  const apiCall = useApi();
-  const onSubmit: SubmitHandler<registerData> = async (data) => {
-    const response = await auth.createCustomer({
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      password: data.password,
-    });
-    console.log(response);
-    if (response) {
-      reset();
-      navigateToMain();
-      const userData = await apiCall(
-        auth.login({ username: data.email, password: data.password })
-      );
-      console.log(userData);
-    }
+
+  const onSubmit: SubmitHandler<registerData> = () => {
+    reset();
+    navigateToMain();
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -40,19 +27,6 @@ const SignUpForm = () => {
   const changePasswordIcon = useCallback(() => {
     setShowPassword((prev) => !prev);
   }, []);
-
-  const [sameAsDelivery, setSameAsDelivery] = useState(false);
-  const billingAddressWrapper =
-    useRef() as React.MutableRefObject<HTMLDivElement>;
-
-  const handleCheckboxChange = () => {
-    setSameAsDelivery(!sameAsDelivery);
-    if (!sameAsDelivery) {
-      billingAddressWrapper.current.style.display = 'none';
-    } else {
-      billingAddressWrapper.current.style.display = 'block';
-    }
-  };
 
   return (
     <div>
@@ -241,117 +215,115 @@ const SignUpForm = () => {
           </div>
         </div>
         <div className={'checkbox-input-wrapper'}>
-          <input
-            type="checkbox"
-            checked={sameAsDelivery}
-            onChange={handleCheckboxChange}
-          />
+          <input type="checkbox" {...register('showBilling')} />
           <span>{'Shipping and billing addresses are the same'}</span>
         </div>
-        <div className={'billing-address-wrapper'} ref={billingAddressWrapper}>
-          <h4 className={'address-title'}>Billing address</h4>
-          <div className={'checkbox-input-wrapper'}>
-            <input type="checkbox" />
-            <span>{'Set as default address'}</span>
-          </div>
-          <div className={'address-wrapper'}>
-            <div className={'address-input-wrapper'}>
-              <select
-                {...register('addressBilling.countryBilling', {
-                  required: !sameAsDelivery,
-                  pattern: {
-                    value: /GB|US/,
-                    message: 'Must be US or GB',
-                  },
-                })}
-                className={'form-register__input'}
-                defaultValue={'Select country'}
-              >
-                <option disabled={true}>Select country</option>
-                <option value="GB">United Kingdom</option>
-                <option value="US">United States</option>
-              </select>
-              {errors.addressBilling?.countryBilling && (
-                <span className="error-validation">
-                  {errors.addressBilling?.countryBilling.message}
-                </span>
-              )}
+
+        {!watchShowBilling && (
+          <div className={'billing-address-wrapper'}>
+            <h4 className={'address-title'}>Billing address</h4>
+            <div className={'checkbox-input-wrapper'}>
+              <input type="checkbox" />
+              <span>{'Set as default address'}</span>
             </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'form-register__input'}
-                {...register('addressBilling.cityBilling', {
-                  required: !sameAsDelivery && 'Please, enter your city',
-                  minLength: 1,
-                  pattern: {
-                    value: /[a-zA-Z]/,
-                    message:
-                      'City must contain at least one character and no special characters or numbers',
-                  },
-                })}
-                placeholder="City"
-                type="text"
-              />
-              {errors.addressBilling?.cityBilling && (
-                <span className="error-validation">
-                  {errors.addressBilling?.cityBilling.message}
-                </span>
-              )}
-            </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'form-register__input'}
-                id="streetBilling"
-                {...register('addressBilling.streetBilling', {
-                  required: !sameAsDelivery,
-                  minLength: 1,
-                })}
-                placeholder="Street"
-                type="text"
-              />
-              {errors.addressBilling?.streetBilling && (
-                <span className="error-validation">{`Please, enter your street`}</span>
-              )}
-            </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'form-register__input'}
-                id="postalCodeInputBilling"
-                {...register('addressBilling.postalCodeBilling', {
-                  required: !sameAsDelivery,
-                  validate: {
-                    GBOrUS: (value) => {
-                      if (
-                        getValues().addressBilling.countryBilling === 'US' &&
-                        !sameAsDelivery
-                      ) {
-                        return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
-                      }
-                      if (
-                        getValues().addressBilling.countryBilling === 'GB' &&
-                        !sameAsDelivery
-                      ) {
-                        return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
-                          value
-                        );
-                      }
-                      return true;
+            <div className={'address-wrapper'}>
+              <div className={'address-input-wrapper'}>
+                <select
+                  {...register('addressBilling.countryBilling', {
+                    required: true,
+                    pattern: {
+                      value: /GB|US/,
+                      message: 'Must be US or GB',
                     },
-                  },
-                })}
-                placeholder="Postal Code"
-                type="text"
-              />
-              {errors.addressBilling?.postalCodeBilling && (
-                <span className="error-validation">
-                  {
-                    'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
-                  }
-                </span>
-              )}
+                  })}
+                  className={'form-register__input'}
+                  defaultValue={'Select country'}
+                >
+                  <option disabled={true}>Select country</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="US">United States</option>
+                </select>
+                {errors.addressBilling?.countryBilling && (
+                  <span className="error-validation">
+                    {errors.addressBilling?.countryBilling.message}
+                  </span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'form-register__input'}
+                  {...register('addressBilling.cityBilling', {
+                    required: true && 'Please, enter your city',
+                    minLength: 1,
+                    pattern: {
+                      value: /[a-zA-Z]/,
+                      message:
+                        'City must contain at least one character and no special characters or numbers',
+                    },
+                  })}
+                  placeholder="City"
+                  type="text"
+                />
+                {errors.addressBilling?.cityBilling && (
+                  <span className="error-validation">
+                    {errors.addressBilling?.cityBilling.message}
+                  </span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'form-register__input'}
+                  id="streetBilling"
+                  {...register('addressBilling.streetBilling', {
+                    required: true,
+                    minLength: 1,
+                  })}
+                  placeholder="Street"
+                  type="text"
+                />
+                {errors.addressBilling?.streetBilling && (
+                  <span className="error-validation">{`Please, enter your street`}</span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'form-register__input'}
+                  id="postalCodeInputBilling"
+                  {...register('addressBilling.postalCodeBilling', {
+                    required: true,
+                    validate: {
+                      GBOrUS: (value) => {
+                        if (
+                          getValues().addressBilling.countryBilling === 'US'
+                        ) {
+                          return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
+                        }
+                        if (
+                          getValues().addressBilling.countryBilling === 'GB'
+                        ) {
+                          return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
+                            value
+                          );
+                        }
+                        return true;
+                      },
+                    },
+                  })}
+                  placeholder="Postal Code"
+                  type="text"
+                />
+                {errors.addressBilling?.postalCodeBilling && (
+                  <span className="error-validation">
+                    {
+                      'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
+                    }
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
         <Button variant="contained" type="submit" fullWidth>
           Sign Up
         </Button>

@@ -20,4 +20,5 @@ export interface registerData {
     dateBirth: string;
     addressShipping: AddressShipping;
     addressBilling: AddressBilling;
+    showBilling: boolean;
 }
