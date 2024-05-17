@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { auth } from '../../api/auth';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchUserId from '../../hooks/useDispatchUserId';
+import useNewUser from '../../../../common/hooks/newUser';
 
 const SignUpForm = () => {
   const {
@@ -22,6 +23,7 @@ const SignUpForm = () => {
   const saveUserId = useDispatchUserId();
 
   const apiCall = useApi();
+  const userMessage = useNewUser();
   const onSubmit: SubmitHandler<registerData> = async (data) => {
     const response = await auth.createCustomer(data);
     console.log(response);
@@ -34,6 +36,7 @@ const SignUpForm = () => {
       );
       console.log(userData);
     }
+    userMessage();
   };
 
   const [showPassword, setShowPassword] = useState(false);
