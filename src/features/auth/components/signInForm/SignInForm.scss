@@ -112,3 +112,13 @@
   text-align: start;
 }
 
+@media screen and (width < 450px) {
+  .pop-up {
+    width: 100%;
+    align-items: center;
+  }
+
+  .login-form {
+    width: 80%;
+  }
+}
