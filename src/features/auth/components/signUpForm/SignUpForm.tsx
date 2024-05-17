@@ -25,7 +25,7 @@ const SignUpForm = () => {
   const apiCall = useApi();
   const userMessage = useNewUser();
   const onSubmit: SubmitHandler<registerData> = async (data) => {
-    const response = await auth.createCustomer(data);
+    const response = await apiCall(auth.createCustomer(data));
     console.log(response);
     if (response) {
       reset();
@@ -35,8 +35,8 @@ const SignUpForm = () => {
         auth.login({ username: data.email, password: data.password })
       );
       console.log(userData);
+      userMessage();
     }
-    userMessage();
   };
 
   const [showPassword, setShowPassword] = useState(false);
