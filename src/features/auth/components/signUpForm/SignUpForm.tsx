@@ -29,7 +29,7 @@ const SignUpForm = () => {
   }, []);
 
   return (
-    <div>
+    <div className="pop-up">
       <h2>Register Form</h2>
       <form className={'form-register'} onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -75,7 +75,7 @@ const SignUpForm = () => {
               message: 'Enter your email in the format example@email.com',
             },
           })}
-          placeholder="Email"
+          placeholder="E-mail"
           type="text"
         />
         {errors?.email && (
