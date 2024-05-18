@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .form-wrapper {
     width: 550px;
     height: max-content;
@@ -78,5 +82,21 @@
 
     .error-validation {
     font-size: 8px;
+    }
+}
+
+@media screen and (width < 360px) {
+    .form-wrapper {
+        width: 90%;
+    }
+
+    .address-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .register-clue {
+        font-size: 12px;
+        text-align: start;
     }
 }

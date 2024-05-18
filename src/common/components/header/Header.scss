@@ -1,5 +1,9 @@
 @import '/src/common/utils/variables.scss';
 
+* {
+  box-sizing: border-box;
+}
+
 .nav {
   width: 100%;
   max-width: 1400px;
@@ -23,15 +27,16 @@
 
 }
 
-.nav-title {
+.nav-tittle {
   grid-area: title;
+  margin: 0 auto;
 }
 
 .nav-container {
   grid-area: nav;
   display: flex;
   justify-content: center;
-  gap: 8vw;
+  gap: 20%;
 }
 
 .sign-container {
@@ -74,6 +79,13 @@
 
 @media(max-width:390px) {
   .nav {
-    column-gap: 0.5em;
+    padding: 10px;
+    column-gap: 10px;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .nav-container {
+    justify-content: space-between;
+    gap: initial;
   }
 }

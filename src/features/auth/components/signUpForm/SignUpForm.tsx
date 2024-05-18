@@ -121,7 +121,7 @@ const SignUpForm = () => {
         <h4 className={'address-title'}>Shipping address</h4>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" />
-          <span>{'Set as default address'}</span>
+          <span className="register-clue">{'Set as default address'}</span>
         </div>
         <div className={'address-wrapper'}>
           <div className={'address-input-wrapper'}>
@@ -216,7 +216,9 @@ const SignUpForm = () => {
         </div>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" {...register('showBilling')} />
-          <span>{'Shipping and billing addresses are the same'}</span>
+          <span className="register-clue">
+            {'Shipping and billing addresses are the same'}
+          </span>
         </div>
 
         {!watchShowBilling && (
@@ -224,7 +226,7 @@ const SignUpForm = () => {
             <h4 className={'address-title'}>Billing address</h4>
             <div className={'checkbox-input-wrapper'}>
               <input type="checkbox" />
-              <span>{'Set as default address'}</span>
+              <span className="register-clue">{'Set as default address'}</span>
             </div>
             <div className={'address-wrapper'}>
               <div className={'address-input-wrapper'}>
