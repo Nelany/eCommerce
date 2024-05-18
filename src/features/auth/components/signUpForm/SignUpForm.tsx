@@ -46,7 +46,7 @@ const SignUpForm = () => {
   }, []);
 
   return (
-    <div>
+    <div className="form-wrapper">
       <h2>Register Form</h2>
       <form className={'form-register'} onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -92,7 +92,7 @@ const SignUpForm = () => {
               message: 'Enter your email in the format example@email.com',
             },
           })}
-          placeholder="Email"
+          placeholder="E-mail"
           type="text"
         />
         {errors?.email && (
@@ -138,7 +138,7 @@ const SignUpForm = () => {
         <h4 className={'address-title'}>Shipping address</h4>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" />
-          <span>{'Set as default address'}</span>
+          <span className="register-clue">{'Set as default address'}</span>
         </div>
         <div className={'address-wrapper'}>
           <div className={'address-input-wrapper'}>
@@ -233,7 +233,9 @@ const SignUpForm = () => {
         </div>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" {...register('showBilling')} />
-          <span>{'Shipping and billing addresses are the same'}</span>
+          <span className="register-clue">
+            {'Shipping and billing addresses are the same'}
+          </span>
         </div>
 
         {!watchShowBilling && (
@@ -241,7 +243,7 @@ const SignUpForm = () => {
             <h4 className={'address-title'}>Billing address</h4>
             <div className={'checkbox-input-wrapper'}>
               <input type="checkbox" />
-              <span>{'Set as default address'}</span>
+              <span className="register-clue">{'Set as default address'}</span>
             </div>
             <div className={'address-wrapper'}>
               <div className={'address-input-wrapper'}>

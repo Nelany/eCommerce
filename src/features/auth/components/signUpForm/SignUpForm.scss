@@ -1,21 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+.form-wrapper {
+    width: 550px;
+    height: max-content;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
 .form-register {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 50vw;
+    width: 100%;
 }
 
 .form-register__input {
     width: 100%;
     height: 30px;
-    border: 2px solid rgb(80, 78, 78);
+    
     border-radius: 3px;
     padding: 5px;
     font-size: 14px;
-    &:focus {
-        outline: rgb(39, 18, 135);
-        border-color: rgb(39, 18, 135);
-    }
+    border: 2px solid black;
 }
 
 .error-validation {
@@ -36,6 +46,7 @@
     display: inline-block;
     width: 20px;
     height: 20px;
+    cursor: pointer;
     background-image: url(../../../../assets/show-password.png);
     background-size: cover;
   
@@ -63,4 +74,30 @@
 
 .address-title {
     margin: 5px;
+}
+
+@media screen and (width < 650px) {
+    .form-wrapper {
+        width: 100%;
+    }
+
+    .error-validation {
+    font-size: 8px;
+    }
+}
+
+@media screen and (width < 360px) {
+    .form-wrapper {
+        width: 90%;
+    }
+
+    .address-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .register-clue {
+        font-size: 12px;
+        text-align: start;
+    }
 }

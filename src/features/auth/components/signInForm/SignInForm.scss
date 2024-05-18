@@ -31,11 +31,9 @@
   height: 40px;
   padding: 5px 20px;
 
-  font-size: 24px;
-
-  &:focus {
-    border-color: rgb(39, 18, 135);
-  }
+  font-size: 20px;
+  border-radius: 3px;
+  border: 2px solid black;
 }
 
 .password-wrapper {
@@ -112,3 +110,13 @@
   text-align: start;
 }
 
+@media screen and (width < 450px) {
+  .pop-up {
+    width: 100%;
+    align-items: center;
+  }
+
+  .login-form {
+    width: 80%;
+  }
+}

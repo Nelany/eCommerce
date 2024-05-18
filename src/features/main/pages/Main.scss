@@ -24,3 +24,9 @@
 .card {
   padding: 2em;
 }
+
+@media screen and (width < 360px) {
+  #root {
+    padding: 10px;
+  }
+}
