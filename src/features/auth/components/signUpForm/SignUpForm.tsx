@@ -13,7 +13,7 @@ const SignUpForm = () => {
     reset,
     formState: { errors },
     getValues,
-  } = useForm<registerData>({ mode: 'onChange' });
+  } = useForm<registerData>();
   const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
 
