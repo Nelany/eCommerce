@@ -54,6 +54,15 @@ const SignUpForm = () => {
           type: 'info',
           isToastOpen: true,
         });
+      } else if (
+        serverError.statusCode >= 500 &&
+        serverError.statusCode < 600
+      ) {
+        setToast({
+          message: 'Oops, something went wrong, try again or try again later',
+          type: 'info',
+          isToastOpen: true,
+        });
       } else {
         setToast({
           message: serverError.message,
