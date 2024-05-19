@@ -87,7 +87,7 @@ const SignInForm = () => {
             {...register('password', {
               required: 'Please, enter your password!',
               pattern: {
-                value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{7,}/,
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                 message: 'Your password does not match the pattern',
               },
             })}
