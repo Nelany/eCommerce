@@ -8,6 +8,8 @@ import { auth } from '../../api/auth';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchUserId from '../../hooks/useDispatchUserId';
 import useNewUser from '../../../../common/hooks/newUser';
+import useDispatchToast from '../../../../common/hooks/useDispatchToast';
+import { HttpErrorType } from '@commercetools/sdk-client-v2';
 
 const SignUpForm = () => {
   const {
@@ -18,24 +20,56 @@ const SignUpForm = () => {
     formState: { errors },
     getValues,
   } = useForm<registerData>();
+
   const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
   const saveUserId = useDispatchUserId();
-
+  const setToast = useDispatchToast();
   const apiCall = useApi();
   const userMessage = useNewUser();
+
   const onSubmit: SubmitHandler<registerData> = async (data) => {
-    const response = await apiCall(auth.createCustomer(data));
-    console.log(response);
-    if (response) {
-      reset();
-      navigateToMain();
-      saveUserId(response.body.customer.id);
-      const userData = await apiCall(
-        auth.login({ username: data.email, password: data.password })
-      );
-      console.log(userData);
-      userMessage();
+    try {
+      const response = await auth.createCustomer(data);
+      if (response) {
+        reset();
+        navigateToMain();
+        const userData = await apiCall(
+          auth.login({ username: data.email, password: data.password })
+        );
+        if (userData) {
+          saveUserId(response.body.customer.id);
+        }
+        userMessage();
+      }
+    } catch (error) {
+      const serverError = error as HttpErrorType;
+      if (
+        serverError.message ===
+        'There is already an existing customer with the provided email.'
+      ) {
+        setToast({
+          message:
+            'A user with this email address already exists, please log in or enter another email address',
+          type: 'info',
+          isToastOpen: true,
+        });
+      } else if (
+        serverError.statusCode >= 500 &&
+        serverError.statusCode < 600
+      ) {
+        setToast({
+          message: 'Oops, something went wrong, try again or try again later',
+          type: 'info',
+          isToastOpen: true,
+        });
+      } else {
+        setToast({
+          message: serverError.message,
+          type: 'info',
+          isToastOpen: true,
+        });
+      }
     }
   };
 
