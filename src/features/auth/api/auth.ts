@@ -1,5 +1,6 @@
 import { buildPasswordOptions, getApiRoot } from '../../../common/api/sdk';
 import { UserData } from '../../../common/types';
+import { AddressBilling, AddressShipping } from '../types/app.interface';
 
 // Example call to return Project information
 // This code has the same effect as sending a GET request to the commercetools Composable Commerce API without any endpoints.
@@ -20,6 +21,7 @@ const createCustomer = (customerData: {
   firstName: string;
   lastName: string;
   password: string;
+  addresses: [AddressShipping, AddressBilling];
 }) => {
   return getApiRoot().customers().post({ body: customerData }).execute();
 };

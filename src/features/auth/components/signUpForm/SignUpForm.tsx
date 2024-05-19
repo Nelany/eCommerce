@@ -29,8 +29,17 @@ const SignUpForm = () => {
   const userMessage = useNewUser();
 
   const onSubmit: SubmitHandler<registerData> = async (data) => {
+    if (watchShowBilling) {
+      data.addressBilling = data.addressShipping;
+    }
     try {
-      const response = await auth.createCustomer(data);
+      const response = await auth.createCustomer({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        addresses: [data.addressShipping, data.addressBilling],
+      });
       if (response) {
         reset();
         navigateToMain();
@@ -80,7 +89,7 @@ const SignUpForm = () => {
   }, []);
 
   return (
-    <div className="form-wrapper">
+    <div>
       <h2>Register Form</h2>
       <form className={'form-register'} onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -126,7 +135,7 @@ const SignUpForm = () => {
               message: 'Enter your email in the format example@email.com',
             },
           })}
-          placeholder="E-mail"
+          placeholder="Email"
           type="text"
         />
         {errors?.email && (
@@ -172,14 +181,14 @@ const SignUpForm = () => {
         <h4 className={'address-title'}>Shipping address</h4>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" />
-          <span className="register-clue">{'Set as default address'}</span>
+          <span>{'Set as default address'}</span>
         </div>
         <div className={'address-wrapper'}>
           <div className={'address-input-wrapper'}>
             <select
               className={'form-register__input'}
               defaultValue={'Select country'}
-              {...register('addressShipping.countryShipping', {
+              {...register('addressShipping.country', {
                 required: true,
                 pattern: {
                   value: /GB|US/,
@@ -191,9 +200,9 @@ const SignUpForm = () => {
               <option value="GB">United Kingdom</option>
               <option value="US">United States</option>
             </select>
-            {errors.addressShipping?.countryShipping && (
+            {errors.addressShipping?.country && (
               <span className="error-validation">
-                {errors.addressShipping?.countryShipping.message}
+                {errors.addressShipping?.country.message}
               </span>
             )}
           </div>
@@ -201,7 +210,7 @@ const SignUpForm = () => {
             <input
               className={'form-register__input'}
               id="cityShipping"
-              {...register('addressShipping.cityShipping', {
+              {...register('addressShipping.city', {
                 required: 'Please, enter your city',
                 minLength: 1,
                 pattern: {
@@ -213,9 +222,9 @@ const SignUpForm = () => {
               placeholder="City"
               type="text"
             />
-            {errors.addressShipping?.cityShipping && (
+            {errors.addressShipping?.city && (
               <span className="error-validation">
-                {errors.addressShipping?.cityShipping.message}
+                {errors.addressShipping?.city.message}
               </span>
             )}
           </div>
@@ -223,28 +232,28 @@ const SignUpForm = () => {
             <input
               className={'form-register__input'}
               id="streetShipping"
-              {...register('addressShipping.streetShipping', {
+              {...register('addressShipping.streetName', {
                 required: 'Please, enter your street',
                 minLength: 1,
               })}
               placeholder="Street"
               type="text"
             />
-            {errors.addressShipping?.streetShipping && (
+            {errors.addressShipping?.streetName && (
               <span className="error-validation">{`Please, enter your street`}</span>
             )}
           </div>
           <div className={'address-input-wrapper'}>
             <input
               className={'form-register__input'}
-              {...register('addressShipping.postalCodeShipping', {
+              {...register('addressShipping.postalCode', {
                 required: true,
                 validate: {
                   GBOrUS: (value) => {
-                    if (getValues().addressShipping.countryShipping === 'US') {
+                    if (getValues().addressShipping.country === 'US') {
                       return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
                     }
-                    if (getValues().addressShipping.countryShipping === 'GB') {
+                    if (getValues().addressShipping.country === 'GB') {
                       return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
                         value
                       );
@@ -256,7 +265,7 @@ const SignUpForm = () => {
               placeholder="Postal Code"
               type="text"
             />
-            {errors.addressShipping?.postalCodeShipping && (
+            {errors.addressShipping?.postalCode && (
               <span className="error-validation">
                 {
                   'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
@@ -267,9 +276,7 @@ const SignUpForm = () => {
         </div>
         <div className={'checkbox-input-wrapper'}>
           <input type="checkbox" {...register('showBilling')} />
-          <span className="register-clue">
-            {'Shipping and billing addresses are the same'}
-          </span>
+          <span>{'Shipping and billing addresses are the same'}</span>
         </div>
 
         {!watchShowBilling && (
@@ -277,12 +284,12 @@ const SignUpForm = () => {
             <h4 className={'address-title'}>Billing address</h4>
             <div className={'checkbox-input-wrapper'}>
               <input type="checkbox" />
-              <span className="register-clue">{'Set as default address'}</span>
+              <span>{'Set as default address'}</span>
             </div>
             <div className={'address-wrapper'}>
               <div className={'address-input-wrapper'}>
                 <select
-                  {...register('addressBilling.countryBilling', {
+                  {...register('addressBilling.country', {
                     required: true,
                     pattern: {
                       value: /GB|US/,
@@ -296,16 +303,16 @@ const SignUpForm = () => {
                   <option value="GB">United Kingdom</option>
                   <option value="US">United States</option>
                 </select>
-                {errors.addressBilling?.countryBilling && (
+                {errors.addressBilling?.country && (
                   <span className="error-validation">
-                    {errors.addressBilling?.countryBilling.message}
+                    {errors.addressBilling?.country.message}
                   </span>
                 )}
               </div>
               <div className={'address-input-wrapper'}>
                 <input
                   className={'form-register__input'}
-                  {...register('addressBilling.cityBilling', {
+                  {...register('addressBilling.city', {
                     required: true && 'Please, enter your city',
                     minLength: 1,
                     pattern: {
@@ -317,9 +324,9 @@ const SignUpForm = () => {
                   placeholder="City"
                   type="text"
                 />
-                {errors.addressBilling?.cityBilling && (
+                {errors.addressBilling?.city && (
                   <span className="error-validation">
-                    {errors.addressBilling?.cityBilling.message}
+                    {errors.addressBilling?.city.message}
                   </span>
                 )}
               </div>
@@ -327,14 +334,14 @@ const SignUpForm = () => {
                 <input
                   className={'form-register__input'}
                   id="streetBilling"
-                  {...register('addressBilling.streetBilling', {
+                  {...register('addressBilling.streetName', {
                     required: true,
                     minLength: 1,
                   })}
                   placeholder="Street"
                   type="text"
                 />
-                {errors.addressBilling?.streetBilling && (
+                {errors.addressBilling?.streetName && (
                   <span className="error-validation">{`Please, enter your street`}</span>
                 )}
               </div>
@@ -342,18 +349,14 @@ const SignUpForm = () => {
                 <input
                   className={'form-register__input'}
                   id="postalCodeInputBilling"
-                  {...register('addressBilling.postalCodeBilling', {
+                  {...register('addressBilling.postalCode', {
                     required: true,
                     validate: {
                       GBOrUS: (value) => {
-                        if (
-                          getValues().addressBilling.countryBilling === 'US'
-                        ) {
+                        if (getValues().addressBilling.country === 'US') {
                           return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
                         }
-                        if (
-                          getValues().addressBilling.countryBilling === 'GB'
-                        ) {
+                        if (getValues().addressBilling.country === 'GB') {
                           return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
                             value
                           );
@@ -365,7 +368,7 @@ const SignUpForm = () => {
                   placeholder="Postal Code"
                   type="text"
                 />
-                {errors.addressBilling?.postalCodeBilling && (
+                {errors.addressBilling?.postalCode && (
                   <span className="error-validation">
                     {
                       'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
