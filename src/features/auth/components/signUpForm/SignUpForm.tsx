@@ -39,6 +39,9 @@ const SignUpForm = () => {
     if (data.defaultBilling) {
       data.defaultBillingAddress = 1;
     }
+    if (watchShowBilling && data.defaultShipping) {
+      data.defaultBillingAddress = 1;
+    }
     try {
       const response = await auth.createCustomer({
         firstName: data.firstName,
