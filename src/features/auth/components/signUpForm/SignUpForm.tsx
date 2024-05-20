@@ -28,17 +28,15 @@ const SignUpForm = () => {
   const apiCall = useApi();
   const userMessage = useNewUser();
 
-  const [checked, setChecked] = useState(false);
-
   const onSubmit: SubmitHandler<registerData> = async (data) => {
     if (watchShowBilling) {
       data.addressBilling = data.addressShipping;
     }
-    if (checked) {
-      data.defaultShippingAddress === 0;
+    if (data.defaultShipping) {
+      data.defaultShippingAddress = 0;
     }
     if (data.defaultBilling) {
-      data.defaultBillingAddress === 1;
+      data.defaultBillingAddress = 1;
     }
     try {
       const response = await auth.createCustomer({
@@ -193,11 +191,7 @@ const SignUpForm = () => {
         )}
         <h4 className={'address-title'}>Shipping address</h4>
         <div className={'checkbox-input-wrapper'}>
-          <input
-            type="checkbox"
-            checked={checked}
-            onChange={() => setChecked(!checked)}
-          />
+          <input type="checkbox" {...register('defaultShipping')} />
           <span>{'Set as default address'}</span>
         </div>
         <div className={'address-wrapper'}>
