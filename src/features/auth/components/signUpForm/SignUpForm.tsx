@@ -19,7 +19,7 @@ const SignUpForm = () => {
     reset,
     formState: { errors },
     getValues,
-  } = useForm<registerData>();
+  } = useForm<registerData>({ mode: 'onChange' });
 
   const watchShowBilling = watch('showBilling', false);
   const navigateToMain = useNavigateToMain();
@@ -109,7 +109,7 @@ const SignUpForm = () => {
             required: 'Please, enter your name',
             minLength: 1,
             pattern: {
-              value: /[a-zA-Z]/,
+              value: /^[a-zA-Z]+$/,
               message:
                 'Your name must contain at least one character and no special characters or numbers',
             },
@@ -126,7 +126,7 @@ const SignUpForm = () => {
             required: 'Please, enter your last name',
             minLength: 1,
             pattern: {
-              value: /[a-zA-Z]/,
+              value: /^[a-zA-Z]+$/,
               message:
                 'Your last name must contain at least one character and no special characters or numbers',
             },
@@ -142,7 +142,7 @@ const SignUpForm = () => {
           {...register('email', {
             required: 'Please, enter your email',
             pattern: {
-              value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+              value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
               message: 'Enter your email in the format example@email.com',
             },
           })}
@@ -181,7 +181,7 @@ const SignUpForm = () => {
           className={'form-register__input'}
           {...register('dateBirth', {
             required: true,
-            max: '2006-05-10',
+            max: '2006-05-20',
           })}
           placeholder="Date of Birth"
           type="date"
@@ -225,7 +225,7 @@ const SignUpForm = () => {
                 required: 'Please, enter your city',
                 minLength: 1,
                 pattern: {
-                  value: /[a-zA-Z]/,
+                  value: /^[a-zA-Z]+$/,
                   message:
                     'City must contain at least one character and no special characters or numbers',
                 },
@@ -244,14 +244,20 @@ const SignUpForm = () => {
               className={'form-register__input'}
               id="streetShipping"
               {...register('addressShipping.streetName', {
-                required: 'Please, enter your street',
+                required: true,
                 minLength: 1,
+                pattern: {
+                  value: /^\S+$/,
+                  message: 'Please, enter your street',
+                },
               })}
               placeholder="Street"
               type="text"
             />
             {errors.addressShipping?.streetName && (
-              <span className="error-validation">{`Please, enter your street`}</span>
+              <span className="error-validation">
+                {errors.addressShipping?.streetName.message}
+              </span>
             )}
           </div>
           <div className={'address-input-wrapper'}>
@@ -262,7 +268,9 @@ const SignUpForm = () => {
                 validate: {
                   GBOrUS: (value) => {
                     if (getValues().addressShipping.country === 'US') {
-                      return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
+                      return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
+                        value
+                      );
                     }
                     if (getValues().addressShipping.country === 'GB') {
                       return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
@@ -327,7 +335,7 @@ const SignUpForm = () => {
                     required: true && 'Please, enter your city',
                     minLength: 1,
                     pattern: {
-                      value: /[a-zA-Z]/,
+                      value: /^[a-zA-Z]+$/,
                       message:
                         'City must contain at least one character and no special characters or numbers',
                     },
@@ -348,12 +356,18 @@ const SignUpForm = () => {
                   {...register('addressBilling.streetName', {
                     required: true,
                     minLength: 1,
+                    pattern: {
+                      value: /^\S+$/,
+                      message: 'Please, enter your street',
+                    },
                   })}
                   placeholder="Street"
                   type="text"
                 />
                 {errors.addressBilling?.streetName && (
-                  <span className="error-validation">{`Please, enter your street`}</span>
+                  <span className="error-validation">
+                    {errors.addressBilling?.streetName.message}
+                  </span>
                 )}
               </div>
               <div className={'address-input-wrapper'}>
@@ -365,7 +379,9 @@ const SignUpForm = () => {
                     validate: {
                       GBOrUS: (value) => {
                         if (getValues().addressBilling.country === 'US') {
-                          return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
+                          return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
+                            value
+                          );
                         }
                         if (getValues().addressBilling.country === 'GB') {
                           return /^[A-Z]{1,2}[0-9RCHNQ][0-9A-Z]?s?[0-9][ABD-HJLNP-UW-Z]{2}$|^[A-Z]{2}-?[0-9]{4}$/.test(
