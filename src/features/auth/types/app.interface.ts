@@ -21,4 +21,8 @@ export interface registerData {
     addressShipping: AddressShipping;
     addressBilling: AddressBilling;
     showBilling: boolean;
+    defaultShipping: boolean;
+    defaultBilling: boolean;
+    defaultShippingAddress?: number,
+    defaultBillingAddress?: number,
 }

@@ -28,9 +28,17 @@ const SignUpForm = () => {
   const apiCall = useApi();
   const userMessage = useNewUser();
 
+  const [checked, setChecked] = useState(false);
+
   const onSubmit: SubmitHandler<registerData> = async (data) => {
     if (watchShowBilling) {
       data.addressBilling = data.addressShipping;
+    }
+    if (checked) {
+      data.defaultShippingAddress === 0;
+    }
+    if (data.defaultBilling) {
+      data.defaultBillingAddress === 1;
     }
     try {
       const response = await auth.createCustomer({
@@ -38,7 +46,12 @@ const SignUpForm = () => {
         lastName: data.lastName,
         email: data.email,
         password: data.password,
+        dateOfBirth: data.dateBirth,
         addresses: [data.addressShipping, data.addressBilling],
+        shippingAddresses: [0],
+        billingAddresses: [1],
+        defaultShippingAddress: data.defaultShippingAddress,
+        defaultBillingAddress: data.defaultBillingAddress,
       });
       if (response) {
         reset();
@@ -180,7 +193,11 @@ const SignUpForm = () => {
         )}
         <h4 className={'address-title'}>Shipping address</h4>
         <div className={'checkbox-input-wrapper'}>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+          />
           <span>{'Set as default address'}</span>
         </div>
         <div className={'address-wrapper'}>
@@ -283,7 +300,7 @@ const SignUpForm = () => {
           <div className={'billing-address-wrapper'}>
             <h4 className={'address-title'}>Billing address</h4>
             <div className={'checkbox-input-wrapper'}>
-              <input type="checkbox" />
+              <input type="checkbox" {...register('defaultBilling')} />
               <span>{'Set as default address'}</span>
             </div>
             <div className={'address-wrapper'}>

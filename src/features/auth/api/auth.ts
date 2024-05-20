@@ -21,7 +21,12 @@ const createCustomer = (customerData: {
   firstName: string;
   lastName: string;
   password: string;
+  dateOfBirth: string;
   addresses: [AddressShipping, AddressBilling];
+  shippingAddresses: [0],
+  billingAddresses: [1],
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
 }) => {
   return getApiRoot().customers().post({ body: customerData }).execute();
 };
