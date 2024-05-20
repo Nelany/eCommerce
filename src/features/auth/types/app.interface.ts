@@ -1,15 +1,15 @@
 export interface AddressShipping {
-    countryShipping: string;
-    cityShipping: string;
-    streetShipping: string;
-    postalCodeShipping: string;
+    country: string;
+    city: string;
+    streetName: string;
+    postalCode: string;
 }
 
 export interface AddressBilling {
-    countryBilling: string;
-    cityBilling: string;
-    streetBilling: string;
-    postalCodeBilling: string;
+    country: string;
+    city: string;
+    streetName: string;
+    postalCode: string;
 }
 
 export interface registerData {
@@ -21,4 +21,8 @@ export interface registerData {
     addressShipping: AddressShipping;
     addressBilling: AddressBilling;
     showBilling: boolean;
+    defaultShipping: boolean;
+    defaultBilling: boolean;
+    defaultShippingAddress?: number,
+    defaultBillingAddress?: number,
 }
