@@ -89,3 +89,8 @@
     gap: initial;
   }
 }
+
+@media(max-width:400px) {
+  .nav-tittle {
+    display: none;
+  }}
