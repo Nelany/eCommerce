@@ -1,0 +1,122 @@
+@import '../../../../common/utils/variables.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+.pop-up {
+  width: 400px;
+  height: max-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: inherit;
+}
+
+.login-title {
+  font-size: 24px;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 5px 20px;
+
+  font-size: 20px;
+  border-radius: 3px;
+  border: 2px solid black;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-controller {
+  position: absolute;
+	top: calc(50% - 10px);
+	right: 10px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+  background-image: url(../../../../assets/show-password.png);
+  background-size: cover;
+
+  &.show {
+    background-image: url(../../../../assets/hide-password.png);
+  }
+}
+
+.react-tooltip {
+  &.clue {
+    z-index: 2;
+    width: 300px;
+    height: max-content;
+  
+    background-color: $yellow;
+    font-size: 12px;
+  }
+
+} 
+
+.password-rules {
+  margin: 0;
+  padding: 0;
+  padding: 5px;
+  & li {
+    margin: 0;
+    text-align: start;
+  }
+
+}
+.error {
+  margin-top: -5px;
+  align-self: flex-start;
+
+  color: red;
+  font-size: 10px;
+}
+
+.server-error {
+  display: none;
+  gap: 20px;
+
+  font-size: 14px;
+  color: red;
+
+  &.show {
+    display: flex;
+  }
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+
+  background-image: url(../../../../assets/server-error.png);
+  background-size: cover;
+}
+
+.error-message {
+  margin: 0;
+  text-align: start;
+}
+
+@media screen and (width < 450px) {
+  .pop-up {
+    width: 100%;
+    align-items: center;
+  }
+
+  .login-form {
+    width: 80%;
+  }
+}
