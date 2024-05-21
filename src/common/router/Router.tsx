@@ -7,6 +7,7 @@ import Navigation from '../components/navigation/Navigation';
 import Cart from '../../features/cart/pages/Cart';
 import Catalog from '../../features/catalog/pages/Catalog';
 import Profile from '../../features/profile/pages/Profile';
+import Product from '../../features/catalog/pages/Product';
 
 const loader = async () => {
   const user = localStorage.getItem('userId');
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
       { path: '/sign-up', loader, element: <SignUp /> },
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
+      { path: '/catalog/:id', element: <Product /> },
       { path: '/profile', element: <Profile /> },
 
       { path: '*', element: <NotFound /> },
