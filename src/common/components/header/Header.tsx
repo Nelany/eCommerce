@@ -53,20 +53,6 @@ const Header = () => {
             <Button
               className="header-button"
               variant="contained"
-              onClick={() => onClick(to.SIGN_IN)}
-            >
-              Sign In
-            </Button>
-            <Button
-              className="header-button"
-              variant="contained"
-              onClick={() => onClick(to.SIGN_UP)}
-            >
-              Sign Up
-            </Button>
-            <Button
-              className="header-button"
-              variant="contained"
               onClick={() => logOut()}
             >
               Log Out

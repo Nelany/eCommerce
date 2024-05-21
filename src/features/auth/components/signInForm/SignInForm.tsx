@@ -10,7 +10,6 @@ import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import type { HttpErrorType } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
 
 import './SignInForm.scss';
-import { Link } from 'react-router-dom';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
@@ -135,7 +134,6 @@ const SignInForm = () => {
         <Button type="submit" variant="contained">
           Sign In
         </Button>
-        <Link to={'/sign-up'}>Sign Up</Link>
       </form>
     </div>
   );

@@ -10,7 +10,6 @@ import useDispatchUserId from '../../hooks/useDispatchUserId';
 import useNewUser from '../../../../common/hooks/newUser';
 import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
-import { Link } from 'react-router-dom';
 
 const SignUpForm = () => {
   const {
@@ -410,7 +409,6 @@ const SignUpForm = () => {
         <Button variant="contained" type="submit" fullWidth>
           Sign Up
         </Button>
-        <Link to={'/sign-in'}>Sign In</Link>
       </form>
     </div>
   );
