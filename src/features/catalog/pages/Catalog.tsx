@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import CardSlider from '../components/slider/slider';
 import { catalogApi } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
@@ -23,7 +22,6 @@ const Catalog = () => {
     <div className="page catalog-page">
       <h1>CATALOG</h1>
       <Link to={'COOL-ID'}>COOL-PRODUCT</Link>
-      <CardSlider />
       {products?.map((product) => {
         return <h2>name: {product.masterData.current.name['en-GB']}</h2>;
       })}
