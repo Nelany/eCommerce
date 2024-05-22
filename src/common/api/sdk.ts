@@ -10,13 +10,14 @@ import {
   type HttpMiddlewareOptions, // Required for sending HTTP requests
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { UserData } from '../types';
+// import { UserData } from '../types';
 import {
   VITE_PROJECT_KEY,
   VITE_CLIENT_ID,
   VITE_CLIENT_SECRET,
 } from '../utils/constants';
 import { store } from '../store/store';
+import { decryptUser } from '../utils/crypto';
 // const projectKey = 'cool-coders';
 // const scopes = [
 //   'manage_customers:cool-coders manage_audit_log:cool-coders manage_payments:cool-coders manage_product_selections:cool-coders manage_order_edits:cool-coders manage_connectors:cool-coders manage_cart_discounts:cool-coders manage_categories:cool-coders manage_connectors_deployments:cool-coders manage_checkout_payment_intents:cool-coders manage_discount_codes:cool-coders manage_associate_roles:cool-coders manage_project:cool-coders manage_business_units:cool-coders manage_orders:cool-coders manage_products:cool-coders manage_sessions:cool-coders manage_customer_groups:cool-coders manage_import_containers:cool-coders manage_attribute_groups:cool-coders manage_extensions:cool-coders',
@@ -70,15 +71,7 @@ const passwordOptions: PasswordAuthMiddlewareOptions = {
   fetch,
 };
 
-export const buildPasswordOptions = (user: UserData) => {
-  passwordOptions.credentials.user = user;
-};
-const removePreviousToken = () => localStorage.removeItem('tokenInfo');
-
-export const setNewUser = (user: UserData) => {
-  removePreviousToken();
-  buildPasswordOptions(user);
-};
+export const removePreviousToken = () => localStorage.removeItem('tokenInfo');
 
 // Configure httpMiddlewareOptions
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
@@ -107,8 +100,17 @@ const userClient = new ClientBuilder()
   .build();
 // Create apiRoot from the imported ClientBuilder and include your Project key
 
+export const setUser = () => {
+  passwordOptions.credentials.user = decryptUser(
+    localStorage.getItem('userSecret') || 'null'
+  );
+};
+
 export const getApiRoot = () => {
   const userId = store.getState().user.value;
+  if (userId && !passwordOptions.credentials.user.username) {
+    setUser();
+  }
   const builder = userId
     ? createApiBuilderFromCtpClient(userClient)
     : createApiBuilderFromCtpClient(anonymousClient);

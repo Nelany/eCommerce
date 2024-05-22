@@ -1,4 +1,4 @@
-import { getApiRoot, setNewUser } from '../../../common/api/sdk';
+import { getApiRoot } from '../../../common/api/sdk';
 import { UserData } from '../../../common/types';
 import { AddressBilling, AddressShipping } from '../types/app.interface';
 
@@ -32,7 +32,6 @@ const createCustomer = (customerData: {
 };
 
 const login = (user: UserData) => {
-  setNewUser(user);
   return getApiRoot()
     .me()
     .login()
