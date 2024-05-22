@@ -8,36 +8,52 @@ import { Box } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
 
-export default function ProductCard() {
+type Props = {
+  genieName: string;
+  price: string;
+  description: string;
+  key: string;
+  imgSrc: string;
+  productKey: string;
+};
+
+const ProductCard = ({
+  genieName,
+  price,
+  description,
+  imgSrc,
+  productKey,
+}: Props) => {
   return (
     <Card className="product-card" sx={{ maxWidth: 250 }}>
       <Box sx={{ height: 250, width: 250, overflow: 'hidden' }}>
         <CardMedia
           component="img"
-          alt="green iguana"
+          alt="the beast Genie"
           height="100%"
-          image="/2-7.jpg"
+          image={imgSrc}
         />
       </Box>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          RS Genie
+          {genieName}
         </Typography>
         <Typography gutterBottom variant="h6" component="div">
-          1 000 000 $
+          {price}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          RS Genie will happily complete all your RS-School tasks in an instant
-          and with the highest quality!
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Buy</Button>
 
-        <Link to={'RS Genie'}>
-          <Button size="small">Learn More</Button>
+        <Link to={productKey}>
+          <Button size="small">Learn More </Button>
         </Link>
       </CardActions>
     </Card>
   );
-}
+};
+
+export default ProductCard;
