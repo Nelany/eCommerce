@@ -31,7 +31,7 @@ const Header = () => {
     navigateToMain();
     setUser('');
     dispatchEmptyCart();
-    // еще очистить стор и локалсторэдж от других возможных данных
+    localStorage.removeItem('tokenInfo');
   };
   return (
     <header className="nav">
