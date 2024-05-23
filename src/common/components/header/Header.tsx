@@ -6,6 +6,7 @@ import useDispatchUserId from '../../../features/auth/hooks/useDispatchUserId';
 import useSelectUser from '../../../features/auth/hooks/useSelectUser';
 import useDispatchCartId from '../../../features/cart/hooks/useDispatchCart';
 import { useNavigateToMain } from '../../hooks/useNavigateToMain';
+import { removePreviousToken } from '../../api/sdk';
 
 const nav = [
   { text: 'Home', imgSrc: '/home2.png', path: '/main' },
@@ -28,10 +29,11 @@ const Header = () => {
     navigate(to);
   };
   const logOut = () => {
-    navigateToMain();
+    removePreviousToken();
     setUser('');
     dispatchEmptyCart();
-    // еще очистить стор и локалсторэдж от других возможных данных
+    localStorage.removeItem('userSecret');
+    navigateToMain();
   };
   return (
     <header className="nav">

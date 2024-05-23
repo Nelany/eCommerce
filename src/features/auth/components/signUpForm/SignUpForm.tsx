@@ -10,6 +10,8 @@ import useDispatchUserId from '../../hooks/useDispatchUserId';
 import useNewUser from '../../../../common/hooks/newUser';
 import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
+import { encryptUser } from '../../../../common/utils/crypto';
+import { removePreviousToken } from '../../../../common/api/sdk';
 
 const SignUpForm = () => {
   const {
@@ -56,12 +58,13 @@ const SignUpForm = () => {
       });
       if (response) {
         reset();
-        navigateToMain();
-        const userData = await apiCall(
-          auth.login({ username: data.email, password: data.password })
-        );
+        const user = { username: data.email, password: data.password };
+        const userData = await apiCall(auth.login(user));
         if (userData) {
           saveUserId(response.body.customer.id);
+          localStorage.setItem('userSecret', encryptUser(user));
+          removePreviousToken();
+          navigateToMain();
         }
         userMessage();
       }
