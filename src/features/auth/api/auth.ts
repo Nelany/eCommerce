@@ -7,12 +7,12 @@ import { AddressBilling, AddressShipping } from '../types/app.interface';
 // export const getProject = () => {
 //   return getApiRoot().get().execute();
 // };
-const getCustomers = (email: string) => {
+const getCustomers = (key: string | null) => {
   // пример итогового запроса:
   // https://api.us-central1.gcp.commercetools.com/cool-coders/customers?where=email%3D%22johndoe%40example.com%22
   return getApiRoot()
     .customers()
-    .get({ queryArgs: { where: `email="${email}"` } })
+    .get({ queryArgs: { where: `id="${key}"` }})
     .execute();
 };
 
