@@ -2,18 +2,20 @@ import { Customer } from '@commercetools/platform-sdk';
 import { auth } from '../../auth/api/auth';
 import './Profile.scss';
 import { useEffect, useState } from 'react';
+import useApi from '../../../common/hooks/useApi';
 
 const Profile = () => {
   const key = localStorage.getItem('userId');
   const [profile, setProfile] = useState<Customer | null>(null);
+  const apiCall = useApi();
 
   useEffect(() => {
     const getCustomer = async () => {
-      const profile = await auth.getCustomers(key);
+      const profile = await apiCall(auth.getCustomers(key));
       return profile;
     };
     getCustomer().then((profile) =>
-      setProfile(profile.body.results[0] as unknown as Customer)
+      setProfile(profile?.body.results[0] as unknown as Customer)
     );
   }, []);
 
