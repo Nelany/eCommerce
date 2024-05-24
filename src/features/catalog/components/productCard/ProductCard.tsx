@@ -27,21 +27,24 @@ const ProductCard = ({
   discounted,
 }: Props) => {
   return (
-    <Card className="product-card" sx={{ maxWidth: 250 }}>
+    <Card
+      className={price && productKey ? 'product-card' : 'disabled-product-card'}
+      sx={{ maxWidth: 250 }}
+    >
       <div className="flex-container">
         <Link to={productKey}>
           <CardActionArea sx={{ color: '#454545' }}>
             <Box sx={{ height: 250, width: 250, overflow: 'hidden' }}>
               <CardMedia
                 component="img"
-                alt="the beast Genie"
+                alt="Photo of the beast Genie"
                 height="100%"
-                image={imgSrc}
+                image={imgSrc || '/notFoundGenie.jpg'}
               />
             </Box>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {genieName}
+                {genieName || 'Incognito'}
               </Typography>
               {discounted && (
                 <Typography
@@ -59,10 +62,10 @@ const ProductCard = ({
                 variant="h6"
                 component="div"
               >
-                {price}
+                {price && productKey ? price + ' $' : 'NOT AVAILABLE'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {description}
+                {description || 'The beast Genie!'}
               </Typography>
             </CardContent>
           </CardActionArea>

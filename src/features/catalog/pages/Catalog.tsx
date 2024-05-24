@@ -2,7 +2,7 @@ import { catalogApi } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
 import type { Product } from '@commercetools/platform-sdk';
-import ProductCard from '../../auth/components/card/ProductCard';
+import ProductCard from '../components/productCard/ProductCard';
 import './Catalog.scss';
 
 const Catalog = () => {
@@ -31,18 +31,16 @@ const Catalog = () => {
           return (
             <ProductCard
               genieName={product.masterData.current.name['en-GB']}
-              price={
-                String(
-                  product.masterData.current.masterVariant.prices?.length
-                    ? product.masterData.current.masterVariant.prices[0]?.value
-                        .centAmount
-                    : 1000000
-                ) + ' $'
-              }
+              price={String(
+                product.masterData.current.masterVariant.prices?.length
+                  ? product.masterData.current.masterVariant.prices[0]?.value
+                      .centAmount
+                  : ''
+              )}
               description={
                 product.masterData.current.description
                   ? product.masterData.current.description['en-GB']
-                  : 'The beast Genie'
+                  : ''
               }
               key={String(index)}
               productKey={product.masterData.current.masterVariant.key || ''}
