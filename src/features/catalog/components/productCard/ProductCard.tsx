@@ -43,7 +43,12 @@ const ProductCard = ({
               />
             </Box>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                className="genie-name"
+                gutterBottom
+                variant="h5"
+                component="div"
+              >
                 {genieName || 'Incognito'}
               </Typography>
               {discounted && (
@@ -64,7 +69,11 @@ const ProductCard = ({
               >
                 {price && productKey ? price + ' $' : 'NOT AVAILABLE'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                className="description"
+                variant="body2"
+                color="text.secondary"
+              >
                 {description || 'The beast Genie!'}
               </Typography>
             </CardContent>
