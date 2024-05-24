@@ -17,6 +17,14 @@ const loader = async () => {
   return null;
 };
 
+const anonymousLoader = async () => {
+  const user = localStorage.getItem('userId');
+  if (!user) {
+    throw redirect('/main');
+  }
+  return null;
+};
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -32,7 +40,7 @@ export const router = createBrowserRouter([
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Product /> },
-      { path: '/profile', element: <Profile /> },
+      { path: '/profile', loader: anonymousLoader, element: <Profile /> },
 
       { path: '*', element: <NotFound /> },
     ],
