@@ -7,6 +7,12 @@ import useApi from '../../../common/hooks/useApi';
 const Profile = () => {
   const key = localStorage.getItem('userId');
   const [profile, setProfile] = useState<Customer | null>(null);
+  const [defaultShippingAddress, setDefaultShippingAddress] =
+    useState<string>('');
+  const [defaultBillingAddress, setDefaultBillingAddress] =
+    useState<string>('');
+  const [shippingAddress, setShippingAddress] = useState<string>('');
+  const [billingAddress, setBillingAddress] = useState<string>('');
   const apiCall = useApi();
 
   useEffect(() => {
@@ -14,19 +20,48 @@ const Profile = () => {
       const profile = await apiCall(auth.getCustomers(key));
       return profile;
     };
-    getCustomer().then((profile) =>
-      setProfile(profile?.body.results[0] as unknown as Customer)
-    );
+    getCustomer().then((profileData) => {
+      console.log(profileData);
+      if (!profileData) return;
+      const userProfile = profileData?.body.results[0];
+      setProfile(userProfile);
+      const defaultBillingAddress = userProfile.addresses.find(
+        (address) => address.id === userProfile.defaultBillingAddressId
+      );
+      if (defaultBillingAddress) {
+        setDefaultBillingAddress(
+          `${defaultBillingAddress.country} ${defaultBillingAddress.city} ${defaultBillingAddress.streetName} ${defaultBillingAddress.postalCode}`
+        );
+      }
+      const defaultShippingAddress = userProfile.addresses.find(
+        (address) => address.id === userProfile.defaultShippingAddressId
+      );
+      if (defaultShippingAddress) {
+        setDefaultShippingAddress(
+          `${defaultShippingAddress.country} ${defaultShippingAddress.city} ${defaultShippingAddress.streetName} ${defaultShippingAddress.postalCode}`
+        );
+      }
+      const billingAddress = userProfile.addresses.find(
+        (address) => address.id === userProfile.billingAddressIds?.[0]
+      );
+      const shippingAddress = userProfile.addresses.find(
+        (address) => address.id === userProfile.shippingAddressIds?.[0]
+      );
+      if (shippingAddress) {
+        setShippingAddress(
+          `${shippingAddress.country} ${shippingAddress.city} ${shippingAddress.streetName} ${shippingAddress.postalCode}`
+        );
+      }
+      if (billingAddress) {
+        setBillingAddress(
+          `${billingAddress.country} ${billingAddress.city} ${billingAddress.streetName} ${billingAddress.postalCode}`
+        );
+      }
+    });
   }, []);
 
-  let defaultShippingAddress;
-  if (profile?.defaultShippingAddressId === profile?.addresses[0].id) {
-    defaultShippingAddress = `${profile?.addresses[0].country} ${profile?.addresses[0].city} ${profile?.addresses[0].streetName} ${profile?.addresses[0].postalCode}`;
-  }
-
-  let defaultBillingAddress;
-  if (profile?.defaultBillingAddressId === profile?.addresses[1].id) {
-    defaultBillingAddress = `${profile?.addresses[1].country} ${profile?.addresses[1].city} ${profile?.addresses[1].streetName} ${profile?.addresses[1].postalCode}`;
+  if (!profile) {
+    return <h1>Profile Not Found</h1>;
   }
 
   return (
@@ -73,11 +108,7 @@ const Profile = () => {
                 alt="icon location"
               ></img>
               <span className="user-title">Shipping address:</span>
-              <span>
-                {profile?.addresses[0].country} {profile?.addresses[0].city}{' '}
-                {profile?.addresses[0].streetName}{' '}
-                {profile?.addresses[0].postalCode}
-              </span>
+              <span>{shippingAddress}</span>
             </div>
             <div className="profile-section profile-section_address">
               <span className="user-title">Default shipping address:</span>
@@ -92,11 +123,7 @@ const Profile = () => {
                 alt="icon location"
               ></img>
               <span className="user-title">Billing address:</span>
-              <span>
-                {profile?.addresses[1].country} {profile?.addresses[1].city}{' '}
-                {profile?.addresses[1].streetName}{' '}
-                {profile?.addresses[1].postalCode}
-              </span>
+              <span>{billingAddress}</span>
             </div>
             <div className="profile-section">
               <span className="user-title">Default billing address:</span>
