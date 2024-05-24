@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { catalogApi } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
@@ -12,7 +11,7 @@ const Catalog = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const products = await apiCall(catalogApi.getProducts({ limit: 10 }));
+      const products = await apiCall(catalogApi.getProducts({ limit: 28 }));
       console.log(products);
       return products;
     };
@@ -25,22 +24,17 @@ const Catalog = () => {
   return (
     <div className="page catalog-page">
       <h1>CATALOG</h1>
-      <Link to={'COOL-ID'}>COOL-PRODUCT</Link>
-      {products?.map((product) => {
-        // return <h2>name: {product.masterData.current.name['en-GB']}</h2>;
-        console.log(product.masterData.current.name['en-GB']);
-        return undefined;
-      })}
+
       <div className="cards-container">
         {products?.map((product, index) => {
-          console.log(product.masterData.current);
+          console.log(product.masterData.current.masterVariant.prices);
           return (
             <ProductCard
               genieName={product.masterData.current.name['en-GB']}
               price={
                 String(
-                  product.masterData.current.masterVariant.prices
-                    ? product.masterData.current.masterVariant.prices[0].value
+                  product.masterData.current.masterVariant.prices?.length
+                    ? product.masterData.current.masterVariant.prices[0]?.value
                         .centAmount
                     : 1000000
                 ) + ' $'
@@ -55,8 +49,15 @@ const Catalog = () => {
               imgSrc={
                 product.masterData.current.masterVariant.images?.[0]?.url || ''
               }
-              // "https://images.cdn.us-central1.gcp.commercetools.com/7221fe9f-2096-4b50-844b-1dece4556290/3-ZOznFeM5.jpg"
-              // {product.masterData.current.masterVariant.images[0].url}
+              discounted={
+                (product.masterData.current.masterVariant.prices &&
+                product.masterData.current.masterVariant.prices[0]?.discounted
+                  ? String(
+                      product.masterData.current.masterVariant.prices[0]
+                        .discounted.value.centAmount
+                    )
+                  : undefined) || ''
+              }
             />
           );
         })}
