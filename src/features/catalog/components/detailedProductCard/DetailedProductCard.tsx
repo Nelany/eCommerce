@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { ProductData } from '../../utils/helpers';
-import CardSlider from '../slider/slider';
+import CardSlider from '../slider/Slider';
 import './DetailedProduct Card.scss';
 
 function DetailedProductCard(props: { productData: ProductData }) {

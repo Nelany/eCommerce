@@ -2,12 +2,12 @@ import { mainApi } from '../../main/api/mainApi';
 import { formatProductData, ProductData } from '../utils/helpers';
 import { useEffect, useState } from 'react';
 import DetailedProductCard from '../components/detailedProductCard/DetailedProductCard';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useApi from '../../../common/hooks/useApi';
 
 const ProductPage = () => {
-  // const { id } = useParams();
-  const id = 'SnickeringSorceressGenie';
+  const { id } = useParams();
+  // const id = 'SnickeringSorceressGenie';
   const [product, setProduct] = useState<ProductData | null>(null);
   const apiCall = useApi();
 
@@ -31,7 +31,7 @@ const ProductPage = () => {
   }, []);
 
   if (!product) {
-    return <h1>Spiner</h1>;
+    return <h1>Spinner</h1>;
   } else {
     return (
       <div className="page product-page">
