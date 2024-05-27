@@ -2,9 +2,15 @@ import { Button } from '@mui/material';
 import { ProductData } from '../../utils/helpers';
 import CardSlider from '../slider/Slider';
 import './DetailedProduct Card.scss';
+import { useNavigate } from 'react-router-dom';
 
 function DetailedProductCard(props: { productData: ProductData }) {
   const discount = props.productData.discounted;
+  const navigate = useNavigate();
+
+  function onClick() {
+    navigate('/catalog');
+  }
 
   return (
     <div className="product-wrapper">
@@ -27,10 +33,15 @@ function DetailedProductCard(props: { productData: ProductData }) {
           </p>
         </div>
 
-        <Button className="buy-button" variant="contained">
-          {' '}
-          Add to Card{' '}
-        </Button>
+        <div className="buttons">
+          <Button className="buy-button" variant="outlined" onClick={onClick}>
+            Back to Catalog
+          </Button>
+
+          <Button className="buy-button" variant="contained">
+            Add to Card
+          </Button>
+        </div>
       </div>
     </div>
   );

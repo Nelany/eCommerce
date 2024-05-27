@@ -65,6 +65,12 @@
       font-size: larger;
     }
   }
+
+  & .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .buy-button {
