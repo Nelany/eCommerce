@@ -7,7 +7,6 @@ import useApi from '../../../common/hooks/useApi';
 
 const ProductPage = () => {
   const { id } = useParams();
-  // const id = 'SnickeringSorceressGenie';
   const [product, setProduct] = useState<ProductData | null>(null);
   const apiCall = useApi();
 
