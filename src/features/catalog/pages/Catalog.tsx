@@ -22,8 +22,10 @@ const Catalog = () => {
     <div className="page catalog-page">
       <h1>CATALOG</h1>
       <Link to={'COOL-ID'}>COOL-PRODUCT</Link>
-      {products?.map((product) => {
-        return <h2>name: {product.masterData.current.name['en-GB']}</h2>;
+      {products?.map((product, index) => {
+        return (
+          <h2 key={index}>name: {product.masterData.current.name['en-GB']}</h2>
+        );
       })}
     </div>
   );
