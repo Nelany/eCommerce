@@ -120,6 +120,7 @@ const UpdateProfile = () => {
             className="edit-form__input"
             type="text"
             onChange={(e) => setLastName(e.target.value)}
+            pattern="/^[a-zA-Z]+$/"
           />
         </label>
         <label className="edit-form__label">
@@ -128,14 +129,16 @@ const UpdateProfile = () => {
             className="edit-form__input"
             type="date"
             onChange={(e) => setBirthDate(e.target.value)}
+            max={'2006-05-20'}
           />
         </label>
         <label className="edit-form__label">
           Email:
           <input
             className="edit-form__input"
-            type="text"
+            type="email"
             onChange={(e) => setEmail(e.target.value)}
+            pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/"
           />
         </label>
         <Button className="edit-button" variant="contained" type="submit">
