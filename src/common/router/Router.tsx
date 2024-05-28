@@ -18,6 +18,14 @@ const loader = async () => {
   return null;
 };
 
+const anonymousLoader = async () => {
+  const user = localStorage.getItem('userId');
+  if (!user) {
+    throw redirect('/main');
+  }
+  return null;
+};
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -33,8 +41,12 @@ export const router = createBrowserRouter([
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Product /> },
+<<<<<<< ECOMM-3-15-Implement-edit-mode
       { path: '/profile', element: <Profile /> },
       { path: '/update-profile', element: <UpdateProfile /> },
+=======
+      { path: '/profile', loader: anonymousLoader, element: <Profile /> },
+>>>>>>> release/catalog-product-profile
 
       { path: '*', element: <NotFound /> },
     ],

@@ -1,0 +1,80 @@
+@import '../../../../common/utils/variables.scss';
+
+.product-page {
+  padding-top: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & p {
+    margin: 5px 0;
+  }
+}
+
+.product-wrapper {
+  position: relative;
+
+  max-width: 800px;
+  max-height: 800px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.product-description {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: start;
+
+  & .card-clue {
+    text-align: start;
+    font-weight: 800;
+    color: $violet;
+  }
+
+  & .prices {
+    text-align: end;
+  }
+
+  & h2 {
+    margin: 0;
+    color: $blue;
+    font-weight: 800;
+    font-size: 26px;
+  }
+
+  & .discounted {
+    color: red;
+    font-size: large;
+    font-weight: 600;
+  }
+
+  & .price {
+    color: black;
+    font-size: large;
+
+    &.discount {
+      color: $grey;
+      text-decoration: line-through;
+      font-size: larger;
+    }
+  }
+
+  & .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.buy-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
