@@ -3,6 +3,7 @@ import {
   CustomerSetFirstNameAction,
   CustomerSetLastNameAction,
   CustomerSetDateOfBirthAction,
+  CustomerChangeEmailAction,
 } from '@commercetools/platform-sdk';
 import { auth } from '../../auth/api/auth';
 import './Profile.scss';
@@ -34,12 +35,14 @@ const UpdateProfile = () => {
   const [firstName, setFirstName] = useState(profile?.firstName);
   const [lastName, setLastName] = useState(profile?.lastName);
   const [birthDate, setBirthDate] = useState(profile?.dateOfBirth);
+  const [email, setEmail] = useState(profile?.email);
   const setToast = useDispatchToast();
 
   const handleNameChange = async (
     newFirstName: string | undefined,
     newLastName: string | undefined,
-    newBirthDate: string | undefined
+    newBirthDate: string | undefined,
+    newEmail: string | undefined
   ) => {
     const customerVersion = profile?.version as number;
     const changeNameAction: CustomerSetFirstNameAction = {
@@ -57,6 +60,11 @@ const UpdateProfile = () => {
       dateOfBirth: newBirthDate || profile?.dateOfBirth,
     };
 
+    const changeEmailAction: CustomerChangeEmailAction = {
+      action: 'changeEmail',
+      email: newEmail || (profile?.email as string),
+    };
+
     const response = await apiCall(
       getApiRoot()
         .customers()
@@ -68,6 +76,7 @@ const UpdateProfile = () => {
               changeNameAction,
               changeLastNameAction,
               changeBirthDateAction,
+              changeEmailAction,
             ],
           },
         })
@@ -84,7 +93,7 @@ const UpdateProfile = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleNameChange(firstName, lastName, birthDate).then(() =>
+    handleNameChange(firstName, lastName, birthDate, email).then(() =>
       navigate('/profile')
     );
   };
@@ -102,6 +111,7 @@ const UpdateProfile = () => {
             className="edit-form__input"
             type="text"
             onChange={(e) => setFirstName(e.target.value)}
+            pattern="/^[a-zA-Z]+$/"
           />
         </label>
         <label className="edit-form__label">
@@ -118,6 +128,14 @@ const UpdateProfile = () => {
             className="edit-form__input"
             type="date"
             onChange={(e) => setBirthDate(e.target.value)}
+          />
+        </label>
+        <label className="edit-form__label">
+          Email:
+          <input
+            className="edit-form__input"
+            type="text"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <Button className="edit-button" variant="contained" type="submit">
