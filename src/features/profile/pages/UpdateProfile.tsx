@@ -84,8 +84,9 @@ const UpdateProfile = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleNameChange(firstName, lastName, birthDate);
-    navigate('/profile');
+    handleNameChange(firstName, lastName, birthDate).then(() =>
+      navigate('/profile')
+    );
   };
 
   const handleCancel = () => {
