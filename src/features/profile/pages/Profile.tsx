@@ -3,6 +3,8 @@ import { auth } from '../../auth/api/auth';
 import './Profile.scss';
 import { useEffect, useState } from 'react';
 import useApi from '../../../common/hooks/useApi';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const key = localStorage.getItem('userId');
@@ -14,6 +16,7 @@ const Profile = () => {
   const [shippingAddress, setShippingAddress] = useState<string>('');
   const [billingAddress, setBillingAddress] = useState<string>('');
   const apiCall = useApi();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -21,7 +24,6 @@ const Profile = () => {
       return profile;
     };
     getCustomer().then((profileData) => {
-      console.log(profileData);
       if (!profileData) return;
       const userProfile = profileData?.body.results[0];
       setProfile(userProfile);
@@ -60,20 +62,29 @@ const Profile = () => {
     });
   }, []);
 
-  if (!profile) {
-    return <h1>Profile Not Found</h1>;
-  }
+  const handleEditClick = () => {
+    navigate('/update-profile');
+  };
 
   return (
     <div className="page profile-page">
       <h1>PROFILE</h1>
       <div className="profile-wrapper">
         <div>
+          <Button
+            variant="contained"
+            className="edit-button"
+            onClick={handleEditClick}
+          >
+            Edit profile ✎
+          </Button>
+        </div>
+        <div>
           <h2>User info</h2>
           <div className="profile-section">
             <img
               className="profile-icon"
-              src="src\assets\profile-page-icons\4092564-about-mobile-ui-profile-ui-user-website_114033.png"
+              src="/4092564-about-mobile-ui-profile-ui-user-website_114033.png"
               alt="icon user"
             ></img>
             <span className="user-title">First name:</span>
@@ -82,7 +93,7 @@ const Profile = () => {
           <div className="profile-section">
             <img
               className="profile-icon"
-              src="src\assets\profile-page-icons\3643745-human-man-people-person-profile_113435.png"
+              src="/3643745-human-man-people-person-profile_113435.png"
               alt="icon user"
             ></img>
             <span className="user-title">Last name:</span>
@@ -91,7 +102,7 @@ const Profile = () => {
           <div className="profile-section">
             <img
               className="profile-icon"
-              src="src\assets\profile-page-icons\calendar-check_icon-icons.com_56836.png"
+              src="/calendar-check_icon-icons.com_56836.png"
               alt="icon calendar"
             ></img>
             <span className="user-title">Date of birth:</span>
@@ -104,7 +115,7 @@ const Profile = () => {
             <div className="profile-section">
               <img
                 className="profile-icon"
-                src="src\assets\profile-page-icons\location_pin_place_map_address_placeholder_route_road_icon_149105.png"
+                src="/location_pin_place_map_address_placeholder_route_road_icon_149105.png"
                 alt="icon location"
               ></img>
               <span className="user-title">Shipping address:</span>
@@ -119,7 +130,7 @@ const Profile = () => {
             <div className="profile-section">
               <img
                 className="profile-icon"
-                src="src\assets\profile-page-icons\location_pin_place_map_address_placeholder_icon_149107.png"
+                src="/location_pin_place_map_address_placeholder_icon_149107.png"
                 alt="icon location"
               ></img>
               <span className="user-title">Billing address:</span>

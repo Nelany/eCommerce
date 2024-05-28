@@ -27,3 +27,38 @@
 .profile-section_address {
     padding-bottom: 10px;
 }
+
+.edit-button {
+    cursor: pointer;
+    width: 200px;
+    margin: 0 auto;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 350px;
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.edit-form__label {
+    font-size: 18px;
+}
+
+.edit-form__input {
+    margin-left: 10px;
+    height: 30px;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 14px;
+    border: 2px solid black;
+    width: 350px;
+}
+
+.edit-form-wrapper {
+    height: 70vh;
+    display: flex;
+   align-items: center;
+}

@@ -8,6 +8,7 @@ import Cart from '../../features/cart/pages/Cart';
 import Catalog from '../../features/catalog/pages/Catalog';
 import Profile from '../../features/profile/pages/Profile';
 import Product from '../../features/catalog/pages/Product';
+import UpdateProfile from '../../features/profile/pages/UpdateProfile';
 
 const loader = async () => {
   const user = localStorage.getItem('userId');
@@ -40,7 +41,12 @@ export const router = createBrowserRouter([
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Product /> },
+<<<<<<< ECOMM-3-15-Implement-edit-mode
+      { path: '/profile', element: <Profile /> },
+      { path: '/update-profile', element: <UpdateProfile /> },
+=======
       { path: '/profile', loader: anonymousLoader, element: <Profile /> },
+>>>>>>> release/catalog-product-profile
 
       { path: '*', element: <NotFound /> },
     ],
