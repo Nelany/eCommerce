@@ -17,7 +17,6 @@ const ProductPage = () => {
       }
 
       const response = await apiCall(mainApi.getProductByKey(id));
-
       return response ? formatProductData(response) : null;
     }
 

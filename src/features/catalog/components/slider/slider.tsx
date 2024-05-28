@@ -2,13 +2,24 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import './slider.scss';
 
-export default function CardSlider(props: { slides: string[] }) {
+type CallBack = () => void;
+type ChangeSlides = (index: number) => void;
+type Props = {
+  slides: string[];
+  autoPlay: boolean;
+  showArrows: boolean;
+  dots: boolean;
+  changeSlidesOrder?: ChangeSlides;
+  openModal?: CallBack;
+};
+
+function CardSlider(props: Props) {
   const settings = {
-    showArrows: false,
+    showArrows: props.showArrows,
     infiniteLoop: true,
     showThumbs: false,
     showStatus: false,
-    autoPlay: true,
+    autoPlay: props.autoPlay,
     swipeable: true,
     emulateTouch: true,
     transitionTime: 1000,
@@ -16,7 +27,14 @@ export default function CardSlider(props: { slides: string[] }) {
   };
 
   return (
-    <Carousel {...settings} className="slider">
+    <Carousel
+      {...settings}
+      className={props.dots ? 'slider' : 'slider modal'}
+      onClickItem={(slideIndex) => {
+        props.changeSlidesOrder && props.changeSlidesOrder(slideIndex);
+        props.openModal && props.openModal();
+      }}
+    >
       {props.slides.map((slide: string, slideIndex: number) => {
         return (
           <div className="slider-item" key={slideIndex}>
@@ -27,3 +45,5 @@ export default function CardSlider(props: { slides: string[] }) {
     </Carousel>
   );
 }
+
+export default CardSlider;
