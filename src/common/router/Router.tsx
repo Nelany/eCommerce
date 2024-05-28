@@ -41,12 +41,12 @@ export const router = createBrowserRouter([
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Product /> },
-      {
-        path: '/update-profile',
-        loader: anonymousLoader,
-        element: <UpdateProfile />,
-      },
+<<<<<<< ECOMM-3-15-Implement-edit-mode
+      { path: '/profile', element: <Profile /> },
+      { path: '/update-profile', element: <UpdateProfile /> },
+=======
       { path: '/profile', loader: anonymousLoader, element: <Profile /> },
+>>>>>>> release/catalog-product-profile
 
       { path: '*', element: <NotFound /> },
     ],
