@@ -1,6 +1,6 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import './Slider.scss';
+import './slider.scss';
 
 type CallBack = () => void;
 type ChangeSlides = (index: number) => void;

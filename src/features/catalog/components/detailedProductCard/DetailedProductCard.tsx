@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { ProductData } from '../../utils/helpers';
-import CardSlider from '../slider/Slider';
+import CardSlider from '../slider/slider';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import BasicModal from '../modal/Modal';

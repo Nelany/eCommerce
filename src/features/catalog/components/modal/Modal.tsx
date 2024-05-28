@@ -1,5 +1,5 @@
 import './Modal.scss';
-import CardSlider from '../slider/Slider';
+import CardSlider from '../slider/slider';
 import { Modal } from '@mui/material';
 
 type CloseModal = () => void;
