@@ -8,6 +8,7 @@ import Cart from '../../features/cart/pages/Cart';
 import Catalog from '../../features/catalog/pages/Catalog';
 import Profile from '../../features/profile/pages/Profile';
 import Product from '../../features/catalog/pages/Product';
+import UpdateProfile from '../../features/profile/pages/UpdateProfile';
 
 const loader = async () => {
   const user = localStorage.getItem('userId');
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Product /> },
       { path: '/profile', element: <Profile /> },
+      { path: '/update-profile', element: <UpdateProfile /> },
 
       { path: '*', element: <NotFound /> },
     ],
