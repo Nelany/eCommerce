@@ -42,7 +42,21 @@
 
 @media screen and (width < 850px) {
   .product-pop-up {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+@media screen and (width < 590px) {
+  .product-pop-up {
     width: 350px;
     height: 350px;
+  }
+}
+
+@media screen and (width < 400px) {
+  .product-pop-up {
+    width: 280px;
+    height: 280px;
   }
 }
