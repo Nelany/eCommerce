@@ -30,7 +30,11 @@ const ProductPage = () => {
   }, []);
 
   if (!product) {
-    return <CircularProgress />;
+    return (
+      <div className="spinner-wrapper">
+        <CircularProgress />
+      </div>
+    );
   } else {
     return (
       <div className="page product-page">
