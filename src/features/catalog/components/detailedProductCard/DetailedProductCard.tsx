@@ -58,16 +58,16 @@ function DetailedProductCard(props: { productData: ProductData }) {
               {discount ? `$ ${discount.value.centAmount}` : ''}
             </p>
           </div>
+        </div>
 
-          <div className="buttons">
-            <Button className="buy-button" variant="outlined" onClick={onClick}>
-              Back to Catalog
-            </Button>
+        <div className="buttons">
+          <Button className="buy-button" variant="outlined" onClick={onClick}>
+            Back to Catalog
+          </Button>
 
-            <Button className="buy-button" variant="contained">
-              Add to Card
-            </Button>
-          </div>
+          <Button className="buy-button" variant="contained">
+            Add to Cart
+          </Button>
         </div>
       </div>
     </>

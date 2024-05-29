@@ -39,3 +39,10 @@
     cursor: pointer;
   }
 }
+
+@media screen and (width < 850px) {
+  .product-pop-up {
+    width: 350px;
+    height: 350px;
+  }
+}
