@@ -108,6 +108,15 @@ const Profile = () => {
             <span className="user-title">Date of birth:</span>
             <span>{profile?.dateOfBirth}</span>
           </div>
+          <div className="profile-section">
+            <img
+              className="profile-icon"
+              src="/email-outlined-envelope-back-symbol_icon-icons.com_57846.png"
+              alt="icon user"
+            ></img>
+            <span className="user-title">Email:</span>
+            <span>{profile?.email}</span>
+          </div>
         </div>
         <div>
           <h2>Addresses</h2>
