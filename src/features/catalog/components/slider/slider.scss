@@ -18,8 +18,28 @@
   background-size: cover;
 }
 
+.carousel .control-dots .dot {
+  width: 15px;
+  height: 15px;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 15px solid #fff;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 15px solid #fff;
+}
+
+.carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before {
+  margin: 0 5px;
+  display: inline-block;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  content: '';
 
 
+}
 
 .slick-dots li button:focus:before { opacity: 0.25; }
 .slick-dots li.slick-active button:focus:before,  .slick-dots li button:hover:before { opacity: 1; }
