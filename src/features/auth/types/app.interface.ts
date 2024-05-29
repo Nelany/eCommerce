@@ -26,3 +26,10 @@ export interface registerData {
     defaultShippingAddress?: number,
     defaultBillingAddress?: number,
 }
+
+export interface updateData {
+    firstName: string | undefined,
+      lastName: string | undefined,
+      dateBirth: string | undefined,
+      email: string | undefined
+  }
