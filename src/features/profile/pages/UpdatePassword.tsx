@@ -3,13 +3,16 @@ import { auth } from '../../auth/api/auth';
 import './Profile.scss';
 import { useEffect, useState } from 'react';
 import useApi from '../../../common/hooks/useApi';
-import { getApiRoot, removePreviousToken } from '../../../common/api/sdk';
+import {
+  getApiRoot,
+  removePreviousToken,
+  setUser,
+} from '../../../common/api/sdk';
 import { Button } from '@mui/material';
 import useDispatchToast from '../../../common/hooks/useDispatchToast';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { updatePasswordData } from '../../auth/types/app.interface';
-import useDispatchUserId from '../../auth/hooks/useDispatchUserId';
 import { encryptUser } from '../../../common/utils/crypto';
 
 const UpdatePassword = () => {
@@ -23,7 +26,6 @@ const UpdatePassword = () => {
   const apiCall = useApi();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Customer | null>(null);
-  const saveUserId = useDispatchUserId();
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -65,12 +67,9 @@ const UpdatePassword = () => {
         username: profile?.email as string,
         password: data.newPassword,
       };
-      const userData = await apiCall(auth.login(user));
-      if (userData) {
-        saveUserId(userData.body.customer.id);
-        localStorage.setItem('userSecret', encryptUser(user));
-        removePreviousToken();
-      }
+      localStorage.setItem('userSecret', encryptUser(user));
+      removePreviousToken();
+      setUser();
       navigate('/profile');
     }
   };
