@@ -4,9 +4,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
+import useSelectCategories from '../../hooks/useSelectCategories';
 
 export default function Categories() {
   const [open, setOpen] = React.useState(false);
+  const categories = useSelectCategories();
+  console.warn(categories);
 
   const handleClick = () => {
     setOpen(!open);
