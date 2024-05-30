@@ -3,14 +3,14 @@ import { Carousel } from 'react-responsive-carousel';
 import './slider.scss';
 
 type CallBack = () => void;
-type ChangeSlides = (index: number) => void;
 type Props = {
   slides: string[];
   autoPlay: boolean;
   showArrows: boolean;
   dots: boolean;
-  changeSlidesOrder?: ChangeSlides;
+  selectedItem: number;
   openModal?: CallBack;
+  pickItem?: (n: number) => void;
 };
 
 function CardSlider(props: Props) {
@@ -24,14 +24,15 @@ function CardSlider(props: Props) {
     emulateTouch: true,
     transitionTime: 1000,
     interval: 3000,
+    selectedItem: props.selectedItem,
   };
 
   return (
     <Carousel
       {...settings}
       className={props.dots ? 'slider' : 'slider modal'}
-      onClickItem={(slideIndex) => {
-        props.changeSlidesOrder && props.changeSlidesOrder(slideIndex);
+      onClickItem={function (slideIndex) {
+        props.pickItem && props.pickItem(slideIndex);
         props.openModal && props.openModal();
       }}
     >

@@ -14,14 +14,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const [slides, setSlides] = useState(props.productData.images);
-
-  function changeSlidesOrder(slideIndex: number) {
-    const head = slides.slice(slideIndex);
-    const tail = slides.slice(0, slideIndex);
-    setSlides(head.concat(tail));
-  }
+  const [item, setItem] = useState(0);
 
   function onClick() {
     navigate('/catalog');
@@ -29,16 +22,22 @@ function DetailedProductCard(props: { productData: ProductData }) {
 
   return (
     <>
-      <BasicModal slides={slides} open={open} close={handleClose} />
+      <BasicModal
+        slides={props.productData.images}
+        open={open}
+        close={handleClose}
+        selectedItem={item}
+      />
 
       <div className="product-wrapper">
         <CardSlider
-          slides={slides}
+          slides={props.productData.images}
           autoPlay={true}
           showArrows={false}
           openModal={handleOpen}
-          changeSlidesOrder={changeSlidesOrder}
           dots={true}
+          selectedItem={item}
+          pickItem={(slideIndex) => setItem(slideIndex)}
         />
 
         <div className="product-description">

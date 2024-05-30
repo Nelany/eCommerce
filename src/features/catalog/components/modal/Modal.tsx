@@ -7,6 +7,7 @@ type CloseModal = () => void;
 function BasicModal(props: {
   slides: string[];
   open: boolean;
+  selectedItem: number;
   close?: CloseModal;
 }) {
   return (
@@ -17,6 +18,7 @@ function BasicModal(props: {
           autoPlay={false}
           showArrows={true}
           dots={false}
+          selectedItem={props.selectedItem}
         />
         <button onClick={props.close} className="close-modal-button" />
       </div>
