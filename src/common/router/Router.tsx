@@ -9,6 +9,7 @@ import Catalog from '../../features/catalog/pages/Catalog';
 import Profile from '../../features/profile/pages/Profile';
 import Product from '../../features/catalog/pages/Product';
 import UpdateProfile from '../../features/profile/pages/UpdateProfile';
+import UpdatePassword from '../../features/profile/pages/UpdatePassword';
 
 const loader = async () => {
   const user = localStorage.getItem('userId');
@@ -45,6 +46,11 @@ export const router = createBrowserRouter([
         path: '/update-profile',
         loader: anonymousLoader,
         element: <UpdateProfile />,
+      },
+      {
+        path: '/update-password',
+        loader: anonymousLoader,
+        element: <UpdatePassword />,
       },
       { path: '/profile', loader: anonymousLoader, element: <Profile /> },
 
