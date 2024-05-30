@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { Product } from '@commercetools/platform-sdk';
 import ProductCard from '../components/productCard/ProductCard';
 import './Catalog.scss';
+import { SearchBar } from '../components/searchBar/SearchBar';
 
 const Catalog = () => {
   const apiCall = useApi();
@@ -11,7 +12,7 @@ const Catalog = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const products = await apiCall(catalogApi.getProducts({ limit: 28 }));
+      const products = await apiCall(catalogApi.getProducts({ limit: 51 }));
       console.log(products);
       return products;
     };
@@ -23,8 +24,7 @@ const Catalog = () => {
 
   return (
     <div className="page catalog-page">
-      <h1>CATALOG</h1>
-
+      <SearchBar />;
       <div className="cards-container">
         {products?.map((product, index) => {
           console.log(product.masterData.current.masterVariant.prices);
