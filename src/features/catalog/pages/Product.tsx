@@ -1,4 +1,5 @@
 import { mainApi } from '../../main/api/mainApi';
+import CircularProgress from '@mui/material/CircularProgress';
 import { formatProductData, ProductData } from '../utils/helpers';
 import { useEffect, useState } from 'react';
 import DetailedProductCard from '../components/detailedProductCard/DetailedProductCard';
@@ -29,7 +30,11 @@ const ProductPage = () => {
   }, []);
 
   if (!product) {
-    return <h1>Spinner</h1>;
+    return (
+      <div className="spinner-wrapper">
+        <CircularProgress />
+      </div>
+    );
   } else {
     return (
       <div className="page product-page">
