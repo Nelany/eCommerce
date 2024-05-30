@@ -1,3 +1,5 @@
+@import '../../../../common/utils/variables.scss';
+
 .slider {
   grid-area: slider;
   width: 100%;
@@ -24,20 +26,18 @@
 }
 
 .carousel .control-next.control-arrow:before {
-  border-left: 15px solid #fff;
+  border-left: $arrowBorder
 }
 
 .carousel .control-prev.control-arrow:before {
-  border-right: 15px solid #fff;
+  border-right: $arrowBorder;
 }
 
 .carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before {
   margin: 0 5px;
   display: inline-block;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  content: '';
-
+  border-top: $arrow;
+  border-bottom: $arrow;
 
 }
 
