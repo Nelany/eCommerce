@@ -10,6 +10,7 @@ import {
   SwipeableDrawer,
 } from '@mui/material';
 import Categories from './Categories';
+import './Drawer.scss';
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,15 +56,17 @@ export const Drawer = () => {
             <ListItemButton onClick={handleClick}>
               <ListItemIcon>
                 <img
+                  className="drawer-img"
                   width="23px"
                   height="23px"
                   src="/searchicon6.png"
                   alt="icon"
                 />
               </ListItemIcon>
-              <ListItemText primary="Categories" />
+              <ListItemText primary="CATEGORIES" />
               {open ? (
                 <img
+                  className="drawer-img"
                   width="10px"
                   height="10px"
                   src="/searcharrow2.png"
@@ -71,6 +74,7 @@ export const Drawer = () => {
                 />
               ) : (
                 <img
+                  className="drawer-img"
                   width="10px"
                   height="10px"
                   src="/searcharrow.png"
@@ -84,11 +88,12 @@ export const Drawer = () => {
                 <Categories />
               </List>
             </Collapse>
-            {['BLABLA', 'Filters'].map((text, index) => (
+            {['BLABLA', 'FILTERS'].map((text, index) => (
               <ListItem key={text}>
                 <ListItemButton>
                   <ListItemIcon>
                     <img
+                      className="drawer-img"
                       width="23px"
                       height="23px"
                       src={index === 0 ? '/searchicon6.png' : '/filter.png'}

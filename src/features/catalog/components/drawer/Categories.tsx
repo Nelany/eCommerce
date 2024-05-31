@@ -7,27 +7,35 @@ import useSelectCategories from '../../hooks/useSelectCategories';
 import { Fragment, useState } from 'react';
 
 export default function Categories() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<Record<string, boolean>>({});
   const categories = useSelectCategories();
   console.warn(categories);
 
-  const handleClick = () => {
-    setOpen(!open);
+  const handleClick = (id: string) => {
+    const isOpen = open[id];
+    if (!isOpen) {
+      setOpen({ ...open, [id]: true });
+    } else {
+      setOpen({ ...open, [id]: false });
+    }
   };
-
   return (
     <>
       {categories.map((category) => (
         <Fragment key={category.id}>
-          <ListItemButton data-id={category.id} onClick={handleClick}>
+          <ListItemButton
+            data-id={category.id}
+            onClick={() => handleClick(category.id)}
+          >
             <ListItemIcon>
-              <img width="13px" height="13px" src="/star2.png" alt="icon" />
+              <img width="11px" height="11px" src="/star2.png" alt="icon" />
             </ListItemIcon>
             <ListItemText primary={category.name} />
             {category.children &&
               category.children.length > 0 &&
-              (open ? (
+              (open?.[category.id] ? (
                 <img
+                  className="drawer-img"
                   width="10px"
                   height="10px"
                   src="/searcharrow2.png"
@@ -35,6 +43,7 @@ export default function Categories() {
                 />
               ) : (
                 <img
+                  className="drawer-img"
                   width="10px"
                   height="10px"
                   src="/searcharrow.png"
@@ -43,7 +52,7 @@ export default function Categories() {
               ))}
           </ListItemButton>
           {category.children && category.children.length > 0 && (
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open[category.id]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {category.children.map((child) => (
                   <ListItemButton key={child.id} sx={{ pl: 4 }}>
