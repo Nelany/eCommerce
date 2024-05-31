@@ -64,7 +64,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
             Back to Catalog
           </Button>
 
-          <Button className="buy-button" variant="contained">
+          <Button className="buy-button" variant="contained" disabled>
             Add to Cart
           </Button>
         </div>
