@@ -11,7 +11,7 @@ const Catalog = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const products = await apiCall(catalogApi.getProducts({ limit: 54 }));
+      const products = await apiCall(catalogApi.getProducts({ limit: 28 }));
       console.log(products);
       return products;
     };
