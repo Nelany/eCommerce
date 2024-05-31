@@ -42,7 +42,7 @@ const UpdateProfile = () => {
 
   const setToast = useDispatchToast();
 
-  const onSubmit: SubmitHandler<updateData> = async (data) => {
+  const onSubmitUpdateData: SubmitHandler<updateData> = async (data) => {
     const customerVersion = profile?.version as number;
     const changeNameAction: CustomerSetFirstNameAction = {
       action: 'setFirstName',
@@ -97,7 +97,7 @@ const UpdateProfile = () => {
 
   return (
     <div className="edit-form-wrapper">
-      <form className="edit-form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="edit-form" onSubmit={handleSubmit(onSubmitUpdateData)}>
         <label className="edit-form__label">
           First name:
           <input

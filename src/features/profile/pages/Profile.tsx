@@ -66,17 +66,28 @@ const Profile = () => {
     navigate('/update-profile');
   };
 
+  const handleEditPasswordClick = () => {
+    navigate('/update-password');
+  };
+
   return (
     <div className="page profile-page">
       <h1>PROFILE</h1>
       <div className="profile-wrapper">
-        <div>
+        <div className="buttons-update-wrapper">
           <Button
             variant="contained"
             className="edit-button"
             onClick={handleEditClick}
           >
             Edit profile ✎
+          </Button>
+          <Button
+            variant="contained"
+            className="edit-button"
+            onClick={handleEditPasswordClick}
+          >
+            Change password
           </Button>
         </div>
         <div>
