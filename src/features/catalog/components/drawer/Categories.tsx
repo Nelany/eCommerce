@@ -5,13 +5,17 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import useSelectCategories from '../../hooks/useSelectCategories';
 import { Fragment, useState } from 'react';
+import { useDispatchSelectedCategory } from '../../hooks/useDispatchSelectedCategory';
 
 export default function Categories() {
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [selectedId, setSelectedId] = useState('');
   const categories = useSelectCategories();
-  console.warn(categories);
+  const { dispatchSetSelectedCategory } = useDispatchSelectedCategory();
 
   const handleClick = (id: string) => {
+    dispatchSetSelectedCategory(id);
+    setSelectedId(id);
     const isOpen = open[id];
     if (!isOpen) {
       setOpen({ ...open, [id]: true });
@@ -26,6 +30,7 @@ export default function Categories() {
           <ListItemButton
             data-id={category.id}
             onClick={() => handleClick(category.id)}
+            selected={selectedId === category.id}
           >
             <ListItemIcon>
               <img width="11px" height="11px" src="/star2.png" alt="icon" />
@@ -55,7 +60,12 @@ export default function Categories() {
             <Collapse in={open[category.id]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {category.children.map((child) => (
-                  <ListItemButton key={child.id} sx={{ pl: 4 }}>
+                  <ListItemButton
+                    key={child.id}
+                    sx={{ pl: 4 }}
+                    onClick={() => handleClick(child.id)}
+                    selected={selectedId === child.id}
+                  >
                     <ListItemIcon>
                       <img
                         width="10px"

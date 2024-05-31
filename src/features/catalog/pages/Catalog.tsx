@@ -1,4 +1,4 @@
-import { catalogApi } from '../api/catalogApi';
+import { catalogApi, getProductsQueryArgs } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
 import type { Product } from '@commercetools/platform-sdk';
@@ -7,17 +7,18 @@ import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
+import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
 
 const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
+  const selectedCategoryId = useSelectSelectedCategory();
 
   useEffect(() => {
     const getCategories = async () => {
       const categoriesResponse = await apiCall(catalogApi.getCategories({}));
-      // console.log(categoriesResponse);
       return categoriesResponse;
     };
     getCategories().then((categoriesResponse) => {
@@ -47,23 +48,29 @@ const Catalog = () => {
         if (menuCategories.length) {
           setCategories(menuCategories);
           dispatchSetCategories(menuCategories);
-          // console.warn(menuCategories);
         }
       }
     });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const getProducts = async () => {
-      const productsResponse = await apiCall(
-        catalogApi.getProducts({ limit: 51 })
-      );
+      const params: getProductsQueryArgs = {};
+      if (selectedCategoryId) {
+        params.categoryId = selectedCategoryId;
+      }
+      const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
     };
     getProducts().then((productsResponse) => {
       if (productsResponse?.body.results)
         setProducts(productsResponse?.body.results);
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedCategoryId]);
 
   return (
     <div className="page catalog-page">
