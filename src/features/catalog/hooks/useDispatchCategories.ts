@@ -1,7 +1,7 @@
 import { useAppDispatch } from '../../../common/hooks/storeHooks';
 import { setCategories } from '../store/categorySlice';
 
-import { Category } from '../types';
+import { Category } from '../types/catalogTypes';
 
 const useDispatchCategories = () => {
   const dispatch = useAppDispatch();

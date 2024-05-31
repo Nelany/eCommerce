@@ -1,13 +1,13 @@
-import * as React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import useSelectCategories from '../../hooks/useSelectCategories';
+import { Fragment, useState } from 'react';
 
 export default function Categories() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const categories = useSelectCategories();
   console.warn(categories);
 
@@ -17,33 +17,52 @@ export default function Categories() {
 
   return (
     <>
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <img width="23px" height="23px" src="/searchicon6.png" alt="icon" />
-        </ListItemIcon>
-        <ListItemText primary="Categories" />
-        {open ? (
-          <img width="10px" height="10px" src="/searcharrow2.png" alt="icon" />
-        ) : (
-          <img width="10px" height="10px" src="/searcharrow.png" alt="icon" />
-        )}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
+      {categories.map((category) => (
+        <Fragment key={category.id}>
+          <ListItemButton data-id={category.id} onClick={handleClick}>
             <ListItemIcon>
-              <img width="23px" height="23px" src="/star.png" alt="icon" />
+              <img width="13px" height="13px" src="/star2.png" alt="icon" />
             </ListItemIcon>
-            <ListItemText primary="Cute" />
+            <ListItemText primary={category.name} />
+            {category.children &&
+              category.children.length > 0 &&
+              (open ? (
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/searcharrow2.png"
+                  alt="icon"
+                />
+              ) : (
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/searcharrow.png"
+                  alt="icon"
+                />
+              ))}
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <img width="23px" height="23px" src="/star.png" alt="icon" />
-            </ListItemIcon>
-            <ListItemText primary="Wonderful" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+          {category.children && category.children.length > 0 && (
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {category.children.map((child) => (
+                  <ListItemButton key={child.id} sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/star.png"
+                        alt="icon"
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={child.name} />
+                  </ListItemButton>
+                ))}
+              </List>
+            </Collapse>
+          )}
+        </Fragment>
+      ))}
     </>
   );
 }

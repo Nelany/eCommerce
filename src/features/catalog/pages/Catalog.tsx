@@ -5,7 +5,7 @@ import type { Product } from '@commercetools/platform-sdk';
 import ProductCard from '../components/productCard/ProductCard';
 import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
-import { Category } from '../types';
+import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
 
 const Catalog = () => {

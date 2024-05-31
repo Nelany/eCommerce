@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Box,
+  Collapse,
   List,
   ListItem,
   ListItemButton,
@@ -12,6 +13,11 @@ import Categories from './Categories';
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -46,9 +52,39 @@ export const Drawer = () => {
           // onClick={toggleDrawer(false)}
         >
           <List>
-            <Categories />
-
-            {['Categories', 'Filters'].map((text, index) => (
+            <ListItemButton onClick={handleClick}>
+              <ListItemIcon>
+                <img
+                  width="23px"
+                  height="23px"
+                  src="/searchicon6.png"
+                  alt="icon"
+                />
+              </ListItemIcon>
+              <ListItemText primary="Categories" />
+              {open ? (
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/searcharrow2.png"
+                  alt="icon"
+                />
+              ) : (
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/searcharrow.png"
+                  alt="icon"
+                />
+              )}
+            </ListItemButton>
+            ;
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <Categories />
+              </List>
+            </Collapse>
+            {['BLABLA', 'Filters'].map((text, index) => (
               <ListItem key={text}>
                 <ListItemButton>
                   <ListItemIcon>
