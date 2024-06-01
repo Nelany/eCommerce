@@ -87,7 +87,7 @@ const Catalog = () => {
 
   return (
     <div className="page catalog-page">
-      <SearchBar />;
+      <SearchBar />
       <div className="cards-container">
         {products?.map((product, index) => {
           return (

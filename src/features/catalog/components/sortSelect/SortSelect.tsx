@@ -2,33 +2,30 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatchSort } from '../../hooks/useDispatchSort';
+import { useSelectSort } from '../../hooks/useSelectSort';
+const sortVariants = [
+  '',
+  'name.en-GB asc',
+  'name.en-GB desc',
+  'price asc',
+  'price desc',
+];
 
 export function SortSelect() {
-  const [sort, setSort] = useState('');
   const { dispatchSort } = useDispatchSort();
+  const lastSort = useSelectSort();
+  const [sort, setSort] = useState('');
+
+  useEffect(() => {
+    const index = sortVariants.findIndex((variant) => variant === lastSort);
+    setSort(index === 0 ? '' : String(index));
+  }, [lastSort]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setSort(event.target.value);
-    let sort;
-    switch (`${event.target.value}`) {
-      case '1':
-        sort = 'name.en-GB asc';
-        break;
-      case '2':
-        sort = 'name.en-GB desc';
-        break;
-      case '3':
-        sort = 'price asc';
-        break;
-      case '4':
-        sort = 'price desc';
-        break;
-      default:
-        sort = '';
-    }
-    dispatchSort(sort);
+    dispatchSort(sortVariants[+event.target.value]);
   };
 
   return (
