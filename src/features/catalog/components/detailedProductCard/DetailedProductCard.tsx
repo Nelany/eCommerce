@@ -17,7 +17,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
   const [item, setItem] = useState(0);
 
   function onClick() {
-    navigate('/catalog');
+    navigate(-1);
   }
 
   return (

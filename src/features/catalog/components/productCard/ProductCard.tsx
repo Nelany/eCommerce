@@ -32,7 +32,7 @@ const ProductCard = ({
       sx={{ maxWidth: 250 }}
     >
       <div className="flex-container">
-        <Link to={productKey}>
+        <Link to={`/catalog/product/${productKey}`}>
           <CardActionArea sx={{ color: '#454545' }}>
             <Box sx={{ height: 250, width: 250, overflow: 'hidden' }}>
               <CardMedia

@@ -41,7 +41,9 @@ export const router = createBrowserRouter([
       { path: '/sign-up', loader, element: <SignUp /> },
       { path: '/cart', element: <Cart /> },
       { path: '/catalog', element: <Catalog /> },
-      { path: '/catalog/:id', element: <Product /> },
+      { path: '/catalog/category/:id', element: <Catalog /> },
+      { path: '/catalog/category/:id/:subId', element: <Catalog /> },
+      { path: '/catalog/product/:id', element: <Product /> },
       {
         path: '/update-profile',
         loader: anonymousLoader,
