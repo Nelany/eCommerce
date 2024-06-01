@@ -6,14 +6,20 @@ import Collapse from '@mui/material/Collapse';
 import useSelectCategories from '../../hooks/useSelectCategories';
 import { Fragment, useState } from 'react';
 import { useDispatchSelectedCategory } from '../../hooks/useDispatchSelectedCategory';
+import { useNavigate } from 'react-router-dom';
 
 export default function Categories() {
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [selectedId, setSelectedId] = useState('');
   const categories = useSelectCategories();
   const { dispatchSetSelectedCategory } = useDispatchSelectedCategory();
+  const navigate = useNavigate();
 
-  const handleClick = (id: string) => {
+  const handleClick = (
+    id: string,
+    categoryName: string,
+    subcategoryName?: string
+  ) => {
     dispatchSetSelectedCategory(id);
     setSelectedId(id);
     const isOpen = open[id];
@@ -22,6 +28,11 @@ export default function Categories() {
     } else {
       setOpen({ ...open, [id]: false });
     }
+    if (subcategoryName) {
+      navigate(`/catalog/category/${categoryName}/${subcategoryName}`);
+    } else {
+      navigate(`/catalog/category/${categoryName}`);
+    }
   };
   return (
     <>
@@ -29,7 +40,7 @@ export default function Categories() {
         <Fragment key={category.id}>
           <ListItemButton
             data-id={category.id}
-            onClick={() => handleClick(category.id)}
+            onClick={() => handleClick(category.id, category.name)}
             selected={selectedId === category.id}
           >
             <ListItemIcon>
@@ -63,7 +74,9 @@ export default function Categories() {
                   <ListItemButton
                     key={child.id}
                     sx={{ pl: 4 }}
-                    onClick={() => handleClick(child.id)}
+                    onClick={() =>
+                      handleClick(child.id, category.name, child.name)
+                    }
                     selected={selectedId === child.id}
                   >
                     <ListItemIcon>

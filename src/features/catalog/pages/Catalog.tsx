@@ -8,13 +8,14 @@ import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
 import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
+import { useParams } from 'react-router-dom';
 
 const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
   const selectedCategoryId = useSelectSelectedCategory();
+  const { id, subId } = useParams();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -46,7 +47,6 @@ const Catalog = () => {
           [] as Category[]
         );
         if (menuCategories.length) {
-          setCategories(menuCategories);
           dispatchSetCategories(menuCategories);
         }
       }
@@ -58,7 +58,7 @@ const Catalog = () => {
   useEffect(() => {
     const getProducts = async () => {
       const params: getProductsQueryArgs = {};
-      if (selectedCategoryId) {
+      if ((id || subId) && selectedCategoryId) {
         params.categoryId = selectedCategoryId;
       }
       const productsResponse = await apiCall(catalogApi.getProducts(params));
@@ -74,7 +74,6 @@ const Catalog = () => {
 
   return (
     <div className="page catalog-page">
-      <h6>{String(categories)}</h6>
       <SearchBar />;
       <div className="cards-container">
         {products?.map((product, index) => {
