@@ -10,10 +10,10 @@ export interface getProductsQueryArgs {
 }
 
 const getProducts = ({
-  limit = 30,
+  limit = 51,
   sort = 'createdAt desc',
   offset = 0,
-  count = 30,
+  count = 51,
   categoryId,
 }: getProductsQueryArgs) => {
   const args: getProductsQueryArgs = { limit, offset, sort, count };

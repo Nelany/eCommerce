@@ -8,31 +8,19 @@ import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
 // import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
+import { useSelectSort } from '../hooks/useSelectSort';
 import { useParams } from 'react-router-dom';
 import useSelectCategories from '../hooks/useSelectCategories';
+import { findCategoryIdByName } from '../utils/helpers';
 
 const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<Product[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
   // const selectedCategoryId = useSelectSelectedCategory();
+  const sort = useSelectSort();
   const { id, subId } = useParams();
   const categories = useSelectCategories();
-
-  const findCategoryIdByName = (categories: Category[], name: string) => {
-    for (const category of categories) {
-      if (category.name === name) {
-        return category.id;
-      }
-      if (category.children && category.children.length > 0) {
-        const childId = findCategoryIdByName(category.children, name) as string;
-        if (childId) {
-          return childId;
-        }
-      }
-    }
-    return null;
-  };
 
   useEffect(() => {
     const getCategories = async () => {
@@ -82,6 +70,10 @@ const Catalog = () => {
           params.categoryId = currentId;
         }
       }
+      console.warn(sort);
+      if (sort) {
+        params.sort = sort;
+      }
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
     };
@@ -91,7 +83,7 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId, categories]);
+  }, [id, subId, categories, sort]);
 
   return (
     <div className="page catalog-page">
