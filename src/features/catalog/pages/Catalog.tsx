@@ -1,7 +1,7 @@
 import { catalogApi, getProductsQueryArgs } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
-import type { Product } from '@commercetools/platform-sdk';
+import type { ProductProjection } from '@commercetools/platform-sdk';
 import ProductCard from '../components/productCard/ProductCard';
 import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
@@ -15,7 +15,7 @@ import { findCategoryIdByName } from '../utils/helpers';
 
 const Catalog = () => {
   const apiCall = useApi();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductProjection[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
   // const selectedCategoryId = useSelectSelectedCategory();
   const sort = useSelectSort();
@@ -92,29 +92,24 @@ const Catalog = () => {
         {products?.map((product, index) => {
           return (
             <ProductCard
-              genieName={product.masterData.current.name['en-GB']}
+              genieName={product.name['en-GB']}
               price={String(
-                product.masterData.current.masterVariant.prices?.length
-                  ? product.masterData.current.masterVariant.prices[0]?.value
-                      .centAmount
+                product.masterVariant.prices?.length
+                  ? product.masterVariant.prices[0]?.value.centAmount
                   : ''
               )}
               description={
-                product.masterData.current.description
-                  ? product.masterData.current.description['en-GB']
-                  : ''
+                product.description ? product.description['en-GB'] : ''
               }
               key={String(index)}
-              productKey={product.masterData.current.masterVariant.key || ''}
-              imgSrc={
-                product.masterData.current.masterVariant.images?.[0]?.url || ''
-              }
+              productKey={product.masterVariant.key || ''}
+              imgSrc={product.masterVariant.images?.[0]?.url || ''}
               discounted={
-                (product.masterData.current.masterVariant.prices &&
-                product.masterData.current.masterVariant.prices[0]?.discounted
+                (product.masterVariant.prices &&
+                product.masterVariant.prices[0]?.discounted
                   ? String(
-                      product.masterData.current.masterVariant.prices[0]
-                        .discounted.value.centAmount
+                      product.masterVariant.prices[0].discounted.value
+                        .centAmount
                     )
                   : undefined) || ''
               }

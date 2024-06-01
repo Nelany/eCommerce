@@ -14,16 +14,16 @@ export function SortSelect() {
     let sort;
     switch (`${event.target.value}`) {
       case '1':
-        sort = 'masterData.current.name.en-GB asc';
+        sort = 'name.en-GB asc';
         break;
       case '2':
-        sort = 'masterData.current.name.en-GB desc';
+        sort = 'name.en-GB desc';
         break;
       case '3':
-        sort = '';
+        sort = 'price asc';
         break;
       case '4':
-        sort = '';
+        sort = 'price desc';
         break;
       default:
         sort = '';
