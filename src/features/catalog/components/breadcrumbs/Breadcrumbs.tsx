@@ -1,29 +1,33 @@
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import { useParams } from 'react-router-dom';
 
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  event.preventDefault();
+function handleClick() {
   console.info('You clicked a breadcrumb.');
 }
 
 export function BasicBreadcrumbs() {
-  // const categories = useSelectCategories();
+  const { id, subId } = useParams();
 
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/">
-          MUI
+        <Link underline="hover" color="inherit" href="/catalog">
+          Catalog
         </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Core
-        </Link>
-        <Typography color="text.primary">Breadcrumbs</Typography>
+
+        {id && (
+          <Link
+            underline="hover"
+            color="inherit"
+            href={`/catalog/category/${id}`}
+          >
+            {`${id}`}
+          </Link>
+        )}
+
+        {subId && <Typography color="text.primary">{`${subId}`}</Typography>}
       </Breadcrumbs>
     </div>
   );

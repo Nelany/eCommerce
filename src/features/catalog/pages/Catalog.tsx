@@ -91,7 +91,7 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId]);
+  }, [id, subId, categories]);
 
   return (
     <div className="page catalog-page">
