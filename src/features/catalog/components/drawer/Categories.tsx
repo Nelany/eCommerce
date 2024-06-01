@@ -22,6 +22,7 @@ export default function Categories() {
   ) => {
     dispatchSetSelectedCategory(id);
     setSelectedId(id);
+
     const isOpen = open[id];
     if (!isOpen) {
       setOpen({ ...open, [id]: true });

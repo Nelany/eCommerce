@@ -24,7 +24,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
   }
 
   function onClick() {
-    navigate('/catalog');
+    navigate(-1);
   }
 
   return (

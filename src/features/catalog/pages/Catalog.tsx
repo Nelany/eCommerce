@@ -7,15 +7,32 @@ import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
-import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
+// import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
 import { useParams } from 'react-router-dom';
+import useSelectCategories from '../hooks/useSelectCategories';
 
 const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<Product[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
-  const selectedCategoryId = useSelectSelectedCategory();
+  // const selectedCategoryId = useSelectSelectedCategory();
   const { id, subId } = useParams();
+  const categories = useSelectCategories();
+
+  const findCategoryIdByName = (categories: Category[], name: string) => {
+    for (const category of categories) {
+      if (category.name === name) {
+        return category.id;
+      }
+      if (category.children && category.children.length > 0) {
+        const childId = findCategoryIdByName(category.children, name) as string;
+        if (childId) {
+          return childId;
+        }
+      }
+    }
+    return null;
+  };
 
   useEffect(() => {
     const getCategories = async () => {
@@ -58,8 +75,12 @@ const Catalog = () => {
   useEffect(() => {
     const getProducts = async () => {
       const params: getProductsQueryArgs = {};
-      if ((id || subId) && selectedCategoryId) {
-        params.categoryId = selectedCategoryId;
+      if (id || subId) {
+        const currentName: string = (subId || id) as string;
+        const currentId = findCategoryIdByName(categories, currentName);
+        if (currentId) {
+          params.categoryId = currentId;
+        }
       }
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
@@ -70,7 +91,7 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCategoryId]);
+  }, [id, subId]);
 
   return (
     <div className="page catalog-page">
