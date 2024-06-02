@@ -48,6 +48,11 @@ function DetailedProductCard(props: { productData: ProductData }) {
             <p>{props.productData.description}</p>
           </div>
 
+          <div>
+            <p className="card-clue">Country:</p>
+            <p>{props.productData.country}</p>
+          </div>
+
           <div className="prices">
             <p className="card-clue">Price:</p>
             <p
@@ -64,7 +69,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
             Back to Catalog
           </Button>
 
-          <Button className="buy-button" variant="contained">
+          <Button className="buy-button" variant="contained" disabled>
             Add to Cart
           </Button>
         </div>

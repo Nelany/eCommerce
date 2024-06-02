@@ -117,7 +117,7 @@
 
 }
 
-@media screen and (width < 600px) {
+@media screen and (width < 636px) {
   .product-description {
     & h2 {
       font-size: 18px;
@@ -126,7 +126,20 @@
     & .card-clue {
       font-size: smaller;
     }
+
+      
+    & .prices {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      
+      & p {
+        margin: 0;
+      }
+    }
   }
+
+
 }
 
 @media screen and (width < 485px) {
