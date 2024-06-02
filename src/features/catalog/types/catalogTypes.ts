@@ -10,3 +10,10 @@ export type Category = {
 export type SetSearchValue = {
   changeSearchInput: (value: string) => void;
 };
+
+export interface FilterDispatch {
+  maxPrice?: string;
+  minPrice?: string;
+  country?: string;
+  discount?: boolean;
+}

@@ -1,7 +1,6 @@
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import { useState } from 'react';
 
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -54,20 +53,20 @@ const IOSSwitch = styled((props: SwitchProps) => (
   },
 }));
 
-export function DiscountSwitch() {
-  const [checked, setChecked] = useState(false);
-
+export function DiscountSwitch(
+  onDiscount: boolean,
+  setOnDiscount: (onDiscount: boolean) => void
+) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event) {
-      setChecked(event.target.checked);
-      console.log(`Discounted: ${event.target.checked ? 'ON' : 'OFF'}`);
+      setOnDiscount(event.target.checked);
     }
   };
 
   return (
     <FormControlLabel
       control={
-        <IOSSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />
+        <IOSSwitch sx={{ m: 1 }} checked={onDiscount} onChange={handleChange} />
       }
       label="Discounted"
     />

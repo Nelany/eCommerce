@@ -7,7 +7,6 @@ import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
-// import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
 import { useSelectSort } from '../hooks/useSelectSort';
 import { useParams } from 'react-router-dom';
 import useSelectCategories from '../hooks/useSelectCategories';
@@ -17,7 +16,6 @@ const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
-  // const selectedCategoryId = useSelectSelectedCategory();
   const sort = useSelectSort();
   const { id, subId } = useParams();
   const categories = useSelectCategories();
