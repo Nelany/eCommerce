@@ -1,15 +1,16 @@
 import { Customer } from '@commercetools/platform-sdk';
 import { auth } from '../../auth/api/auth';
 import './Profile.scss';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import useApi from '../../../common/hooks/useApi';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { addAddress } from '../../auth/types/app.interface';
+import { getApiRoot } from '../../../common/api/sdk';
 
 const Profile = () => {
-  const key = localStorage.getItem('userId');
+  const key = localStorage.getItem('userId') as string;
   const [profile, setProfile] = useState<Customer | null>(null);
   const [defaultShippingAddress, setDefaultShippingAddress] =
     useState<string>('');
@@ -21,6 +22,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const {
     register,
+    handleSubmit,
     reset,
     formState: { errors },
     getValues,
@@ -88,6 +90,102 @@ const Profile = () => {
   const closeModal = () => {
     setModalOpen(false);
     reset();
+  };
+
+  const [value, setValueRadio] = useState('1');
+  const changeHandler = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setValueRadio(event.target.value);
+  };
+
+  const onSubmitAddAddress: SubmitHandler<addAddress> = async (data) => {
+    const customerVersion = profile?.version as number;
+    const addAddressAction = await getApiRoot()
+      .customers()
+      .withId({ ID: key })
+      .post({
+        body: {
+          version: customerVersion,
+          actions: [
+            {
+              action: 'addAddress',
+              address: {
+                streetName: data.streetName,
+                postalCode: data.postalCode,
+                city: data.city,
+                country: data.country,
+              },
+            },
+          ],
+        },
+      })
+      .execute();
+    if (addAddressAction && value === '1') {
+      const addressId =
+        addAddressAction.body.addresses[
+          addAddressAction.body.addresses.length - 1
+        ].id;
+      await getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: addAddressAction.body.version,
+            actions: [
+              {
+                action: 'addShippingAddressId',
+                addressId: addressId,
+              },
+            ],
+          },
+        })
+        .execute();
+    } else {
+      const addressId =
+        addAddressAction.body.addresses[
+          addAddressAction.body.addresses.length - 1
+        ].id;
+      await getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: addAddressAction.body.version,
+            actions: [
+              {
+                action: 'addBillingAddressId',
+                addressId: addressId,
+              },
+            ],
+          },
+        })
+        .execute();
+    }
+    closeModal();
+
+    //   const addAddressAction: CustomerChangeAddressAction = {
+    //     action: 'changeAddress',
+    //     address: {
+    //       key: 'billing',
+    //       streetName: data.billingStreetName,
+    //       postalCode: data.shippingPostalCode,
+    //       city: data.billingCity,
+    //       country: data.billingCountry,
+    //     }
+    //   };
+    //   const response = await apiCall(
+    //     getApiRoot()
+    //       .customers()
+    //       .withId({ ID: key })
+    //       .post({
+    //         body: {
+    //           version: customerVersion,
+    //           actions: [addAddressAction]
+    //         }
+    //       })
+    //       .execute()
+    //   );
   };
 
   return (
@@ -192,106 +290,131 @@ const Profile = () => {
       </div>
       {isModalOpen && (
         <div className="modal-overlay">
-          <form className="modal-box">
-            <h2>Add the address</h2>
-            <div className={'address-input-wrapper'}>
-              <select
-                className={'edit-form__input'}
-                defaultValue={'Select country'}
-                {...register('country', {
-                  required: true,
-                  pattern: {
-                    value: /GB|US/,
-                    message: 'Must be US or GB',
-                  },
-                })}
-              >
-                <option disabled={true}>Select country</option>
-                <option value="GB">United Kingdom</option>
-                <option value="US">United States</option>
-              </select>
-              {errors.country && (
-                <span className="error-validation">
-                  {errors.country.message}
-                </span>
-              )}
-            </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'edit-form__input'}
-                id="cityShipping"
-                {...register('city', {
-                  required: 'Please, enter your city',
-                  minLength: 1,
-                  pattern: {
-                    value: /^[a-zA-Z]+$/,
-                    message:
-                      'City must contain at least one character and no special characters or numbers',
-                  },
-                })}
-                placeholder="City"
-                type="text"
-              />
-              {errors.city && (
-                <span className="error-validation">{errors.city.message}</span>
-              )}
-            </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'edit-form__input'}
-                id="streetShipping"
-                {...register('streetName', {
-                  required: true,
-                  minLength: 1,
-                  pattern: {
-                    value: /^\S+$/,
-                    message: 'Please, enter your street',
-                  },
-                })}
-                placeholder="Street"
-                type="text"
-              />
-              {errors.streetName && (
-                <span className="error-validation">
-                  {errors.streetName.message}
-                </span>
-              )}
-            </div>
-            <div className={'address-input-wrapper'}>
-              <input
-                className={'edit-form__input'}
-                {...register('postalCode', {
-                  required: true,
-                  validate: {
-                    GBOrUS: (value) => {
-                      if (getValues().country === 'US') {
-                        return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
-                      }
-                      if (getValues().country === 'GB') {
-                        return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
-                          value
-                        );
-                      }
-                      return false;
+          <form
+            className="modal-box"
+            onSubmit={handleSubmit(onSubmitAddAddress)}
+          >
+            <div className="add-address-wrapper">
+              <h3>Add address</h3>
+              <div className="radio-buttons-wrapper">
+                <label>
+                  <input
+                    type="radio"
+                    name="addAddress"
+                    value="1"
+                    checked={value === '1' ? true : false}
+                    onChange={changeHandler}
+                  />
+                  Shipping address
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="addAddress"
+                    value="2"
+                    checked={value === '2' ? true : false}
+                    onChange={changeHandler}
+                  />
+                  Billing address
+                </label>
+              </div>
+              <div className={'address-input-wrapper'}>
+                <select
+                  className={'edit-form__input'}
+                  defaultValue={'Select country'}
+                  {...register('country', {
+                    required: true,
+                    pattern: {
+                      value: /GB|US/,
+                      message: 'Must be US or GB',
                     },
-                  },
-                })}
-                placeholder="Postal Code"
-                type="text"
-              />
-              {errors.postalCode && (
-                <span className="error-validation">
-                  {
-                    'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
-                  }
-                </span>
-              )}
+                  })}
+                >
+                  <option disabled={true}>Select country</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="US">United States</option>
+                </select>
+                {errors.country && (
+                  <span className="error-validation">
+                    {errors.country.message}
+                  </span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'edit-form__input'}
+                  id="cityShipping"
+                  {...register('city', {
+                    required: 'Please, enter your city',
+                    minLength: 1,
+                    pattern: {
+                      value: /^[a-zA-Z]+$/,
+                      message:
+                        'City must contain at least one character and no special characters or numbers',
+                    },
+                  })}
+                  placeholder="City"
+                  type="text"
+                />
+                {errors.city && (
+                  <span className="error-validation">
+                    {errors.city.message}
+                  </span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'edit-form__input'}
+                  id="streetShipping"
+                  {...register('streetName', {
+                    required: true,
+                    minLength: 1,
+                    pattern: {
+                      value: /^\S+$/,
+                      message: 'Please, enter your street',
+                    },
+                  })}
+                  placeholder="Street"
+                  type="text"
+                />
+                {errors.streetName && (
+                  <span className="error-validation">
+                    {errors.streetName.message}
+                  </span>
+                )}
+              </div>
+              <div className={'address-input-wrapper'}>
+                <input
+                  className={'edit-form__input'}
+                  {...register('postalCode', {
+                    required: true,
+                    validate: {
+                      GBOrUS: (value) => {
+                        if (getValues().country === 'US') {
+                          return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
+                        }
+                        if (getValues().country === 'GB') {
+                          return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
+                            value
+                          );
+                        }
+                        return false;
+                      },
+                    },
+                  })}
+                  placeholder="Postal Code"
+                  type="text"
+                />
+                {errors.postalCode && (
+                  <span className="error-validation">
+                    {
+                      'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
+                    }
+                  </span>
+                )}
+              </div>
             </div>
-            <Button
-              variant="contained"
-              className="edit-button"
-              onClick={closeModal}
-            >
+            <Button variant="contained" className="edit-button" type="submit">
               SAVE
             </Button>
             <Button

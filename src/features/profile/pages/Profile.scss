@@ -94,6 +94,12 @@
     align-items: center;
   }
 
+  .add-address-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .address-input-wrapper {
     display: flex;
     flex-direction: column;
@@ -103,6 +109,12 @@
 .error-validation {
     width: 350px;
     align-self: center;
+}
+
+.radio-buttons-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
 }
 
 @media screen and (width < 1250px) {
@@ -119,6 +131,6 @@
 
 @media screen and (width < 435px) {
     .modal-overlay {
-        width: 105%;
+        width: 106%;
     }
 }
