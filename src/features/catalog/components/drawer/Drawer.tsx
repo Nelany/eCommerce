@@ -6,6 +6,7 @@ import { DrawerItem } from './DrawerItem';
 import { PriceInput } from './PriceInput';
 import { FilterItem } from './FilterItem';
 import { DiscountSwitch } from './DiscountSwitch';
+import { CountryRadio } from './CountryRadio';
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +64,7 @@ export const Drawer = () => {
                     )}
                     {FilterItem(
                       'Country',
-                      <div className="filter-container"></div>
+                      <div className="filter-container">{CountryRadio()}</div>
                     )}
                     {FilterItem(
                       'Discount',
