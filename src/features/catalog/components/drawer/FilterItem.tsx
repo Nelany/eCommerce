@@ -1,4 +1,3 @@
-import './FilterItem.scss';
 import {
   Collapse,
   List,

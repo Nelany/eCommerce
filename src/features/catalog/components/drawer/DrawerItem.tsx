@@ -5,7 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 export function DrawerItem(
   name: string,
@@ -19,7 +19,7 @@ export function DrawerItem(
   };
 
   return (
-    <>
+    <Fragment key={name}>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
           <img
@@ -59,6 +59,6 @@ export function DrawerItem(
           {children}
         </List>
       </Collapse>
-    </>
+    </Fragment>
   );
 }

@@ -5,6 +5,7 @@ import './Drawer.scss';
 import { DrawerItem } from './DrawerItem';
 import { PriceInput } from './PriceInput';
 import { FilterItem } from './FilterItem';
+import { DiscountSwitch } from './DiscountSwitch';
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,13 +56,19 @@ export const Drawer = () => {
                   <>
                     {FilterItem(
                       'Price',
-                      <div className="price-container">
-                        {PriceInput('Max Price', 100000000)}
-                        {PriceInput('Min Price', 0)}
+                      <div className="filter-container">
+                        {PriceInput('Max, $', 100000000)}
+                        {PriceInput('Min, $', 0)}
                       </div>
                     )}
-                    {FilterItem('Country', <></>)}
-                    {FilterItem('Discount', <></>)}
+                    {FilterItem(
+                      'Country',
+                      <div className="filter-container"></div>
+                    )}
+                    {FilterItem(
+                      'Discount',
+                      <div className="filter-container">{DiscountSwitch()}</div>
+                    )}
                   </>
                 ),
               },
