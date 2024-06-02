@@ -7,22 +7,24 @@ export interface getProductsQueryArgs {
   count?: number;
   categoryId?: string;
   where?: string;
+  filter?: string;
 }
 
 const getProducts = ({
-  limit = 30,
+  limit = 51,
   sort = 'createdAt desc',
   offset = 0,
-  count = 30,
+  count = 51,
   categoryId,
 }: getProductsQueryArgs) => {
   const args: getProductsQueryArgs = { limit, offset, sort, count };
 
   if (categoryId) {
-    args.where = `masterData(current(categories(id="${categoryId}")))`;
+    args.filter = `categories.id: subtree("${categoryId}")`;
   }
   return getApiRoot()
-    .products()
+    .productProjections()
+    .search()
     .get({ queryArgs: { ...args } })
     .execute();
 };

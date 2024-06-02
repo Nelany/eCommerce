@@ -1,27 +1,24 @@
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import { useParams } from 'react-router-dom';
-
-function handleClick() {
-  console.info('You clicked a breadcrumb.');
-}
+import { useParams, Link as RouterLink } from 'react-router-dom';
+import './Breadcrumbs.scss';
 
 export function BasicBreadcrumbs() {
   const { id, subId } = useParams();
 
   return (
-    <div role="presentation" onClick={handleClick}>
+    <div role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/catalog">
+        <Link className="link-text" component={RouterLink} to="/catalog">
           Catalog
         </Link>
 
         {id && (
           <Link
-            underline="hover"
-            color="inherit"
-            href={`/catalog/category/${id}`}
+            className="link-text"
+            component={RouterLink}
+            to={`/catalog/category/${id}`}
           >
             {`${id}`}
           </Link>

@@ -3,6 +3,7 @@ import {
   DiscountedPrice,
   Product,
 } from '@commercetools/platform-sdk';
+import { Category } from '../types/catalogTypes';
 
 export type ProductData = {
   name: string;
@@ -44,3 +45,18 @@ export function formatProductData(
     discounted,
   };
 }
+
+export const findCategoryIdByName = (categories: Category[], name: string) => {
+  for (const category of categories) {
+    if (category.name === name) {
+      return category.id;
+    }
+    if (category.children && category.children.length > 0) {
+      const childId = findCategoryIdByName(category.children, name) as string;
+      if (childId) {
+        return childId;
+      }
+    }
+  }
+  return null;
+};
