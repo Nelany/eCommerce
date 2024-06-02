@@ -37,13 +37,21 @@ export const Drawer = () => {
       setMaxPrice(100000000);
       setCountry('All');
       setOnDiscount(false);
+
+      dispatchFilter({
+        maxPrice: '100000000',
+        minPrice: '1',
+        country: 'All',
+        discount: false,
+      });
+    } else {
+      dispatchFilter({
+        maxPrice: String(maxPrice),
+        minPrice: String(minPrice),
+        country,
+        discount: onDiscount,
+      });
     }
-    dispatchFilter({
-      maxPrice: String(maxPrice),
-      minPrice: String(minPrice),
-      country,
-      discount: onDiscount,
-    });
   }
 
   return (
@@ -59,11 +67,7 @@ export const Drawer = () => {
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
       >
-        <Box
-          sx={{ width: 250 }}
-          role="presentation"
-          // onClick={toggleDrawer(false)}
-        >
+        <Box sx={{ width: 250 }} role="presentation">
           <List>
             {[
               {

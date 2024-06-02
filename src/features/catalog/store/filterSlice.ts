@@ -9,7 +9,7 @@ export interface FiltersState {
 const initialState: FiltersState = {
   value: {
     maxPrice: '100000000',
-    minPrice: '0',
+    minPrice: '1',
     country: 'All',
     discount: false,
   },
@@ -20,7 +20,7 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     setFilter: (state, action: PayloadAction<FilterDispatch>) => {
-      state.value = { ...state.value, ...action.payload };
+      state.value = action.payload;
     },
   },
 });
