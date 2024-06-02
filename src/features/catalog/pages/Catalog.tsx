@@ -22,6 +22,8 @@ const Catalog = () => {
   const { id, subId } = useParams();
   const categories = useSelectCategories();
 
+  const [searchValue, setSearchValue] = useState('genie');
+
   useEffect(() => {
     const getCategories = async () => {
       const categoriesResponse = await apiCall(catalogApi.getCategories({}));
@@ -63,17 +65,22 @@ const Catalog = () => {
   useEffect(() => {
     const getProducts = async () => {
       const params: getProductsQueryArgs = {};
+      params.text = searchValue;
+
       if (id || subId) {
         const currentName: string = (subId || id) as string;
         const currentId = findCategoryIdByName(categories, currentName);
+
         if (currentId) {
           params.categoryId = currentId;
         }
       }
       console.warn(sort);
+
       if (sort) {
         params.sort = sort;
       }
+
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
     };
@@ -83,11 +90,11 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId, categories, sort]);
+  }, [id, subId, categories, sort, searchValue]);
 
   return (
     <div className="page catalog-page">
-      <SearchBar />
+      <SearchBar changeSearchInput={setSearchValue} />
       <div className="cards-container">
         {products?.map((product, index) => {
           return (

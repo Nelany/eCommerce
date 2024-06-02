@@ -6,3 +6,7 @@ export type Category = {
     name: string;
   }[];
 };
+
+export type SetSearchValue = {
+  changeSearchInput: (value: string) => void;
+};

@@ -8,6 +8,7 @@ export interface getProductsQueryArgs {
   categoryId?: string;
   where?: string;
   filter?: string;
+  text?: string;
 }
 
 const getProducts = ({
@@ -15,6 +16,7 @@ const getProducts = ({
   sort = 'createdAt desc',
   offset = 0,
   count = 51,
+  text = '',
   categoryId,
 }: getProductsQueryArgs) => {
   const args: getProductsQueryArgs = { limit, offset, sort, count };
@@ -25,7 +27,9 @@ const getProducts = ({
   return getApiRoot()
     .productProjections()
     .search()
-    .get({ queryArgs: { ...args } })
+    .get({
+      queryArgs: { ...args, fuzzy: true, 'text.en-GB': text },
+    })
     .execute();
 };
 
