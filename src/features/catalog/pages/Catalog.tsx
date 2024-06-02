@@ -22,7 +22,7 @@ const Catalog = () => {
   const { id, subId } = useParams();
   const categories = useSelectCategories();
 
-  const [searchValue, setSearchValue] = useState('genie');
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const getCategories = async () => {
@@ -95,35 +95,40 @@ const Catalog = () => {
   return (
     <div className="page catalog-page">
       <SearchBar changeSearchInput={setSearchValue} />
-      <div className="cards-container">
-        {products?.map((product, index) => {
-          return (
-            <ProductCard
-              genieName={product.name['en-GB']}
-              price={String(
-                product.masterVariant.prices?.length
-                  ? product.masterVariant.prices[0]?.value.centAmount
-                  : ''
-              )}
-              description={
-                product.description ? product.description['en-GB'] : ''
-              }
-              key={String(index)}
-              productKey={product.masterVariant.key || ''}
-              imgSrc={product.masterVariant.images?.[0]?.url || ''}
-              discounted={
-                (product.masterVariant.prices &&
-                product.masterVariant.prices[0]?.discounted
-                  ? String(
-                      product.masterVariant.prices[0].discounted.value
-                        .centAmount
-                    )
-                  : undefined) || ''
-              }
-            />
-          );
-        })}
-      </div>
+
+      {products.length > 0 ? (
+        <div className="cards-container">
+          {products?.map((product, index) => {
+            return (
+              <ProductCard
+                genieName={product.name['en-GB']}
+                price={String(
+                  product.masterVariant.prices?.length
+                    ? product.masterVariant.prices[0]?.value.centAmount
+                    : ''
+                )}
+                description={
+                  product.description ? product.description['en-GB'] : ''
+                }
+                key={String(index)}
+                productKey={product.masterVariant.key || ''}
+                imgSrc={product.masterVariant.images?.[0]?.url || ''}
+                discounted={
+                  (product.masterVariant.prices &&
+                  product.masterVariant.prices[0]?.discounted
+                    ? String(
+                        product.masterVariant.prices[0].discounted.value
+                          .centAmount
+                      )
+                    : undefined) || ''
+                }
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div>Ooops.... Nothing was found </div>
+      )}
     </div>
   );
 };

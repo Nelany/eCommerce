@@ -11,14 +11,19 @@ function SearchInput(props: SetSearchValue) {
 
   return (
     <form
+      className="search-form"
       onSubmit={(e) => {
         e.preventDefault();
         const value = getValues('searchValue');
         props.changeSearchInput(value);
       }}
     >
-      <input placeholder="Search ..." {...register('searchValue')} />
-      <button type="submit">Search</button>
+      <input
+        className="search-input"
+        placeholder="Search ..."
+        {...register('searchValue')}
+      />
+      <button type="submit" className="search-button" />
     </form>
   );
 }
