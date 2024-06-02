@@ -1,0 +1,51 @@
+@import '../../../../common/utils/variables.scss';
+
+.search-form {
+  position: relative;
+  width: calc(100% - 250px);
+}
+
+.search-input {
+  height: 35px;
+  width: 100%;
+  padding-left: 10px;
+
+  // flex-grow: 2;
+
+  border-radius: $radius;
+  font-size: 18px;
+  border: 0.5px solid $grey;
+  background-color: white;
+
+}
+
+.search-button {
+  margin: 0;
+  padding: 0;
+
+  width: 25px;
+  height: 25px;
+
+  position: absolute;
+  right: 5px;
+  top: 5px;
+
+  background-image: url(../../../../assets/search.png);
+  background-size: cover;
+  border: none;
+
+  transition: all 0.3s;
+
+  &:hover {
+    outline: none;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

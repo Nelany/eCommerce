@@ -22,6 +22,8 @@ const Catalog = () => {
   const { id, subId } = useParams();
   const categories = useSelectCategories();
 
+  const [searchValue, setSearchValue] = useState('');
+
   useEffect(() => {
     const getCategories = async () => {
       const categoriesResponse = await apiCall(catalogApi.getCategories({}));
@@ -63,17 +65,22 @@ const Catalog = () => {
   useEffect(() => {
     const getProducts = async () => {
       const params: getProductsQueryArgs = {};
+      params.text = searchValue;
+
       if (id || subId) {
         const currentName: string = (subId || id) as string;
         const currentId = findCategoryIdByName(categories, currentName);
+
         if (currentId) {
           params.categoryId = currentId;
         }
       }
       console.warn(sort);
+
       if (sort) {
         params.sort = sort;
       }
+
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
     };
@@ -83,40 +90,45 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId, categories, sort]);
+  }, [id, subId, categories, sort, searchValue]);
 
   return (
     <div className="page catalog-page">
-      <SearchBar />
-      <div className="cards-container">
-        {products?.map((product, index) => {
-          return (
-            <ProductCard
-              genieName={product.name['en-GB']}
-              price={String(
-                product.masterVariant.prices?.length
-                  ? product.masterVariant.prices[0]?.value.centAmount
-                  : ''
-              )}
-              description={
-                product.description ? product.description['en-GB'] : ''
-              }
-              key={String(index)}
-              productKey={product.masterVariant.key || ''}
-              imgSrc={product.masterVariant.images?.[0]?.url || ''}
-              discounted={
-                (product.masterVariant.prices &&
-                product.masterVariant.prices[0]?.discounted
-                  ? String(
-                      product.masterVariant.prices[0].discounted.value
-                        .centAmount
-                    )
-                  : undefined) || ''
-              }
-            />
-          );
-        })}
-      </div>
+      <SearchBar changeSearchInput={setSearchValue} />
+
+      {products.length > 0 ? (
+        <div className="cards-container">
+          {products?.map((product, index) => {
+            return (
+              <ProductCard
+                genieName={product.name['en-GB']}
+                price={String(
+                  product.masterVariant.prices?.length
+                    ? product.masterVariant.prices[0]?.value.centAmount
+                    : ''
+                )}
+                description={
+                  product.description ? product.description['en-GB'] : ''
+                }
+                key={String(index)}
+                productKey={product.masterVariant.key || ''}
+                imgSrc={product.masterVariant.images?.[0]?.url || ''}
+                discounted={
+                  (product.masterVariant.prices &&
+                  product.masterVariant.prices[0]?.discounted
+                    ? String(
+                        product.masterVariant.prices[0].discounted.value
+                          .centAmount
+                      )
+                    : undefined) || ''
+                }
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div>Ooops.... Nothing was found </div>
+      )}
     </div>
   );
 };
