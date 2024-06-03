@@ -48,9 +48,9 @@ export interface addAddress {
 }
 
 export interface AddressResponse {
-    country?: string | undefined;
-    city?: string | undefined;
-    streetName?: string | undefined;
-    postalCode?: string | undefined;
-    id?: string | undefined;
+    country?: string;
+    city?: string;
+    streetName?: string;
+    postalCode?: string;
+    id?: string;
 }

@@ -19,6 +19,8 @@ const Profile = () => {
   const [shippingAddress, setShippingAddress] = useState<AddressResponse[]>([]);
   const [billingAddress, setBillingAddress] = useState<AddressResponse[]>([]);
   const [addedAddressId, setAddedAddressId] = useState<string>('');
+  const [selectedAddress, setSelectedAddress] =
+    useState<AddressResponse | null>(null);
   const apiCall = useApi();
   const navigate = useNavigate();
   const {
@@ -170,47 +172,26 @@ const Profile = () => {
       setAddedAddressId(addressId || '');
     }
     closeModal();
-
-    //   const addAddressAction: CustomerChangeAddressAction = {
-    //     action: 'changeAddress',
-    //     address: {
-    //       key: 'billing',
-    //       streetName: data.billingStreetName,
-    //       postalCode: data.shippingPostalCode,
-    //       city: data.billingCity,
-    //       country: data.billingCountry,
-    //     }
-    //   };
-    //   const response = await apiCall(
-    //     getApiRoot()
-    //       .customers()
-    //       .withId({ ID: key })
-    //       .post({
-    //         body: {
-    //           version: customerVersion,
-    //           actions: [addAddressAction]
-    //         }
-    //       })
-    //       .execute()
-    //   );
   };
 
   const handleRemoveAddress = async (addressId: string) => {
-    const addAddressDelete = await getApiRoot()
-      .customers()
-      .withId({ ID: key })
-      .post({
-        body: {
-          version: customerVersion,
-          actions: [
-            {
-              action: 'removeAddress',
-              addressId: `${addressId}`,
-            },
-          ],
-        },
-      })
-      .execute();
+    const addAddressDelete = await apiCall(
+      getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: customerVersion,
+            actions: [
+              {
+                action: 'removeAddress',
+                addressId: `${addressId}`,
+              },
+            ],
+          },
+        })
+        .execute()
+    );
     if (addAddressDelete) {
       setAddedAddressId(addressId || '');
       setDefaultShippingAddress(defaultShippingAddress || '');
@@ -219,21 +200,23 @@ const Profile = () => {
   };
 
   const handleShippingDefaultAddress = async (addressId: string) => {
-    const addShippingDefaultAddress = await getApiRoot()
-      .customers()
-      .withId({ ID: key })
-      .post({
-        body: {
-          version: customerVersion,
-          actions: [
-            {
-              action: 'setDefaultShippingAddress',
-              addressId: `${addressId}`,
-            },
-          ],
-        },
-      })
-      .execute();
+    const addShippingDefaultAddress = await apiCall(
+      getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: customerVersion,
+            actions: [
+              {
+                action: 'setDefaultShippingAddress',
+                addressId: `${addressId}`,
+              },
+            ],
+          },
+        })
+        .execute()
+    );
     if (addShippingDefaultAddress) {
       setAddedAddressId(addressId || '');
       setDefaultShippingAddress(defaultShippingAddress || '');
@@ -241,25 +224,175 @@ const Profile = () => {
   };
 
   const handleBillingDefaultAddress = async (addressId: string) => {
-    const addShippingDefaultAddress = await getApiRoot()
-      .customers()
-      .withId({ ID: key })
-      .post({
-        body: {
-          version: customerVersion,
-          actions: [
-            {
-              action: 'setDefaultBillingAddress',
-              addressId: `${addressId}`,
-            },
-          ],
-        },
-      })
-      .execute();
+    const addShippingDefaultAddress = await apiCall(
+      getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: customerVersion,
+            actions: [
+              {
+                action: 'setDefaultBillingAddress',
+                addressId: `${addressId}`,
+              },
+            ],
+          },
+        })
+        .execute()
+    );
     if (addShippingDefaultAddress) {
       setAddedAddressId(addressId || '');
       setDefaultBillingAddress(defaultBillingAddress || '');
     }
+  };
+
+  type AddressEditFormProps = {
+    address: AddressResponse;
+    onAddressUpdate: (updatedAddress: AddressResponse) => void;
+  };
+
+  const handleEditAddressClick = (address: AddressResponse) => {
+    setSelectedAddress(address);
+  };
+
+  const handleAddressUpdate = async (updatedAddress: AddressResponse) => {
+    const updateAddress = await apiCall(
+      getApiRoot()
+        .customers()
+        .withId({ ID: key })
+        .post({
+          body: {
+            version: customerVersion,
+            actions: [
+              {
+                action: 'changeAddress',
+                addressId: updatedAddress.id,
+                address: {
+                  country: updatedAddress.country as string,
+                  city: updatedAddress.city as string,
+                  streetName: updatedAddress.streetName as string,
+                  postalCode: updatedAddress.postalCode as string,
+                },
+              },
+            ],
+          },
+        })
+        .execute()
+    );
+    if (updateAddress) {
+      setAddedAddressId(updatedAddress.id || '');
+      setDefaultBillingAddress(defaultBillingAddress || '');
+      setDefaultShippingAddress(defaultShippingAddress || '');
+    }
+  };
+
+  const AddressEditForm: React.FC<AddressEditFormProps> = ({
+    address,
+    onAddressUpdate,
+  }) => {
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors },
+    } = useForm({
+      defaultValues: address,
+    });
+
+    const onSubmit = (data: AddressResponse) => {
+      onAddressUpdate(data);
+      setSelectedAddress(null);
+      reset();
+    };
+
+    const cancel = () => {
+      setSelectedAddress(null);
+      reset();
+    };
+
+    return (
+      <div className="modal-overlay">
+        <form className="modal-box-edit" onSubmit={handleSubmit(onSubmit)}>
+          <h2>Edit address</h2>
+          <div className={'address-input-wrapper'}>
+            <select
+              className={'edit-form__input'}
+              {...register('country', {
+                pattern: {
+                  value: /GB|US/,
+                  message: 'Must be US or GB',
+                },
+              })}
+            >
+              <option value="GB">United Kingdom</option>
+              <option value="US">United States</option>
+            </select>
+            {errors.country && (
+              <span className="error-validation">{errors.country.message}</span>
+            )}
+          </div>
+          <div className={'address-input-wrapper'}>
+            <input
+              className={'edit-form__input'}
+              {...register('city', {
+                minLength: 1,
+                pattern: {
+                  value: /^[a-zA-Z]+$/,
+                  message:
+                    'City must contain at least one character and no special characters or numbers',
+                },
+              })}
+              placeholder="City"
+              type="text"
+            />
+            {errors.city && (
+              <span className="error-validation">{errors.city.message}</span>
+            )}
+          </div>
+          <div className={'address-input-wrapper'}>
+            <input
+              className={'edit-form__input'}
+              {...register('streetName', {
+                minLength: 1,
+                pattern: {
+                  value: /^\S+$/,
+                  message: 'Please, enter your street',
+                },
+              })}
+              placeholder="Street Name"
+              type="text"
+            />
+            {errors.streetName && (
+              <span className="error-validation">
+                {errors.streetName.message}
+              </span>
+            )}
+          </div>
+          <div className={'address-input-wrapper'}>
+            <input
+              className={'edit-form__input'}
+              {...register('postalCode', {})}
+              placeholder="Postal Code"
+              type="text"
+            />
+            {errors.postalCode && (
+              <span className="error-validation">
+                {
+                  'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
+                }
+              </span>
+            )}
+          </div>
+          <Button variant="contained" className="edit-button" type="submit">
+            SAVE
+          </Button>
+          <Button variant="contained" className="edit-button" onClick={cancel}>
+            CANCEL
+          </Button>
+        </form>
+      </div>
+    );
   };
 
   return (
@@ -343,7 +476,12 @@ const Profile = () => {
                       <span>{address.postalCode}</span>
                     </div>
                     <div className="edit-address-buttons-wrapper">
-                      <div className="edit-address-icon">✎</div>
+                      <div
+                        className="edit-address-icon"
+                        onClick={() => handleEditAddressClick(address)}
+                      >
+                        ✎
+                      </div>
                       <div
                         className="edit-address-icon"
                         onClick={() =>
@@ -391,7 +529,12 @@ const Profile = () => {
                       <span>{address.postalCode}</span>
                     </div>
                     <div className="edit-address-buttons-wrapper">
-                      <div className="edit-address-icon">✎</div>
+                      <div
+                        className="edit-address-icon"
+                        onClick={() => handleEditAddressClick(address)}
+                      >
+                        ✎
+                      </div>
                       <div
                         className="edit-address-icon"
                         onClick={() =>
@@ -412,6 +555,12 @@ const Profile = () => {
                     </div>
                   </div>
                 ))}
+                {selectedAddress && (
+                  <AddressEditForm
+                    address={selectedAddress}
+                    onAddressUpdate={handleAddressUpdate}
+                  />
+                )}
               </div>
             </div>
             <div className="profile-section profile-section_address">
@@ -483,7 +632,6 @@ const Profile = () => {
               <div className={'address-input-wrapper'}>
                 <input
                   className={'edit-form__input'}
-                  id="cityShipping"
                   {...register('city', {
                     required: 'Please, enter your city',
                     minLength: 1,
@@ -505,7 +653,6 @@ const Profile = () => {
               <div className={'address-input-wrapper'}>
                 <input
                   className={'edit-form__input'}
-                  id="streetShipping"
                   {...register('streetName', {
                     required: true,
                     minLength: 1,
