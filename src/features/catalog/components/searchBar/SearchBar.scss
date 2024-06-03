@@ -37,3 +37,13 @@
 
 
 
+@media screen and (width < 550px) {
+  .catalog-search-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+
+    grid-template-areas: 'bar sort'
+                          'search search';
+  }
+}

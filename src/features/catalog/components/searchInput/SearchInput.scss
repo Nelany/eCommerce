@@ -1,21 +1,25 @@
 @import '../../../../common/utils/variables.scss';
 
 .search-form {
+  grid-area: search;
   position: relative;
   width: calc(100% - 250px);
 }
 
 .search-input {
-  height: 35px;
+  height: 40px;
   width: 100%;
   padding-left: 10px;
 
-  // flex-grow: 2;
-
-  border-radius: $radius;
+  border-radius: 5px;
   font-size: 18px;
   border: 0.5px solid $grey;
   background-color: white;
+  color: black;
+
+  &:focus {
+    outline-color: $blue;
+  }
 
 }
 
@@ -23,16 +27,12 @@
   margin: 0;
   padding: 0;
 
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 
-  position: absolute;
-  right: 5px;
-  top: 5px;
-
-  background-image: url(../../../../assets/search.png);
   background-size: cover;
   border: none;
+  background-color: inherit;
 
   transition: all 0.3s;
 
@@ -47,5 +47,39 @@
 
   &:focus {
     outline: none;
+  }
+
+  &.search {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    background-image: url(../../../../assets/search.png);
+  }
+
+  &.reset {
+    position: absolute;
+    right: 40px;
+    top: 10px;
+
+    background-image: url(../../../../assets/close2.png);
+  }
+}
+
+@media screen and (width < 550px) {
+  .search-form {
+    width: 100%;
+    padding-right: 8px;
+  }
+
+  .search-button{
+
+    &.reset {
+      right: 45px;
+    }
+
+    &.search {
+      right: 15px;
+    }
   }
 }
