@@ -12,6 +12,7 @@ import { useSelectSort } from '../hooks/useSelectSort';
 import { useParams } from 'react-router-dom';
 import useSelectCategories from '../hooks/useSelectCategories';
 import { findCategoryIdByName } from '../utils/helpers';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Catalog = () => {
   const apiCall = useApi();
@@ -23,6 +24,7 @@ const Catalog = () => {
   const categories = useSelectCategories();
 
   const [searchValue, setSearchValue] = useState('');
+  const [spinner, setSpinner] = useState(true);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -63,6 +65,8 @@ const Catalog = () => {
   }, []);
 
   useEffect(() => {
+    setSpinner(true);
+
     const getProducts = async () => {
       const params: getProductsQueryArgs = {};
       params.text = searchValue;
@@ -85,18 +89,30 @@ const Catalog = () => {
       return productsResponse;
     };
     getProducts().then((productsResponse) => {
-      if (productsResponse?.body.results)
+      if (productsResponse?.body.results) {
+        setSpinner(false);
         setProducts(productsResponse?.body.results);
+      }
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, subId, categories, sort, searchValue]);
 
+  // if(spinner) {
+
+  //   return (
+  //
+  // }
+
   return (
     <div className="page catalog-page">
       <SearchBar changeSearchInput={setSearchValue} />
 
-      {products.length > 0 ? (
+      {spinner ? (
+        <div className="spinner-wrapper">
+          <CircularProgress />
+        </div>
+      ) : products.length > 0 ? (
         <div className="cards-container">
           {products?.map((product, index) => {
             return (
