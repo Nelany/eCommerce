@@ -1,24 +1,21 @@
 import { useState } from 'react';
-import {
-  Box,
-  Collapse,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  SwipeableDrawer,
-} from '@mui/material';
+import { Box, Button, List, SwipeableDrawer } from '@mui/material';
 import Categories from './Categories';
 import './Drawer.scss';
+import { DrawerItem } from './DrawerItem';
+import { PriceInput } from './PriceInput';
+import { FilterItem } from './FilterItem';
+import { DiscountSwitch } from './DiscountSwitch';
+import { CountryRadio } from './CountryRadio';
+import { useDispatchFilter } from '../../hooks/useDispatchFilter';
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const { dispatchFilter } = useDispatchFilter();
+  const [minPrice, setMinPrice] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(100000000);
+  const [country, setCountry] = useState('All');
+  const [onDiscount, setOnDiscount] = useState(false);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -34,6 +31,29 @@ export const Drawer = () => {
       setIsOpen(open);
     };
 
+  function onFilterSubmit(isApply: boolean) {
+    if (!isApply) {
+      setMinPrice(1);
+      setMaxPrice(100000000);
+      setCountry('All');
+      setOnDiscount(false);
+
+      dispatchFilter({
+        maxPrice: '100000000',
+        minPrice: '1',
+        country: 'All',
+        discount: false,
+      });
+    } else {
+      dispatchFilter({
+        maxPrice: String(maxPrice),
+        minPrice: String(minPrice),
+        country,
+        discount: onDiscount,
+      });
+    }
+  }
+
   return (
     <>
       <div className="search-bar-menu" onClick={toggleDrawer(true)}>
@@ -47,63 +67,58 @@ export const Drawer = () => {
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
       >
-        <Box
-          sx={{ width: 250 }}
-          role="presentation"
-          // onClick={toggleDrawer(false)}
-        >
+        <Box sx={{ width: 250 }} role="presentation">
           <List>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <img
-                  className="drawer-img"
-                  width="23px"
-                  height="23px"
-                  src="/searchicon6.png"
-                  alt="icon"
-                />
-              </ListItemIcon>
-              <ListItemText primary="CATEGORIES" />
-              {open ? (
-                <img
-                  className="drawer-img"
-                  width="10px"
-                  height="10px"
-                  src="/searcharrow2.png"
-                  alt="icon"
-                />
-              ) : (
-                <img
-                  className="drawer-img"
-                  width="10px"
-                  height="10px"
-                  src="/searcharrow.png"
-                  alt="icon"
-                />
-              )}
-            </ListItemButton>
-            ;
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Categories />
-              </List>
-            </Collapse>
-            {['BLABLA', 'FILTERS'].map((text, index) => (
-              <ListItem key={text}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <img
-                      className="drawer-img"
-                      width="23px"
-                      height="23px"
-                      src={index === 0 ? '/searchicon6.png' : '/filter.png'}
-                      alt="icon"
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {[
+              {
+                name: 'CATEGORIES',
+                imgSrc: '/searchicon6.png',
+                children: <Categories />,
+              },
+              {
+                name: 'FILTERS',
+                imgSrc: '/filter.png',
+                children: (
+                  <>
+                    {FilterItem(
+                      'Price',
+                      <div className="filter-container">
+                        {PriceInput('Max, $', maxPrice, setMaxPrice)}
+                        {PriceInput('Min, $', minPrice, setMinPrice)}
+                      </div>
+                    )}
+                    {FilterItem(
+                      'Country',
+                      <div className="filter-container">
+                        {CountryRadio(country, setCountry)}
+                      </div>
+                    )}
+                    {FilterItem(
+                      'Discount',
+                      <div className="filter-container">
+                        {DiscountSwitch(onDiscount, setOnDiscount)}
+                      </div>
+                    )}
+                    <div className="filter-button-container">
+                      <Button
+                        className="drawer-button"
+                        variant="contained"
+                        onClick={() => onFilterSubmit(true)}
+                      >
+                        Apply
+                      </Button>
+                      <Button
+                        className="drawer-button"
+                        variant="contained"
+                        onClick={() => onFilterSubmit(false)}
+                      >
+                        Reset
+                      </Button>
+                    </div>
+                  </>
+                ),
+              },
+            ].map((item) => DrawerItem(item.name, item.imgSrc, item.children))}
           </List>
         </Box>
       </SwipeableDrawer>

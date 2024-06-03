@@ -4,8 +4,7 @@ import cartReducer from '../../features/cart/store/cartSlice';
 import categoriesReducer from '../../features/catalog/store/categorySlice';
 import selectedCategoryReducer from '../../features/catalog/store/selectedCategorySlice';
 import sortReducer from '../../features/catalog/store/sortSlice';
-
-
+import filterReducer from '../../features/catalog/store/filterSlice';
 
 import toastReducer from './toastSlice';
 
@@ -17,6 +16,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     selectedCategoryId: selectedCategoryReducer,
     sort: sortReducer,
+    filter: filterReducer,
   },
 });
 

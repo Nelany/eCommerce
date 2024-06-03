@@ -6,11 +6,12 @@ import Collapse from '@mui/material/Collapse';
 import useSelectCategories from '../../hooks/useSelectCategories';
 import { Fragment, useState } from 'react';
 import { useDispatchSelectedCategory } from '../../hooks/useDispatchSelectedCategory';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Categories() {
-  const [open, setOpen] = useState<Record<string, boolean>>({});
-  const [selectedId, setSelectedId] = useState('');
+  const { id, subId } = useParams();
+  const defaultSelectedId = subId || id || 'allCategories';
+  const [selectedId, setSelectedId] = useState(defaultSelectedId);
   const categories = useSelectCategories();
   const { dispatchSetSelectedCategory } = useDispatchSelectedCategory();
   const navigate = useNavigate();
@@ -18,67 +19,58 @@ export default function Categories() {
   const handleClick = (
     id: string,
     categoryName: string,
-    subcategoryName?: string
+    parentName?: string
   ) => {
-    dispatchSetSelectedCategory(id);
-    setSelectedId(id);
+    setSelectedId(categoryName);
 
-    const isOpen = open[id];
-    if (!isOpen) {
-      setOpen({ ...open, [id]: true });
+    if (id === 'allCategories') {
+      dispatchSetSelectedCategory('');
+      navigate(`/catalog`);
     } else {
-      setOpen({ ...open, [id]: false });
-    }
-    if (subcategoryName) {
-      navigate(`/catalog/category/${categoryName}/${subcategoryName}`);
-    } else {
-      navigate(`/catalog/category/${categoryName}`);
+      if (parentName) {
+        navigate(`/catalog/category/${parentName}/${categoryName}`);
+      } else {
+        navigate(`/catalog/category/${categoryName}`);
+      }
     }
   };
   return (
     <>
+      <Fragment key={'allCategories'}>
+        <ListItemButton
+          data-id={'allCategories'}
+          onClick={() => handleClick('allCategories', 'allCategories')}
+          selected={selectedId === 'allCategories'}
+        >
+          <ListItemIcon>
+            <img width="11px" height="11px" src="/star2.png" alt="icon" />
+          </ListItemIcon>
+          <ListItemText primary="All" />
+        </ListItemButton>
+      </Fragment>
       {categories.map((category) => (
-        <Fragment key={category.id}>
+        <Fragment key={category.name}>
           <ListItemButton
-            data-id={category.id}
+            data-id={category.name}
             onClick={() => handleClick(category.id, category.name)}
-            selected={selectedId === category.id}
+            selected={selectedId === category.name}
           >
             <ListItemIcon>
               <img width="11px" height="11px" src="/star2.png" alt="icon" />
             </ListItemIcon>
             <ListItemText primary={category.name} />
-            {category.children &&
-              category.children.length > 0 &&
-              (open?.[category.id] ? (
-                <img
-                  className="drawer-img"
-                  width="10px"
-                  height="10px"
-                  src="/searcharrow2.png"
-                  alt="icon"
-                />
-              ) : (
-                <img
-                  className="drawer-img"
-                  width="10px"
-                  height="10px"
-                  src="/searcharrow.png"
-                  alt="icon"
-                />
-              ))}
           </ListItemButton>
           {category.children && category.children.length > 0 && (
-            <Collapse in={open[category.id]} timeout="auto" unmountOnExit>
+            <Collapse in={true} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {category.children.map((child) => (
                   <ListItemButton
-                    key={child.id}
+                    key={child.name}
                     sx={{ pl: 4 }}
                     onClick={() =>
-                      handleClick(child.id, category.name, child.name)
+                      handleClick(child.id, child.name, category.name)
                     }
-                    selected={selectedId === child.id}
+                    selected={selectedId === child.name}
                   >
                     <ListItemIcon>
                       <img
