@@ -45,6 +45,7 @@ export interface addAddress {
     city: string;
     streetName: string;
     postalCode: string;
+    id: string
 }
 
 export interface AddressResponse {

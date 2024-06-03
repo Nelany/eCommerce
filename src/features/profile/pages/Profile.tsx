@@ -18,7 +18,7 @@ const Profile = () => {
     useState<string>('');
   const [shippingAddress, setShippingAddress] = useState<AddressResponse[]>([]);
   const [billingAddress, setBillingAddress] = useState<AddressResponse[]>([]);
-  const [addedAddressId, setAddedAddressId] = useState<string>('');
+  const [keyForReload, setKeyforReload] = useState(0);
   const [selectedAddress, setSelectedAddress] =
     useState<AddressResponse | null>(null);
   const apiCall = useApi();
@@ -30,6 +30,10 @@ const Profile = () => {
     formState: { errors },
     getValues,
   } = useForm<addAddress>({ mode: 'onChange' });
+
+  const reload = () => {
+    setKeyforReload(keyForReload + 1);
+  };
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -76,7 +80,7 @@ const Profile = () => {
         setBillingAddress(billingAddress);
       }
     });
-  }, [addedAddressId, defaultShippingAddress, defaultBillingAddress]);
+  }, [keyForReload, defaultShippingAddress, defaultBillingAddress]);
 
   const handleEditClick = () => {
     navigate('/update-profile');
@@ -169,7 +173,7 @@ const Profile = () => {
     }
 
     if (addressTypeResponse) {
-      setAddedAddressId(addressId || '');
+      reload();
     }
     closeModal();
   };
@@ -193,9 +197,9 @@ const Profile = () => {
         .execute()
     );
     if (addAddressDelete) {
-      setAddedAddressId(addressId || '');
       setDefaultShippingAddress(defaultShippingAddress || '');
       setDefaultBillingAddress(defaultBillingAddress || '');
+      reload();
     }
   };
 
@@ -218,8 +222,8 @@ const Profile = () => {
         .execute()
     );
     if (addShippingDefaultAddress) {
-      setAddedAddressId(addressId || '');
       setDefaultShippingAddress(defaultShippingAddress || '');
+      reload();
     }
   };
 
@@ -242,8 +246,8 @@ const Profile = () => {
         .execute()
     );
     if (addShippingDefaultAddress) {
-      setAddedAddressId(addressId || '');
       setDefaultBillingAddress(defaultBillingAddress || '');
+      reload();
     }
   };
 
@@ -281,9 +285,9 @@ const Profile = () => {
         .execute()
     );
     if (updateAddress) {
-      setAddedAddressId(updatedAddress.id || '');
       setDefaultBillingAddress(defaultBillingAddress || '');
       setDefaultShippingAddress(defaultShippingAddress || '');
+      reload();
     }
   };
 
@@ -295,6 +299,7 @@ const Profile = () => {
       register,
       handleSubmit,
       reset,
+      getValues,
       formState: { errors },
     } = useForm({
       defaultValues: address,
@@ -372,7 +377,21 @@ const Profile = () => {
           <div className={'address-input-wrapper'}>
             <input
               className={'edit-form__input'}
-              {...register('postalCode', {})}
+              {...register('postalCode', {
+                validate: {
+                  GBOrUS: (value) => {
+                    if (getValues().country === 'US') {
+                      return /^[0-9]{5}(-[0-9]{4})?$/.test(value as string);
+                    }
+                    if (getValues().country === 'GB') {
+                      return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
+                        value as string
+                      );
+                    }
+                    return false;
+                  },
+                },
+              })}
               placeholder="Postal Code"
               type="text"
             />
