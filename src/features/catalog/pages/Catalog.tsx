@@ -1,4 +1,4 @@
-import { catalogApi, getProductsQueryArgs } from '../api/catalogApi';
+import { catalogApi, getProductsArgs } from '../api/catalogApi';
 import useApi from '../../../common/hooks/useApi';
 import { useEffect, useState } from 'react';
 import type { ProductProjection } from '@commercetools/platform-sdk';
@@ -7,24 +7,24 @@ import './Catalog.scss';
 import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
-// import { useSelectSelectedCategory } from '../hooks/useSelectSelectedCategory';
 import { useSelectSort } from '../hooks/useSelectSort';
 import { useParams } from 'react-router-dom';
 import useSelectCategories from '../hooks/useSelectCategories';
 import { findCategoryIdByName } from '../utils/helpers';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSelectFilter } from '../hooks/useSelectFilter';
 
 const Catalog = () => {
   const apiCall = useApi();
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
-  // const selectedCategoryId = useSelectSelectedCategory();
   const sort = useSelectSort();
   const { id, subId } = useParams();
   const categories = useSelectCategories();
 
   const [searchValue, setSearchValue] = useState('');
   const [spinner, setSpinner] = useState(true);
+  const filter = useSelectFilter();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -67,8 +67,9 @@ const Catalog = () => {
   useEffect(() => {
     setSpinner(true);
 
+    console.warn(filter);
     const getProducts = async () => {
-      const params: getProductsQueryArgs = {};
+      const params: getProductsArgs = {};
       params.text = searchValue;
 
       if (id || subId) {
@@ -79,11 +80,10 @@ const Catalog = () => {
           params.categoryId = currentId;
         }
       }
-      console.warn(sort);
-
       if (sort) {
         params.sort = sort;
       }
+      params.filters = filter;
 
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
@@ -96,7 +96,7 @@ const Catalog = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId, categories, sort, searchValue]);
+  }, [id, subId, categories, sort, searchValue, filter]);
 
   return (
     <div className="page catalog-page">

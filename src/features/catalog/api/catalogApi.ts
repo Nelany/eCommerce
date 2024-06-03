@@ -1,4 +1,5 @@
 import { getApiRoot } from '../../../common/api/sdk';
+import { FilterDispatch } from '../types/catalogTypes';
 
 export interface getProductsQueryArgs {
   limit?: number;
@@ -7,7 +8,19 @@ export interface getProductsQueryArgs {
   count?: number;
   categoryId?: string;
   where?: string;
-  filter?: string;
+  filter?: string[];
+  priceCurrency?: string;
+}
+
+export interface getProductsArgs {
+  limit?: number;
+  sort?: string;
+  offset?: number;
+  count?: number;
+  categoryId?: string;
+  where?: string;
+  filter?: string[];
+  filters?: FilterDispatch;
   text?: string;
 }
 
@@ -18,12 +31,34 @@ const getProducts = ({
   count = 51,
   text = '',
   categoryId,
-}: getProductsQueryArgs) => {
-  const args: getProductsQueryArgs = { limit, offset, sort, count };
+  filters,
+}: getProductsArgs) => {
+  const args: getProductsQueryArgs = {
+    limit,
+    offset,
+    sort,
+    count,
+    priceCurrency: 'USD',
+  };
+
+  args.filter = [
+    `variants.price.centAmount: range(${filters?.minPrice} to ${filters?.maxPrice})`,
+  ];
+
+  if (filters?.country !== 'All') {
+    args.filter.push(
+      `variants.attributes.country-of-origin: "${filters?.country}"`
+    );
+  }
+
+  if (filters?.discount) {
+    args.filter.push(`variants.scopedPriceDiscounted: true`);
+  }
 
   if (categoryId) {
-    args.filter = `categories.id: subtree("${categoryId}")`;
+    args.filter.push(`categories.id: subtree("${categoryId}")`);
   }
+
   return getApiRoot()
     .productProjections()
     .search()
