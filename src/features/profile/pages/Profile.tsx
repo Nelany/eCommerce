@@ -6,11 +6,7 @@ import useApi from '../../../common/hooks/useApi';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-  AddressBilling,
-  AddressShipping,
-  addAddress,
-} from '../../auth/types/app.interface';
+import { AddressResponse, addAddress } from '../../auth/types/app.interface';
 import { getApiRoot } from '../../../common/api/sdk';
 
 const Profile = () => {
@@ -20,8 +16,9 @@ const Profile = () => {
     useState<string>('');
   const [defaultBillingAddress, setDefaultBillingAddress] =
     useState<string>('');
-  const [shippingAddress, setShippingAddress] = useState<AddressShipping[]>([]);
-  const [billingAddress, setBillingAddress] = useState<AddressBilling[]>([]);
+  const [shippingAddress, setShippingAddress] = useState<AddressResponse[]>([]);
+  const [billingAddress, setBillingAddress] = useState<AddressResponse[]>([]);
+  const [addedAddressId, setAddedAddressId] = useState<string>('');
   const apiCall = useApi();
   const navigate = useNavigate();
   const {
@@ -77,7 +74,7 @@ const Profile = () => {
         setBillingAddress(billingAddress);
       }
     });
-  }, []);
+  }, [addedAddressId]);
 
   const handleEditClick = () => {
     navigate('/update-profile');
@@ -128,12 +125,15 @@ const Profile = () => {
         },
       })
       .execute();
+
+    const addressId =
+      addAddressAction.body.addresses[
+        addAddressAction.body.addresses.length - 1
+      ].id;
+
+    let addressTypeResponse;
     if (addAddressAction && value === '1') {
-      const addressId =
-        addAddressAction.body.addresses[
-          addAddressAction.body.addresses.length - 1
-        ].id;
-      await getApiRoot()
+      addressTypeResponse = await getApiRoot()
         .customers()
         .withId({ ID: key })
         .post({
@@ -149,11 +149,7 @@ const Profile = () => {
         })
         .execute();
     } else {
-      const addressId =
-        addAddressAction.body.addresses[
-          addAddressAction.body.addresses.length - 1
-        ].id;
-      await getApiRoot()
+      addressTypeResponse = await getApiRoot()
         .customers()
         .withId({ ID: key })
         .post({
@@ -168,6 +164,10 @@ const Profile = () => {
           },
         })
         .execute();
+    }
+
+    if (addressTypeResponse) {
+      setAddedAddressId(addressId || '');
     }
     closeModal();
 

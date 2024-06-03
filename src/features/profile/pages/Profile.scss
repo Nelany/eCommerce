@@ -1,8 +1,6 @@
 .profile-wrapper {
     display: flex;
     flex-direction: column;
-    width: 70%;
-    margin: 0 auto;
 }
 
 .profile-section {
@@ -10,6 +8,7 @@
     gap: 10px;
     margin: 10px;
     align-items: center;
+    padding: 0 10%;
 }
 
 .profile-icon {
@@ -73,25 +72,25 @@
 
 .modal-overlay {
     z-index: 9999;
-    width: 80%;
-    height: 130%;
-    position: absolute;
+    overflow: auto;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
     top: 0;
-    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
   .modal-box {
-    background: white;
-    width: 550px;
+    background: rgb(236, 234, 247);
     height: max-content;
-    padding: 1.5rem;
+    padding: 2rem;
+    margin-right: 8%;
     border-radius: 1rem;
-    margin-bottom: 200px;
     display: flex;
     flex-direction: column;
+    border: 2px solid black;
     gap: 15px;
     align-items: center;
   }
@@ -171,20 +170,4 @@
     cursor: pointer;
 }
 
-@media screen and (width < 1250px) {
-    .modal-overlay {
-        width: 90%;
-    }
-}
 
-@media screen and (width < 480px) {
-    .modal-overlay {
-        width: 95%;
-    }
-}
-
-@media screen and (width < 435px) {
-    .modal-overlay {
-        width: 106%;
-    }
-}
