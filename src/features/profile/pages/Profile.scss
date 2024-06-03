@@ -69,6 +69,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .modal-overlay {
@@ -136,6 +137,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
 .address {
     display: flex;
     gap: 10px;
@@ -171,6 +173,12 @@
     cursor: pointer;
     width: 20px;
     height: 20px;
+}
+
+@media screen and (width < 450px) {
+    .modal-box {
+        width: 95%;
+    }
 }
 
 
