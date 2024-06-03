@@ -26,6 +26,8 @@
 
 .profile-section_address {
     padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .edit-button {
@@ -116,6 +118,30 @@
     gap: 10px;
     justify-content: space-between;
 }
+
+.address-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.address {
+    display: flex;
+    gap: 10px;
+}
+
+.address-title-wrapper {
+    width: 100%;
+    text-align: start;
+    display: flex;
+    gap: 10px;
+} 
 
 @media screen and (width < 1250px) {
     .modal-overlay {

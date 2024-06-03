@@ -1,15 +1,15 @@
 export interface AddressShipping {
     country: string;
-    city: string;
-    streetName: string;
-    postalCode: string;
+    city?: string | undefined;
+    streetName?: string | undefined;
+    postalCode?: string | undefined;
 }
 
 export interface AddressBilling {
     country: string;
-    city: string;
-    streetName: string;
-    postalCode: string;
+    city?: string | undefined;
+    streetName?: string | undefined;
+    postalCode?: string | undefined;
 }
 
 export interface registerData {

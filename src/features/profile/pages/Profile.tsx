@@ -6,7 +6,11 @@ import useApi from '../../../common/hooks/useApi';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { addAddress } from '../../auth/types/app.interface';
+import {
+  AddressBilling,
+  AddressShipping,
+  addAddress,
+} from '../../auth/types/app.interface';
 import { getApiRoot } from '../../../common/api/sdk';
 
 const Profile = () => {
@@ -16,8 +20,8 @@ const Profile = () => {
     useState<string>('');
   const [defaultBillingAddress, setDefaultBillingAddress] =
     useState<string>('');
-  const [shippingAddress, setShippingAddress] = useState<string>('');
-  const [billingAddress, setBillingAddress] = useState<string>('');
+  const [shippingAddress, setShippingAddress] = useState<AddressShipping[]>([]);
+  const [billingAddress, setBillingAddress] = useState<AddressBilling[]>([]);
   const apiCall = useApi();
   const navigate = useNavigate();
   const {
@@ -53,21 +57,24 @@ const Profile = () => {
           `${defaultShippingAddress.country} ${defaultShippingAddress.city} ${defaultShippingAddress.streetName} ${defaultShippingAddress.postalCode}`
         );
       }
-      const billingAddress = userProfile.addresses.find(
-        (address) => address.id === userProfile.billingAddressIds?.[0]
+      const addressesId = userProfile.addresses.map((item) => item.id);
+      const billingAddressId = addressesId.filter((value) =>
+        userProfile.billingAddressIds?.includes(value as string)
       );
-      const shippingAddress = userProfile.addresses.find(
-        (address) => address.id === userProfile.shippingAddressIds?.[0]
+      const billingAddress = userProfile.addresses.filter((value) =>
+        billingAddressId.includes(value.id as string)
+      );
+      const shippingAddressId = addressesId.filter((value) =>
+        userProfile.shippingAddressIds?.includes(value as string)
+      );
+      const shippingAddress = userProfile.addresses.filter((value) =>
+        shippingAddressId.includes(value.id as string)
       );
       if (shippingAddress) {
-        setShippingAddress(
-          `${shippingAddress.country} ${shippingAddress.city} ${shippingAddress.streetName} ${shippingAddress.postalCode}`
-        );
+        setShippingAddress(shippingAddress);
       }
       if (billingAddress) {
-        setBillingAddress(
-          `${billingAddress.country} ${billingAddress.city} ${billingAddress.streetName} ${billingAddress.postalCode}`
-        );
+        setBillingAddress(billingAddress);
       }
     });
   }, []);
@@ -250,14 +257,25 @@ const Profile = () => {
         <div>
           <h2>Addresses</h2>
           <div>
-            <div className="profile-section">
-              <img
-                className="profile-icon"
-                src="/location_pin_place_map_address_placeholder_route_road_icon_149105.png"
-                alt="icon location"
-              ></img>
-              <span className="user-title">Shipping address:</span>
-              <span>{shippingAddress}</span>
+            <div className="profile-section address-wrapper">
+              <div className="address-title-wrapper">
+                <img
+                  className="profile-icon"
+                  src="/location_pin_place_map_address_placeholder_route_road_icon_149105.png"
+                  alt="icon location"
+                ></img>
+                <span className="user-title">Shipping addresses:</span>
+              </div>
+              <div className="address-list-wrapper">
+                {shippingAddress.map((address, index) => (
+                  <div className="address" key={index}>
+                    <span>{address.country}</span>
+                    <span>{address.city}</span>
+                    <span>{address.streetName}</span>
+                    <span>{address.postalCode}</span>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="profile-section profile-section_address">
               <span className="user-title">Default shipping address:</span>
@@ -265,16 +283,27 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <div className="profile-section">
-              <img
-                className="profile-icon"
-                src="/location_pin_place_map_address_placeholder_icon_149107.png"
-                alt="icon location"
-              ></img>
-              <span className="user-title">Billing address:</span>
-              <span>{billingAddress}</span>
+            <div className="profile-section address-wrapper">
+              <div className="address-title-wrapper">
+                <img
+                  className="profile-icon"
+                  src="/location_pin_place_map_address_placeholder_icon_149107.png"
+                  alt="icon location"
+                ></img>
+                <span className="user-title">Billing addresses:</span>
+              </div>
+              <div className="address-list-wrapper">
+                {billingAddress.map((address, index) => (
+                  <div className="address" key={index}>
+                    <span>{address.country}</span>
+                    <span>{address.city}</span>
+                    <span>{address.streetName}</span>
+                    <span>{address.postalCode}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="profile-section">
+            <div className="profile-section profile-section_address">
               <span className="user-title">Default billing address:</span>
               <span>{defaultBillingAddress}</span>
             </div>
