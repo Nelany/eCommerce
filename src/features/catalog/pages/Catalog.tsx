@@ -67,7 +67,6 @@ const Catalog = () => {
   useEffect(() => {
     setSpinner(true);
 
-    console.warn(filter);
     const getProducts = async () => {
       const params: getProductsArgs = {};
       params.text = searchValue;

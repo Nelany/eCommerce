@@ -10,7 +10,6 @@ export function CountryRadio(
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const country = event.target.value;
     setCountry(country);
-    console.log(`Selected value: ${country}`);
   };
 
   return (

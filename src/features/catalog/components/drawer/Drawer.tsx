@@ -56,7 +56,11 @@ export const Drawer = () => {
 
   return (
     <>
-      <div className="search-bar-menu" onClick={toggleDrawer(true)}>
+      <div
+        className="search-bar-menu"
+        data-testid="burger-menu"
+        onClick={toggleDrawer(true)}
+      >
         <div className="search-line"></div>
         <div className="search-line"></div>
         <div className="search-line"></div>
