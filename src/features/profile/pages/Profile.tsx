@@ -139,37 +139,41 @@ const Profile = () => {
 
     let addressTypeResponse;
     if (addAddressAction && value === '1') {
-      addressTypeResponse = await getApiRoot()
-        .customers()
-        .withId({ ID: key })
-        .post({
-          body: {
-            version: addAddressAction.body.version,
-            actions: [
-              {
-                action: 'addShippingAddressId',
-                addressId: addressId,
-              },
-            ],
-          },
-        })
-        .execute();
+      addressTypeResponse = await apiCall(
+        getApiRoot()
+          .customers()
+          .withId({ ID: key })
+          .post({
+            body: {
+              version: addAddressAction.body.version,
+              actions: [
+                {
+                  action: 'addShippingAddressId',
+                  addressId: addressId,
+                },
+              ],
+            },
+          })
+          .execute()
+      );
     } else {
-      addressTypeResponse = await getApiRoot()
-        .customers()
-        .withId({ ID: key })
-        .post({
-          body: {
-            version: addAddressAction.body.version,
-            actions: [
-              {
-                action: 'addBillingAddressId',
-                addressId: addressId,
-              },
-            ],
-          },
-        })
-        .execute();
+      addressTypeResponse = await apiCall(
+        getApiRoot()
+          .customers()
+          .withId({ ID: key })
+          .post({
+            body: {
+              version: addAddressAction.body.version,
+              actions: [
+                {
+                  action: 'addBillingAddressId',
+                  addressId: addressId,
+                },
+              ],
+            },
+          })
+          .execute()
+      );
     }
 
     if (addressTypeResponse) {
@@ -318,7 +322,7 @@ const Profile = () => {
 
     return (
       <div className="modal-overlay">
-        <form className="modal-box-edit" onSubmit={handleSubmit(onSubmit)}>
+        <form className="modal-box" onSubmit={handleSubmit(onSubmit)}>
           <h2>Edit address</h2>
           <div className={'address-input-wrapper'}>
             <select
@@ -574,12 +578,6 @@ const Profile = () => {
                     </div>
                   </div>
                 ))}
-                {selectedAddress && (
-                  <AddressEditForm
-                    address={selectedAddress}
-                    onAddressUpdate={handleAddressUpdate}
-                  />
-                )}
               </div>
             </div>
             <div className="profile-section profile-section_address">
@@ -595,144 +593,150 @@ const Profile = () => {
             </Button>
           </div>
         </div>
-      </div>
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <form
-            className="modal-box"
-            onSubmit={handleSubmit(onSubmitAddAddress)}
-          >
-            <div className="add-address-wrapper">
-              <h3>Add address</h3>
-              <div className="radio-buttons-wrapper">
-                <label>
-                  <input
-                    type="radio"
-                    name="addAddress"
-                    value="1"
-                    checked={value === '1' ? true : false}
-                    onChange={changeHandler}
-                  />
-                  Shipping address
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="addAddress"
-                    value="2"
-                    checked={value === '2' ? true : false}
-                    onChange={changeHandler}
-                  />
-                  Billing address
-                </label>
-              </div>
-              <div className={'address-input-wrapper'}>
-                <select
-                  className={'edit-form__input'}
-                  defaultValue={'Select country'}
-                  {...register('country', {
-                    required: true,
-                    pattern: {
-                      value: /GB|US/,
-                      message: 'Must be US or GB',
-                    },
-                  })}
-                >
-                  <option disabled={true}>Select country</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="US">United States</option>
-                </select>
-                {errors.country && (
-                  <span className="error-validation">
-                    {errors.country.message}
-                  </span>
-                )}
-              </div>
-              <div className={'address-input-wrapper'}>
-                <input
-                  className={'edit-form__input'}
-                  {...register('city', {
-                    required: 'Please, enter your city',
-                    minLength: 1,
-                    pattern: {
-                      value: /^[a-zA-Z]+$/,
-                      message:
-                        'City must contain at least one character and no special characters or numbers',
-                    },
-                  })}
-                  placeholder="City"
-                  type="text"
-                />
-                {errors.city && (
-                  <span className="error-validation">
-                    {errors.city.message}
-                  </span>
-                )}
-              </div>
-              <div className={'address-input-wrapper'}>
-                <input
-                  className={'edit-form__input'}
-                  {...register('streetName', {
-                    required: true,
-                    minLength: 1,
-                    pattern: {
-                      value: /^\S+$/,
-                      message: 'Please, enter your street',
-                    },
-                  })}
-                  placeholder="Street"
-                  type="text"
-                />
-                {errors.streetName && (
-                  <span className="error-validation">
-                    {errors.streetName.message}
-                  </span>
-                )}
-              </div>
-              <div className={'address-input-wrapper'}>
-                <input
-                  className={'edit-form__input'}
-                  {...register('postalCode', {
-                    required: true,
-                    validate: {
-                      GBOrUS: (value) => {
-                        if (getValues().country === 'US') {
-                          return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
-                        }
-                        if (getValues().country === 'GB') {
-                          return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
-                            value
-                          );
-                        }
-                        return false;
-                      },
-                    },
-                  })}
-                  placeholder="Postal Code"
-                  type="text"
-                />
-                {errors.postalCode && (
-                  <span className="error-validation">
-                    {
-                      'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
-                    }
-                  </span>
-                )}
-              </div>
-            </div>
-            <Button variant="contained" className="edit-button" type="submit">
-              SAVE
-            </Button>
-            <Button
-              variant="contained"
-              className="edit-button"
-              onClick={closeModal}
+        {selectedAddress && (
+          <AddressEditForm
+            address={selectedAddress}
+            onAddressUpdate={handleAddressUpdate}
+          />
+        )}
+        {isModalOpen && (
+          <div className="modal-overlay">
+            <form
+              className="modal-box"
+              onSubmit={handleSubmit(onSubmitAddAddress)}
             >
-              CANCEL
-            </Button>
-          </form>
-        </div>
-      )}
+              <div className="add-address-wrapper">
+                <h2>Add address</h2>
+                <div className="radio-buttons-wrapper">
+                  <label>
+                    <input
+                      type="radio"
+                      name="addAddress"
+                      value="1"
+                      checked={value === '1' ? true : false}
+                      onChange={changeHandler}
+                    />
+                    Shipping address
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="addAddress"
+                      value="2"
+                      checked={value === '2' ? true : false}
+                      onChange={changeHandler}
+                    />
+                    Billing address
+                  </label>
+                </div>
+                <div className={'address-input-wrapper'}>
+                  <select
+                    className={'edit-form__input'}
+                    defaultValue={'Select country'}
+                    {...register('country', {
+                      required: true,
+                      pattern: {
+                        value: /GB|US/,
+                        message: 'Must be US or GB',
+                      },
+                    })}
+                  >
+                    <option disabled={true}>Select country</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="US">United States</option>
+                  </select>
+                  {errors.country && (
+                    <span className="error-validation">
+                      {errors.country.message}
+                    </span>
+                  )}
+                </div>
+                <div className={'address-input-wrapper'}>
+                  <input
+                    className={'edit-form__input'}
+                    {...register('city', {
+                      required: 'Please, enter your city',
+                      minLength: 1,
+                      pattern: {
+                        value: /^[a-zA-Z]+$/,
+                        message:
+                          'City must contain at least one character and no special characters or numbers',
+                      },
+                    })}
+                    placeholder="City"
+                    type="text"
+                  />
+                  {errors.city && (
+                    <span className="error-validation">
+                      {errors.city.message}
+                    </span>
+                  )}
+                </div>
+                <div className={'address-input-wrapper'}>
+                  <input
+                    className={'edit-form__input'}
+                    {...register('streetName', {
+                      required: true,
+                      minLength: 1,
+                      pattern: {
+                        value: /^\S+$/,
+                        message: 'Please, enter your street',
+                      },
+                    })}
+                    placeholder="Street"
+                    type="text"
+                  />
+                  {errors.streetName && (
+                    <span className="error-validation">
+                      {errors.streetName.message}
+                    </span>
+                  )}
+                </div>
+                <div className={'address-input-wrapper'}>
+                  <input
+                    className={'edit-form__input'}
+                    {...register('postalCode', {
+                      required: true,
+                      validate: {
+                        GBOrUS: (value) => {
+                          if (getValues().country === 'US') {
+                            return /^[0-9]{5}(-[0-9]{4})?$/.test(value);
+                          }
+                          if (getValues().country === 'GB') {
+                            return /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/.test(
+                              value
+                            );
+                          }
+                          return false;
+                        },
+                      },
+                    })}
+                    placeholder="Postal Code"
+                    type="text"
+                  />
+                  {errors.postalCode && (
+                    <span className="error-validation">
+                      {
+                        'Please, enter your postal code, for example B294HJ for United Kingdom or 32344-4444 for United States'
+                      }
+                    </span>
+                  )}
+                </div>
+              </div>
+              <Button variant="contained" className="edit-button" type="submit">
+                SAVE
+              </Button>
+              <Button
+                variant="contained"
+                className="edit-button"
+                onClick={closeModal}
+              >
+                CANCEL
+              </Button>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
