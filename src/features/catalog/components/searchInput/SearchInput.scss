@@ -16,6 +16,7 @@
   font-size: 18px;
   border: 0.5px solid $grey;
   background-color: white;
+  color: black;
 
 }
 
@@ -26,13 +27,9 @@
   width: 25px;
   height: 25px;
 
-  position: absolute;
-  right: 5px;
-  top: 5px;
-
-  background-image: url(../../../../assets/search.png);
   background-size: cover;
   border: none;
+  background-color: inherit;
 
   transition: all 0.3s;
 
@@ -47,5 +44,21 @@
 
   &:focus {
     outline: none;
+  }
+
+  &.search {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+
+    background-image: url(../../../../assets/search.png);
+  }
+
+  &.reset {
+    position: absolute;
+    right: 35px;
+    top: 5px;
+
+    background-image: url(../../../../assets/close2.png);
   }
 }

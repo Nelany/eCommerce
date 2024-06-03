@@ -98,12 +98,6 @@ const Catalog = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, subId, categories, sort, searchValue]);
 
-  // if(spinner) {
-
-  //   return (
-  //
-  // }
-
   return (
     <div className="page catalog-page">
       <SearchBar changeSearchInput={setSearchValue} />

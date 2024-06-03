@@ -7,7 +7,12 @@ type FormInput = {
 };
 
 function SearchInput(props: SetSearchValue) {
-  const { register, getValues } = useForm<FormInput>();
+  const { register, getValues, reset } = useForm<FormInput>();
+
+  function resetForm() {
+    props.changeSearchInput('');
+    reset();
+  }
 
   return (
     <form
@@ -23,7 +28,13 @@ function SearchInput(props: SetSearchValue) {
         placeholder="Search ..."
         {...register('searchValue')}
       />
-      <button type="submit" className="search-button" />
+
+      <button
+        type="button"
+        className="search-button reset"
+        onClick={resetForm}
+      />
+      <button type="submit" className="search-button search" />
     </form>
   );
 }
