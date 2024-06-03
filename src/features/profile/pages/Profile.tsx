@@ -74,7 +74,7 @@ const Profile = () => {
         setBillingAddress(billingAddress);
       }
     });
-  }, [addedAddressId]);
+  }, [addedAddressId, defaultShippingAddress, defaultBillingAddress]);
 
   const handleEditClick = () => {
     navigate('/update-profile');
@@ -205,7 +205,7 @@ const Profile = () => {
           actions: [
             {
               action: 'removeAddress',
-              addressId,
+              addressId: `${addressId}`,
             },
           ],
         },
@@ -213,6 +213,52 @@ const Profile = () => {
       .execute();
     if (addAddressDelete) {
       setAddedAddressId(addressId || '');
+      setDefaultShippingAddress(defaultShippingAddress || '');
+      setDefaultBillingAddress(defaultBillingAddress || '');
+    }
+  };
+
+  const handleShippingDefaultAddress = async (addressId: string) => {
+    const addShippingDefaultAddress = await getApiRoot()
+      .customers()
+      .withId({ ID: key })
+      .post({
+        body: {
+          version: customerVersion,
+          actions: [
+            {
+              action: 'setDefaultShippingAddress',
+              addressId: `${addressId}`,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (addShippingDefaultAddress) {
+      setAddedAddressId(addressId || '');
+      setDefaultShippingAddress(defaultShippingAddress || '');
+    }
+  };
+
+  const handleBillingDefaultAddress = async (addressId: string) => {
+    const addShippingDefaultAddress = await getApiRoot()
+      .customers()
+      .withId({ ID: key })
+      .post({
+        body: {
+          version: customerVersion,
+          actions: [
+            {
+              action: 'setDefaultBillingAddress',
+              addressId: `${addressId}`,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (addShippingDefaultAddress) {
+      setAddedAddressId(addressId || '');
+      setDefaultBillingAddress(defaultBillingAddress || '');
     }
   };
 
@@ -306,7 +352,12 @@ const Profile = () => {
                       >
                         ❌
                       </div>
-                      <div className="edit-address-button">
+                      <div
+                        className="edit-address-button"
+                        onClick={() =>
+                          handleShippingDefaultAddress(address.id as string)
+                        }
+                      >
                         {' '}
                         SAVE TO DEFAULT
                       </div>
@@ -349,7 +400,12 @@ const Profile = () => {
                       >
                         ❌
                       </div>
-                      <div className="edit-address-button">
+                      <div
+                        className="edit-address-button"
+                        onClick={() =>
+                          handleBillingDefaultAddress(address.id as string)
+                        }
+                      >
                         {' '}
                         SAVE TO DEFAULT
                       </div>
