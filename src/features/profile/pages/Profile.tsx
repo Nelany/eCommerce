@@ -268,11 +268,21 @@ const Profile = () => {
               </div>
               <div className="address-list-wrapper">
                 {shippingAddress.map((address, index) => (
-                  <div className="address" key={index}>
-                    <span>{address.country}</span>
-                    <span>{address.city}</span>
-                    <span>{address.streetName}</span>
-                    <span>{address.postalCode}</span>
+                  <div className="address-list-wrapper__address" key={index}>
+                    <div className="address">
+                      <span>{address.country}</span>
+                      <span>{address.city}</span>
+                      <span>{address.streetName}</span>
+                      <span>{address.postalCode}</span>
+                    </div>
+                    <div className="edit-address-buttons-wrapper">
+                      <div className="edit-address-icon">✎</div>
+                      <div className="edit-address-icon">❌</div>
+                      <div className="edit-address-button">
+                        {' '}
+                        SAVE TO DEFAULT
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -294,11 +304,21 @@ const Profile = () => {
               </div>
               <div className="address-list-wrapper">
                 {billingAddress.map((address, index) => (
-                  <div className="address" key={index}>
-                    <span>{address.country}</span>
-                    <span>{address.city}</span>
-                    <span>{address.streetName}</span>
-                    <span>{address.postalCode}</span>
+                  <div className="address-list-wrapper__address" key={index}>
+                    <div className="address">
+                      <span>{address.country}</span>
+                      <span>{address.city}</span>
+                      <span>{address.streetName}</span>
+                      <span>{address.postalCode}</span>
+                    </div>
+                    <div className="edit-address-buttons-wrapper">
+                      <div className="edit-address-icon">✎</div>
+                      <div className="edit-address-icon">❌</div>
+                      <div className="edit-address-button">
+                        {' '}
+                        SAVE TO DEFAULT
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
