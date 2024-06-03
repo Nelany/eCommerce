@@ -39,3 +39,19 @@ export interface updatePasswordData {
     newPassword: string,
     version: number,
 }
+
+export interface addAddress {
+    country: string;
+    city: string;
+    streetName: string;
+    postalCode: string;
+    id: string
+}
+
+export interface AddressResponse {
+    country?: string;
+    city?: string;
+    streetName?: string;
+    postalCode?: string;
+    id?: string;
+}
