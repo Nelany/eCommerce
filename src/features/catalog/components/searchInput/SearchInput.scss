@@ -1,6 +1,7 @@
 @import '../../../../common/utils/variables.scss';
 
 .search-form {
+  grid-area: search;
   position: relative;
   width: calc(100% - 250px);
 }
@@ -48,7 +49,7 @@
 
   &.search {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 5px;
 
     background-image: url(../../../../assets/search.png);
@@ -56,9 +57,22 @@
 
   &.reset {
     position: absolute;
-    right: 35px;
+    right: 40px;
     top: 5px;
 
     background-image: url(../../../../assets/close2.png);
+  }
+}
+
+@media screen and (width < 550px) {
+  .search-form {
+    width: 100%;
+    padding-right: 8px;
+  }
+
+  .search-button{
+    &.reset {
+      right: 45px;
+    }
   }
 }
