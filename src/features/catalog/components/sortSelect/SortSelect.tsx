@@ -29,7 +29,11 @@ export function SortSelect() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl
+      data-testid="sort-select"
+      sx={{ m: 1, minWidth: 120 }}
+      size="small"
+    >
       <InputLabel id="demo-select-small-label">Sort</InputLabel>
       <Select
         labelId="demo-select-small-label"

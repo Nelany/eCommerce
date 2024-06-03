@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import '@testing-library/jest-dom';
 
+jest.mock('../../utils/constants');
+
 describe('Header component', () => {
   it('renders the component', () => {
     render(
