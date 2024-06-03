@@ -11,13 +11,15 @@
   width: 100%;
   padding-left: 10px;
 
-  // flex-grow: 2;
-
-  border-radius: $radius;
+  border-radius: 5px;
   font-size: 18px;
   border: 0.5px solid $grey;
   background-color: white;
   color: black;
+
+  &:focus {
+    outline-color: $blue;
+  }
 
 }
 
