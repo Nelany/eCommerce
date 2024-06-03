@@ -102,9 +102,9 @@ const Profile = () => {
   }) => {
     setValueRadio(event.target.value);
   };
+  const customerVersion = profile?.version as number;
 
   const onSubmitAddAddress: SubmitHandler<addAddress> = async (data) => {
-    const customerVersion = profile?.version as number;
     const addAddressAction = await getApiRoot()
       .customers()
       .withId({ ID: key })
@@ -195,6 +195,27 @@ const Profile = () => {
     //   );
   };
 
+  const handleRemoveAddress = async (addressId: string) => {
+    const addAddressDelete = await getApiRoot()
+      .customers()
+      .withId({ ID: key })
+      .post({
+        body: {
+          version: customerVersion,
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (addAddressDelete) {
+      setAddedAddressId(addressId || '');
+    }
+  };
+
   return (
     <div className="page profile-page">
       <h1>PROFILE</h1>
@@ -277,7 +298,14 @@ const Profile = () => {
                     </div>
                     <div className="edit-address-buttons-wrapper">
                       <div className="edit-address-icon">✎</div>
-                      <div className="edit-address-icon">❌</div>
+                      <div
+                        className="edit-address-icon"
+                        onClick={() =>
+                          handleRemoveAddress(address.id as string)
+                        }
+                      >
+                        ❌
+                      </div>
                       <div className="edit-address-button">
                         {' '}
                         SAVE TO DEFAULT
@@ -313,7 +341,14 @@ const Profile = () => {
                     </div>
                     <div className="edit-address-buttons-wrapper">
                       <div className="edit-address-icon">✎</div>
-                      <div className="edit-address-icon">❌</div>
+                      <div
+                        className="edit-address-icon"
+                        onClick={() =>
+                          handleRemoveAddress(address.id as string)
+                        }
+                      >
+                        ❌
+                      </div>
                       <div className="edit-address-button">
                         {' '}
                         SAVE TO DEFAULT

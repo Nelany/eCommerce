@@ -52,4 +52,5 @@ export interface AddressResponse {
     city?: string | undefined;
     streetName?: string | undefined;
     postalCode?: string | undefined;
+    id?: string | undefined;
 }
