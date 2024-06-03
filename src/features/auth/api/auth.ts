@@ -1,4 +1,4 @@
-import { buildPasswordOptions, getApiRoot } from '../../../common/api/sdk';
+import { getApiRoot } from '../../../common/api/sdk';
 import { UserData } from '../../../common/types';
 import { AddressBilling, AddressShipping } from '../types/app.interface';
 
@@ -7,12 +7,12 @@ import { AddressBilling, AddressShipping } from '../types/app.interface';
 // export const getProject = () => {
 //   return getApiRoot().get().execute();
 // };
-const getCustomers = (email: string) => {
+const getCustomers = (key: string | null) => {
   // пример итогового запроса:
   // https://api.us-central1.gcp.commercetools.com/cool-coders/customers?where=email%3D%22johndoe%40example.com%22
   return getApiRoot()
     .customers()
-    .get({ queryArgs: { where: `email="${email}"` } })
+    .get({ queryArgs: { where: `id="${key}"` }})
     .execute();
 };
 
@@ -23,8 +23,8 @@ const createCustomer = (customerData: {
   password: string;
   dateOfBirth: string;
   addresses: [AddressShipping, AddressBilling];
-  shippingAddresses: [0],
-  billingAddresses: [1],
+  shippingAddresses: [0];
+  billingAddresses: [1];
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
 }) => {
@@ -32,8 +32,7 @@ const createCustomer = (customerData: {
 };
 
 const login = (user: UserData) => {
-  buildPasswordOptions(user);
-  return getApiRoot(true)
+  return getApiRoot()
     .me()
     .login()
     .post({ body: { email: user.username, password: user.password } })

@@ -10,7 +10,8 @@ import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import type { HttpErrorType } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
 
 import './SignInForm.scss';
-import { Link } from 'react-router-dom';
+import { removePreviousToken } from '../../../../common/api/sdk';
+import { encryptUser } from '../../../../common/utils/crypto';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
@@ -37,8 +38,10 @@ const SignInForm = () => {
     try {
       const response = await auth.login(data);
       reset();
-      navigateToMain();
       saveUserId(response.body.customer.id);
+      localStorage.setItem('userSecret', encryptUser(data));
+      removePreviousToken();
+      navigateToMain();
     } catch (error) {
       const serverError = error as HttpErrorType;
 
@@ -135,7 +138,6 @@ const SignInForm = () => {
         <Button type="submit" variant="contained">
           Sign In
         </Button>
-        <Link to={'/sign-up'}>Sign Up</Link>
       </form>
     </div>
   );
