@@ -7,7 +7,7 @@
 }
 
 .search-input {
-  height: 35px;
+  height: 40px;
   width: 100%;
   padding-left: 10px;
 
@@ -25,8 +25,8 @@
   margin: 0;
   padding: 0;
 
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 
   background-size: cover;
   border: none;
@@ -50,7 +50,7 @@
   &.search {
     position: absolute;
     right: 10px;
-    top: 5px;
+    top: 10px;
 
     background-image: url(../../../../assets/search.png);
   }
@@ -58,7 +58,7 @@
   &.reset {
     position: absolute;
     right: 40px;
-    top: 5px;
+    top: 10px;
 
     background-image: url(../../../../assets/close2.png);
   }
@@ -71,8 +71,13 @@
   }
 
   .search-button{
+
     &.reset {
       right: 45px;
+    }
+
+    &.search {
+      right: 15px;
     }
   }
 }
