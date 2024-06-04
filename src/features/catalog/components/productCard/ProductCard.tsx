@@ -8,6 +8,7 @@ import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { createCart } from '../../../cart/api/cartApi';
 
 type Props = {
   genieName: string;
@@ -29,7 +30,9 @@ const ProductCard = ({
 }: Props) => {
   const [isInCart, setIsAdded] = useState(false);
   console.log(isInCart);
+
   function addToCart() {
+    createCart();
     setIsAdded((isInCart) => !isInCart);
   }
 
