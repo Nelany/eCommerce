@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 type Props = {
   genieName: string;
@@ -26,6 +27,12 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
+  const [isInCart, setIsAdded] = useState(false);
+  console.log(isInCart);
+  function addToCart() {
+    setIsAdded((isInCart) => !isInCart);
+  }
+
   return (
     <Card
       className={price && productKey ? 'product-card' : 'disabled-product-card'}
@@ -80,8 +87,17 @@ const ProductCard = ({
           </CardActionArea>
         </Link>
         <CardActions>
-          <Button sx={{ width: 240 }} size="small">
-            <img className="cart" src="/cart.png" alt="ADD TO CART" />
+          <Button
+            disabled={isInCart}
+            onClick={addToCart}
+            sx={{ width: 240 }}
+            size="small"
+          >
+            {isInCart ? (
+              'Added'
+            ) : (
+              <img className="cart" src="/cart.png" alt="ADD TO CART" />
+            )}
           </Button>
         </CardActions>
       </div>
