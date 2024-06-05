@@ -33,6 +33,7 @@
 }
 
 .nav-container {
+  margin: 0 10px;
   grid-area: nav;
   display: flex;
   justify-content: center;
@@ -52,7 +53,7 @@
 
 }
 
-@media(max-width:600px) {
+@media(max-width:650px) {
   .nav {
     row-gap: 15px;
     grid-template-columns: repeat(2, 1fr);
@@ -64,7 +65,10 @@
 
   .nav-container {
     width: 100%;
-    gap: auto;
+    margin: 0;
+
+    justify-content: space-between;
+    gap: initial;
   }
 
   .sign-container {

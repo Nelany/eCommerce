@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { SearchBar } from './SearchBar';
+// eslint-disable-next-line import/no-unresolved
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../../../common/store/store';
