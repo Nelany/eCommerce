@@ -1,6 +1,12 @@
 import { getApiRoot } from '../../../common/api/sdk';
 
-export const createCart = (id?: string, email?: string) => {
+export interface CreateCart {
+  id?: string;
+  email?: string;
+  productId?: string;
+}
+
+const createCart = ({ id, email, productId }: CreateCart) => {
   return getApiRoot()
     .carts()
     .post({
@@ -8,23 +14,74 @@ export const createCart = (id?: string, email?: string) => {
         customerId: id,
         customerEmail: email,
         currency: 'USD',
+        lineItems: [
+          {
+            productId,
+          },
+        ],
       },
     })
     .execute();
 };
 
-export const getCartById = (id: string) => {
+const getCartById = (id: string) => {
+  return getApiRoot().carts().withId({ ID: id }).get().execute();
+};
+
+const getCartByCustomerId = (id: string) => {
   return getApiRoot()
-    .carts().withId({ID: id})
-    .get(
-    )
+    .carts()
+    .withCustomerId({ customerId: id })
+    .get()
     .execute();
 };
 
-export const getCartByCustomerId = (id: string) => {
+export interface UpdateCartByIdData {
+  id: string;
+  version: number;
+  customerId?: string;
+  email?: string;
+  productId?: string;
+  quantity?: number;
+}
+
+const updateCartById = ({
+  id,
+  version,
+  customerId,
+  email,
+  productId,
+  quantity,
+}: UpdateCartByIdData) => {
   return getApiRoot()
-    .carts().withCustomerId({customerId: id})
-    .get(
-    )
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: 'setCustomerId',
+            customerId: customerId,
+          },
+          {
+            action: 'setCustomerEmail',
+            email: email,
+          },
+          {
+            action: 'addLineItem',
+            productId: productId,
+            quantity: quantity || 1,
+          },
+        ],
+        version: version,
+      },
+    })
     .execute();
+};
+
+export const cartApi = {
+  createCart,
+  getCartById,
+  getCartByCustomerId,
+  updateCartById,
 };

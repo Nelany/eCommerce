@@ -110,6 +110,7 @@ const Catalog = () => {
           {products?.map((product, index) => {
             return (
               <ProductCard
+                id={product.id}
                 genieName={product.name['en-GB']}
                 price={String(
                   product.masterVariant.prices?.length
