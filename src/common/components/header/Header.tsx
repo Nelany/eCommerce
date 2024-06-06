@@ -11,6 +11,7 @@ import { removePreviousToken } from '../../api/sdk';
 const nav = [
   { text: 'Home', imgSrc: '/home2.png', path: '/main' },
   { text: 'Catalog', imgSrc: '/book2.png', path: '/catalog' },
+  { text: 'About', imgSrc: 'searchicon.png', path: '/about' },
   { text: 'Cart', imgSrc: '/cart.png', path: '/cart' },
   { text: 'Profile', imgSrc: '/hindu2.png', path: '/profile' },
 ];
