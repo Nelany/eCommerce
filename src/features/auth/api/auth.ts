@@ -12,7 +12,7 @@ const getCustomers = (key: string | null) => {
   // https://api.us-central1.gcp.commercetools.com/cool-coders/customers?where=email%3D%22johndoe%40example.com%22
   return getApiRoot()
     .customers()
-    .get({ queryArgs: { where: `id="${key}"` }})
+    .get({ queryArgs: { where: `id="${key}"` } })
     .execute();
 };
 
@@ -32,10 +32,28 @@ const createCustomer = (customerData: {
 };
 
 const login = (user: UserData) => {
+  const body: UserData = {
+    username: user.username,
+    password: user.password,
+  };
+
+  const storedCartData = localStorage.getItem('cartData');
+
+  if (storedCartData) {
+    const cartData = JSON.parse(storedCartData);
+
+    body.anonymousCart = { id: cartData.cartId, typeId: 'cart' };
+  }
+
   return getApiRoot()
-    .me()
     .login()
-    .post({ body: { email: user.username, password: user.password } })
+    .post({
+      body: {
+        email: user.username,
+        password: user.password,
+        anonymousCart: body.anonymousCart,
+      },
+    })
     .execute();
 };
 
