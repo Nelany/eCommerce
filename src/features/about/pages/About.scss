@@ -1,0 +1,70 @@
+.about-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.logo-wrapper {
+    display: flex;
+}
+
+.title-logo-wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    width: 330px;
+    height: 100%;
+    padding: 50px;
+}
+
+h2 {
+    color: rgb(14, 14, 78);
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.title-logo {
+    margin: 0;
+    font-size: 16px;
+    color: rgb(46, 20, 75);
+    font-weight: 600;
+}
+
+.card-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.avatar {
+    margin: 0 auto;
+}
+
+.logo-github {
+    width: 20px;
+    height: 20px;
+}
+
+.link-github {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.github-title {
+    &:hover {
+        color: rgb(68, 68, 124);
+        transition: 1s;
+    }
+}
+
