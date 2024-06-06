@@ -103,7 +103,7 @@ const userClient = new ClientBuilder()
 export const setUser = () => {
   passwordOptions.credentials.user = decryptUser(
     localStorage.getItem('userSecret') || 'null'
-  );
+  ) || { username: '', password: '' };
 };
 
 export const getApiRoot = () => {
