@@ -22,7 +22,7 @@ const NavItem = ({ text, imgSrc, to, id }: Props) => {
       <img className="nav-icon" src={imgSrc} alt={text} />
       {text.toUpperCase()}
 
-      {id === 'cart' ? <ItemsIndicator /> : null}
+      {id === 'cart' && <ItemsIndicator />}
     </NavLink>
   );
 };
