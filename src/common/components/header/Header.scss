@@ -33,7 +33,7 @@
 }
 
 .nav-container {
-  margin: 0 10px;
+  margin: 0 30px;
   grid-area: nav;
   display: flex;
   justify-content: center;
@@ -55,7 +55,7 @@
 
 @media(max-width:650px) {
   .nav {
-    row-gap: 15px;
+    row-gap: 25px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas: 'title buttons'
                           'nav nav';
