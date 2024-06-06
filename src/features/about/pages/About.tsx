@@ -22,7 +22,7 @@ const About = () => {
       <div className="logo-container">
         <div>
           <Paper elevation={12} className="logo-wrapper">
-            <img className="logo" alt="logo" src="/public/CoolСoders.png"></img>
+            <img className="logo" alt="logo" src="/CoolСoders.png"></img>
           </Paper>
         </div>
         <Paper className="title-logo-wrapper" elevation={12}>
@@ -59,7 +59,7 @@ const About = () => {
           <Avatar
             className="avatar"
             alt="photo"
-            src="/public/photo1717623586.jpeg"
+            src="/photo1717623586.jpeg"
             sx={{ width: 200, height: 200 }}
           />
           <h2>Svetlana Nesterova</h2>
@@ -85,7 +85,7 @@ const About = () => {
             <img
               className="logo-github"
               alt="logo"
-              src="/public/github-icon-2.svg"
+              src="/github-icon-2.svg"
             ></img>
             <div className="github-title">Github</div>
           </Link>
@@ -94,7 +94,7 @@ const About = () => {
           <Avatar
             className="avatar"
             alt="photo"
-            src="/public/img1.jpg"
+            src="/img1.jpg"
             sx={{ width: 200, height: 200 }}
           />
           <h2>Volha Paciahievič</h2>
@@ -120,7 +120,7 @@ const About = () => {
             <img
               className="logo-github"
               alt="logo"
-              src="/public/github-icon-2.svg"
+              src="/github-icon-2.svg"
             ></img>
             <div className="github-title">Github</div>
           </Link>
@@ -129,7 +129,7 @@ const About = () => {
           <Avatar
             className="avatar"
             alt="photo"
-            src="/public/img.jpg"
+            src="/img.jpg"
             sx={{ width: 200, height: 200 }}
           />
           <h2>Oksana Bondareva</h2>
@@ -158,7 +158,7 @@ const About = () => {
             <img
               className="logo-github"
               alt="logo"
-              src="/public/github-icon-2.svg"
+              src="/github-icon-2.svg"
             ></img>
             <div className="github-title">Github</div>
           </Link>
