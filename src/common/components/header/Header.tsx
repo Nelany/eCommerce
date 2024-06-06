@@ -46,6 +46,7 @@ const Header = () => {
             imgSrc={navItem.imgSrc}
             to={navItem.path}
             key={index}
+            id={navItem.text.toLowerCase()}
           />
         ))}
       </div>
