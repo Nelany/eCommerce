@@ -103,6 +103,15 @@ const updateCartById = async ({
   return cartResponse;
 };
 
+export function saveUserCart(id: string, version: number) {
+  const newCartData = {
+    cartId: id,
+    cartVersion: version,
+    customer: true,
+  };
+  localStorage.setItem('cartData', JSON.stringify(newCartData));
+}
+
 export function addProductToCart(productId: string, apiCall: ApiCall) {
   const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
@@ -128,16 +137,11 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
     });
   }
 
-  cartResponse.then((cartResponse) => {
-    const cartId = cartResponse?.body.id;
-    const cartVersion = cartResponse?.body.version;
+  cartResponse.then((cartResponseData) => {
+    const cartId = cartResponseData?.body.id;
+    const cartVersion = cartResponseData?.body.version;
+
     if (cartId && cartVersion) {
-      const newCartData = {
-        cartId: cartId,
-        cartVersion: cartVersion,
-        customer: true,
-      };
-      localStorage.setItem('cartData', JSON.stringify(newCartData));
-    }
+    saveUserCart(cartId, cartVersion);}
   });
 }

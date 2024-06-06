@@ -12,6 +12,7 @@ import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { encryptUser } from '../../../../common/utils/crypto';
 import { removePreviousToken } from '../../../../common/api/sdk';
+import { saveUserCart } from '../../../catalog/utils/helpers';
 
 const SignUpForm = () => {
   const {
@@ -63,6 +64,11 @@ const SignUpForm = () => {
         if (userData) {
           saveUserId(response.body.customer.id);
           localStorage.setItem('userSecret', encryptUser(user));
+          const cartId = response.body.cart?.id;
+          const cartVersion = response.body.cart?.version;
+          if (cartId && cartVersion) {
+            saveUserCart(cartId, cartVersion);
+          }
           removePreviousToken();
           navigateToMain();
         }
