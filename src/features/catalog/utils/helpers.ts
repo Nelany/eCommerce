@@ -120,7 +120,6 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
     const userSecrets = decryptUser(
       localStorage.getItem('userSecret') || 'null'
     );
-    console.warn(storedUserId, userSecrets);
     cartResponse = createCart({
       id: storedUserId || undefined,
       email: userSecrets?.username,

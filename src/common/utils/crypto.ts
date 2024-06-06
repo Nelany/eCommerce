@@ -21,7 +21,7 @@ export const encryptUser = (user: UserData) => {
 };
 
 export const decryptUser = (encryptedUser: string) => {
-  return JSON.parse(decrypt(encryptedUser) || 'undefined') as
+  return (JSON.parse(decrypt(encryptedUser) || 'null') || undefined) as
     | UserData
     | undefined;
 };

@@ -34,6 +34,7 @@ const Header = () => {
     setUser('');
     dispatchEmptyCart();
     localStorage.removeItem('userSecret');
+    localStorage.removeItem('cartData');
     navigateToMain();
   };
   return (
