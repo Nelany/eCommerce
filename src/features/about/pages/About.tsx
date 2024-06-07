@@ -26,7 +26,7 @@ const About = () => {
           </Paper>
         </div>
         <Paper className="title-logo-wrapper" elevation={12}>
-          <h2>Hello world!</h2>
+          <h2 className="title-h2">Hello world!</h2>
           <p className="title-logo">
             We are glad to see you in our magic COOLSTORE. We are a team of
             dedicated frontend developers, who have come together to create this
@@ -55,14 +55,14 @@ const About = () => {
         </Paper>
       </div>
       <div className="card-wrapper">
-        <Card elevation={12} sx={{ p: 2 }}>
+        <Card elevation={12} sx={{ p: 2 }} className="card">
           <Avatar
             className="avatar"
             alt="photo"
             src="/photo1717623586.jpeg"
             sx={{ width: 200, height: 200 }}
           />
-          <h2>Svetlana Nesterova</h2>
+          <h2 className="title-h2">Svetlana Nesterova</h2>
           <Stack spacing={1} alignItems="center">
             <Stack direction="row" spacing={1}>
               <Chip
@@ -90,14 +90,14 @@ const About = () => {
             <div className="github-title">Github</div>
           </Link>
         </Card>
-        <Card elevation={12} sx={{ p: 2 }}>
+        <Card elevation={12} sx={{ p: 2 }} className="card">
           <Avatar
             className="avatar"
             alt="photo"
             src="/img1.jpg"
             sx={{ width: 200, height: 200 }}
           />
-          <h2>Volha Paciahievič</h2>
+          <h2 className="title-h2">Volha Paciahievich</h2>
           <Stack spacing={1} alignItems="center">
             <Stack direction="row" spacing={1}>
               <Chip
@@ -125,14 +125,14 @@ const About = () => {
             <div className="github-title">Github</div>
           </Link>
         </Card>
-        <Card elevation={12} sx={{ p: 2 }}>
+        <Card elevation={12} sx={{ p: 2 }} className="card">
           <Avatar
             className="avatar"
             alt="photo"
             src="/img.jpg"
             sx={{ width: 200, height: 200 }}
           />
-          <h2>Oksana Bondareva</h2>
+          <h2 className="title-h2">Oksana Bondareva</h2>
           <Stack spacing={1} alignItems="center">
             <Stack direction="row" spacing={1}>
               <Chip

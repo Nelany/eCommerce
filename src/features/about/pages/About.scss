@@ -7,8 +7,9 @@
 .logo-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .logo-wrapper {
@@ -19,6 +20,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    width: 70%;
 }
 
 .logo {
@@ -27,7 +29,7 @@
     padding: 50px;
 }
 
-h2 {
+.title-h2 {
     color: rgb(14, 14, 78);
     margin-bottom: 10px;
     margin-top: 5px;
@@ -42,8 +44,9 @@ h2 {
 
 .card-wrapper {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .avatar {
@@ -68,3 +71,16 @@ h2 {
     }
 }
 
+.card {
+    width: 380px;
+}
+
+@media screen and (width < 550px) {
+    .card {
+        width: 300px;
+    }
+
+    .logo {
+        width: 300px;
+    }
+}
