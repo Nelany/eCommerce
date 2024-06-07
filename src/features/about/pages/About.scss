@@ -75,6 +75,25 @@
     width: 380px;
 }
 
+.logo-rss-wrapper {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    gap: 10px;
+    padding-right: 20px;
+}
+
+.rss-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rss-logo {
+    width: 30px;
+    height: 30px;
+}
+
 @media screen and (width < 550px) {
     .card {
         width: 300px;
