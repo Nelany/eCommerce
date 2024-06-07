@@ -114,10 +114,13 @@ const About = () => {
           </Stack>
           <CardContent>
             <Typography paragraph sx={{ mb: 0 }}>
-              Working in technical support has given me the ability to look for
-              solutions to technical problems. The experience of working in a
-              team helped to learn how to listen to colleagues, quickly adapt to
-              changes and correct mistakes
+              I've had an interest in algorithms, logic challenges, and working
+              with numbers since I was in school. Working as a doctor in a rural
+              outpatient clinic taught me collaboration, time management,
+              multitasking, and the ability to quickly learn new things.
+              Programming attracts for me because it allows me to see the
+              results of my work, discipline, and clear deadlines, as well as
+              the constant opportunity to learn.
             </Typography>
           </CardContent>
           <Link className="link-github" to={'https://github.com/patciahevich'}>
