@@ -75,10 +75,14 @@ const About = () => {
           </Stack>
           <CardContent>
             <Typography paragraph sx={{ mb: 0 }}>
-              Working in technical support has given me the ability to look for
-              solutions to technical problems. The experience of working in a
-              team helped to learn how to listen to colleagues, quickly adapt to
-              changes and correct mistakes
+              With around two years of experience as a designer and
+              approximately three years working as a doctor in various
+              hospitals, I possess a unique combination of creative and
+              analytical skills. I am passionate about learning new, complex,
+              and fascinating things, constantly seeking to understand the
+              diverse aspects of our world. For me, exploring the field of
+              programming is an exciting journey into a new realm where I can
+              apply my knowledge and develop new skills.
             </Typography>
           </CardContent>
           <Link className="link-github" to={'https://github.com/Nelany'}>
@@ -110,10 +114,13 @@ const About = () => {
           </Stack>
           <CardContent>
             <Typography paragraph sx={{ mb: 0 }}>
-              Working in technical support has given me the ability to look for
-              solutions to technical problems. The experience of working in a
-              team helped to learn how to listen to colleagues, quickly adapt to
-              changes and correct mistakes
+              I've had an interest in algorithms, logic challenges, and working
+              with numbers since I was in school. Working as a doctor in a rural
+              outpatient clinic taught me collaboration, time management,
+              multitasking, and the ability to quickly learn new things.
+              Programming attracts for me because it allows me to see the
+              results of my work, discipline, and clear deadlines, as well as
+              the constant opportunity to learn.
             </Typography>
           </CardContent>
           <Link className="link-github" to={'https://github.com/patciahevich'}>
@@ -145,10 +152,14 @@ const About = () => {
           </Stack>
           <CardContent>
             <Typography paragraph sx={{ mb: 0 }}>
-              Working in technical support has given me the ability to look for
-              solutions to technical problems. The experience of working in a
-              team helped to learn how to listen to colleagues, quickly adapt to
-              changes and correct mistakes
+              Working in technical support about two years has given me the
+              ability to look for solutions to technical problems of varying
+              complexity. The experience of working in a team helped to learn
+              how to listen to colleagues, quickly adapt to changes, take
+              responsibility for work tasks, offer solutions to problems and
+              tasks and correct mistakes. Learning programming for me is an
+              opportunity to gain new skills, upgrade my skills and get an
+              interesting profession in demand.
             </Typography>
           </CardContent>
           <Link
@@ -164,6 +175,13 @@ const About = () => {
           </Link>
         </Card>
       </div>
+      <Paper className="logo-rss-wrapper" elevation={12}>
+        <h2 className="title-h2">Сreated with the participation of</h2>
+        <Link to={'https://rs.school/courses/'} className="rss-link">
+          <img alt="rss logo" src="/rss-logo.svg" className="rss-logo"></img>
+          <h2 className="title-h2">RS School</h2>
+        </Link>
+      </Paper>
     </div>
   );
 };
