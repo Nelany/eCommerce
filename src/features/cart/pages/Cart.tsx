@@ -35,9 +35,9 @@ const Cart = () => {
     <div className="page cart-page">
       <h1>CART</h1>
       <div className="cart-products-wrapper">
-        {products?.map((product) => {
+        {products?.map((product, index) => {
           return (
-            <Card className="cart-card">
+            <Card className="cart-card" key={String(index)}>
               <div className="card-cart-wrapper">
                 {product.variant.images && (
                   <Box sx={{ height: 250, width: 250, overflow: 'hidden' }}>
@@ -59,7 +59,12 @@ const Cart = () => {
                     {product.name['en-GB']}
                   </Typography>
                   <div className="product-summa-wrapper">
-                    <Typography gutterBottom variant="h6" component="div">
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      key={String(index)}
+                    >
                       {product.quantity + ' X'}
                     </Typography>
                     {product.price.discounted ? (
