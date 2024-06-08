@@ -1,0 +1,30 @@
+.product-summa-wrapper {
+    display: flex;
+    gap: 5px;
+}
+
+.card-cart-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cart-products-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.cart-card {
+    width: 250px;
+}
+
+.total-price {
+    font-size: 25px;
+    width: 50%;
+    margin: 0 auto;
+    color: rgb(11, 26, 87);
+}
