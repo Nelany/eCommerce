@@ -82,12 +82,13 @@ const createCart = async ({
   return cartResponse;
 };
 
-const updateCartById = async ({
+export const updateCartById = async ({
   id,
   version,
   productId,
   quantity = 1,
   apiCall,
+  discountCode,
 }: UpdateCartByIdData & {
   apiCall: ApiCall;
 }) => {
@@ -97,6 +98,7 @@ const updateCartById = async ({
       version,
       productId,
       quantity,
+      discountCode,
     })
   );
 
@@ -112,7 +114,11 @@ export function saveUserCart(id: string, version: number) {
   localStorage.setItem('cartData', JSON.stringify(newCartData));
 }
 
-export function addProductToCart(productId: string, apiCall: ApiCall) {
+export function addProductToCart(
+  productId: string,
+  apiCall: ApiCall,
+  discountCode?: string
+) {
   const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
   let cartResponse;
@@ -124,6 +130,7 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
       version: cartData.cartVersion,
       productId,
       apiCall,
+      discountCode,
     });
   } else {
     const userSecrets = decryptUser(
@@ -142,6 +149,7 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
     const cartVersion = cartResponseData?.body.version;
 
     if (cartId && cartVersion) {
-    saveUserCart(cartId, cartVersion);}
+      saveUserCart(cartId, cartVersion);
+    }
   });
 }
