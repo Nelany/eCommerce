@@ -17,8 +17,10 @@ export const Promo = () => {
   //         }
 
   function clickPromo() {
-    if (storedCartData && !isDiscounted) {
-      const cartData = JSON.parse(storedCartData);
+    const lastStoredCartData = localStorage.getItem('cartData');
+
+    if (lastStoredCartData && !isDiscounted) {
+      const cartData = JSON.parse(lastStoredCartData);
 
       const cartResponse = updateCartById({
         id: cartData.cartId,
@@ -57,12 +59,12 @@ export const Promo = () => {
         />
 
         <Button
-          disabled={isDiscounted}
+          disabled={!storedCartData}
           className="promo__button"
           variant="contained"
           onClick={clickPromo}
         >
-          {isDiscounted ? 'ADDED!' : 'ADD PROMO'}
+          {isDiscounted ? 'CANCEL PROMO' : 'APPLY PROMO'}
         </Button>
       </div>
     </>
