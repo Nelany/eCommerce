@@ -112,7 +112,13 @@ export function saveUserCart(id: string, version: number) {
   localStorage.setItem('cartData', JSON.stringify(newCartData));
 }
 
-export function addProductToCart(productId: string, apiCall: ApiCall) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function addProductToCart(
+  productId: string,
+  apiCall: ApiCall,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cart: { dispatchSetCart: any; dispatchEmptyCart?: () => void }
+) {
   const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
   let cartResponse;
@@ -142,6 +148,8 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
     const cartVersion = cartResponseData?.body.version;
 
     if (cartId && cartVersion) {
-    saveUserCart(cartId, cartVersion);}
+      saveUserCart(cartId, cartVersion);
+      cart.dispatchSetCart(cartResponseData.body);
+    }
   });
 }

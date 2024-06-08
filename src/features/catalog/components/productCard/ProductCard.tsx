@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { addProductToCart } from '../../utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
+import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
+import useSelectCart from '../../../cart/hooks/useSelectCart';
+import { Cart } from '@commercetools/platform-sdk';
 
 type Props = {
   id: string;
@@ -31,13 +34,21 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
-  const [isInCart, setIsAdded] = useState(false);
+  const currentCart = useSelectCart();
+  const inCart = currentCart
+    ? (currentCart as Cart).lineItems.find(
+        (product) => product.productId === id
+      )
+    : false;
+  const [isInCart, setIsAdded] = useState(Boolean(inCart));
   const apiCall = useApi();
+
+  const cart = useDispatchCartId();
 
   function addToCart() {
     setIsAdded((isInCart) => !isInCart);
 
-    addProductToCart(id, apiCall);
+    addProductToCart(id, apiCall, cart);
   }
 
   return (

@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import muiTheme from './common/themes/muiTheme';
 import { Provider } from 'react-redux';
 import { store } from './common/store/store';
+import CartLoader from './features/cart/components/cartLoader/CartLoader';
 
 const theme = createTheme(muiTheme);
 
@@ -19,6 +20,7 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <CartLoader />
         <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>
