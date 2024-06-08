@@ -10,21 +10,23 @@ import './Cart.scss';
 import { getCartById } from '../api/cartApi';
 import { LineItem } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
+import useApi from '../../../common/hooks/useApi';
 
 const Cart = () => {
   const [products, setProducts] = useState<LineItem[]>([]);
   const [cartSumm, setCartSumm] = useState('');
+  const apiCall = useApi();
 
   useEffect(() => {
     const idCart = JSON.parse(
       localStorage.getItem('cartData') as string
     ).cartId;
     const cart = async () => {
-      const cartResponse = await getCartById(idCart);
+      const cartResponse = await apiCall(getCartById(idCart));
       return cartResponse;
     };
     cart().then((cartResponse) => {
-      setProducts(cartResponse?.body.lineItems);
+      if (cartResponse) setProducts(cartResponse?.body.lineItems);
       setCartSumm(
         cartResponse?.body.totalPrice.centAmount as unknown as string
       );
