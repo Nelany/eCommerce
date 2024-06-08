@@ -12,7 +12,6 @@ import { addProductToCart } from '../../utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
 import useSelectCart from '../../../cart/hooks/useSelectCart';
-import { Cart } from '@commercetools/platform-sdk';
 
 type Props = {
   id: string;
@@ -36,9 +35,7 @@ const ProductCard = ({
 }: Props) => {
   const currentCart = useSelectCart();
   const inCart = currentCart
-    ? (currentCart as Cart).lineItems.find(
-        (product) => product.productId === id
-      )
+    ? currentCart.lineItems.find((product) => product.productId === id)
     : false;
   const [isInCart, setIsAdded] = useState(Boolean(inCart));
   const apiCall = useApi();

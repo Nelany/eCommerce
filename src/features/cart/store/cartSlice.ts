@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Cart } from '@commercetools/platform-sdk';
 
-export type CartValue = Cart | null | string;
+export type CartValue = Cart | null;
 
 export interface CartState {
   value: CartValue;
@@ -16,9 +16,8 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action: PayloadAction<Cart | string>) => {
+    setCart: (state, action: PayloadAction<Cart>) => {
       state.value = action.payload;
-      console.log(state.value);
     },
     emptyCart: (state) => {
       state.value = null;
