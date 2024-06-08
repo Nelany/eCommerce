@@ -42,11 +42,9 @@ function DetailedProductCard(props: { productData: ProductData; id: string }) {
         setIsAdded(true)
       );
     } else {
-      console.log(currentCart);
       const product = currentCart?.lineItems.find(
         (prod) => prod.productId === props.productData.id
       );
-      console.log(product);
 
       if (!product) {
         return;
@@ -54,8 +52,6 @@ function DetailedProductCard(props: { productData: ProductData; id: string }) {
 
       deleteProduct(product.id, apiCall, cart, () => setIsAdded(false));
     }
-
-    // setIsAdded((prev) => !prev);
   }
 
   return (
