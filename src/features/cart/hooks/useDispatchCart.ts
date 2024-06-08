@@ -2,11 +2,15 @@ import { Cart } from '@commercetools/platform-sdk';
 import { useAppDispatch } from '../../../common/hooks/storeHooks';
 import { emptyCart, setCart } from '../store/cartSlice';
 
-const useDispatchCartId = () => {
+export type DispatchCart = {
+  dispatchSetCart: (cart: Cart) => void;
+  dispatchEmptyCart: () => void;
+};
+const useDispatchCartId = (): DispatchCart => {
   const dispatch = useAppDispatch();
 
   return {
-    dispatchSetCart: (cart: Cart) => {
+    dispatchSetCart: (cart) => {
       dispatch(setCart(cart));
     },
     dispatchEmptyCart: () => {

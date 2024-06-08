@@ -37,10 +37,12 @@ function DetailedProductCard(props: { productData: ProductData; id: string }) {
 
   function toggleProduct() {
     if (!isInCart) {
-      addProductToCart(props.productData.id, apiCall, cart);
+      addProductToCart(props.productData.id, apiCall, cart, () =>
+        setIsAdded(true)
+      );
     }
 
-    setIsAdded((prev) => !prev);
+    // setIsAdded((prev) => !prev);
   }
 
   return (
@@ -94,7 +96,8 @@ function DetailedProductCard(props: { productData: ProductData; id: string }) {
 
           <Button
             className="buy-button"
-            variant={!isInCart ? 'contained' : 'outlined'}
+            variant="contained"
+            color={!isInCart ? 'primary' : 'secondary'}
             onClick={toggleProduct}
           >
             {!isInCart ? 'Add to Cart' : 'Remove from Cart'}

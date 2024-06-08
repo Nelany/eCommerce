@@ -42,9 +42,7 @@ const ProductCard = ({
   const cart = useDispatchCartId();
 
   function addToCart() {
-    setIsAdded((isInCart) => !isInCart);
-
-    addProductToCart(id, apiCall, cart);
+    addProductToCart(id, apiCall, cart, () => setIsAdded(true));
   }
 
   return (
