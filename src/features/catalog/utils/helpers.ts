@@ -89,6 +89,7 @@ export const updateCartById = async ({
   quantity = 1,
   apiCall,
   discountCode,
+  discountId,
 }: UpdateCartByIdData & {
   apiCall: ApiCall;
 }) => {
@@ -99,17 +100,19 @@ export const updateCartById = async ({
       productId,
       quantity,
       discountCode,
+      discountId,
     })
   );
 
   return cartResponse;
 };
 
-export function saveUserCart(id: string, version: number) {
+export function saveUserCart(id: string, version: number, discountId?: string) {
   const newCartData = {
     cartId: id,
     cartVersion: version,
     customer: true,
+    discountId: discountId || '',
   };
   localStorage.setItem('cartData', JSON.stringify(newCartData));
 }
@@ -147,9 +150,11 @@ export function addProductToCart(
   cartResponse.then((cartResponseData) => {
     const cartId = cartResponseData?.body.id;
     const cartVersion = cartResponseData?.body.version;
+    const discountId =
+      cartResponseData?.body.discountCodes[0]?.discountCode.id || '';
 
     if (cartId && cartVersion) {
-      saveUserCart(cartId, cartVersion);
+      saveUserCart(cartId, cartVersion, discountId);
     }
   });
 }

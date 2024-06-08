@@ -45,6 +45,7 @@ export interface UpdateCartByIdData {
   productId?: string;
   quantity?: number;
   discountCode?: string;
+  discountId?: string;
 }
 
 const updateCartById = ({
@@ -55,9 +56,9 @@ const updateCartById = ({
   productId,
   quantity,
   discountCode,
+  discountId,
 }: UpdateCartByIdData) => {
-console.log(discountCode);
-
+  console.log(discountId);
 
   const actionsData: CartUpdateAction[] = [];
 
@@ -81,10 +82,19 @@ console.log(discountCode);
   }
 
   if (discountCode) {
-    console.log('DISCOUNT!!!!!!!!!!!');
     actionsData.push({
       action: 'addDiscountCode',
       code: discountCode,
+    });
+  }
+
+  if (discountId) {
+    actionsData.push({
+      action: 'removeDiscountCode',
+      discountCode: {
+        typeId: 'discount-code',
+        id: discountId,
+      },
     });
   }
 
