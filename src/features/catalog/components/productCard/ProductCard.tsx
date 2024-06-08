@@ -8,7 +8,7 @@ import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { addProductToCart } from '../../utils/helpers';
+import { addProductToCart, checkProduct } from '../../utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
 import useSelectCart from '../../../cart/hooks/useSelectCart';
@@ -33,11 +33,10 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
+  console.log(id);
   const currentCart = useSelectCart();
-  const inCart = currentCart
-    ? currentCart.lineItems.find((product) => product.productId === id)
-    : false;
-  const [isInCart, setIsAdded] = useState(Boolean(inCart));
+
+  const [isInCart, setIsAdded] = useState(checkProduct(id, currentCart));
   const apiCall = useApi();
 
   const cart = useDispatchCartId();

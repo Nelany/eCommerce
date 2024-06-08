@@ -1,13 +1,20 @@
 import { Button } from '@mui/material';
-import { ProductData } from '../../utils/helpers';
+import {
+  ProductData,
+  addProductToCart,
+  checkProduct,
+} from '../../utils/helpers';
 import CardSlider from '../slider/slider';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import BasicModal from '../modal/Modal';
 
 import './DetailedProductCard.scss';
+import useSelectCart from '../../../cart/hooks/useSelectCart';
+import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
+import useApi from '../../../../common/hooks/useApi';
 
-function DetailedProductCard(props: { productData: ProductData }) {
+function DetailedProductCard(props: { productData: ProductData; id: string }) {
   const discount = props.productData.discounted;
   const navigate = useNavigate();
 
@@ -16,8 +23,24 @@ function DetailedProductCard(props: { productData: ProductData }) {
   const handleClose = () => setOpen(false);
   const [item, setItem] = useState(0);
 
+  const currentCart = useSelectCart();
+  const cart = useDispatchCartId();
+  const apiCall = useApi();
+
+  const [isInCart, setIsAdded] = useState(
+    checkProduct(props.productData.id, currentCart)
+  );
+
   function onClick() {
     navigate(-1);
+  }
+
+  function toggleProduct() {
+    if (!isInCart) {
+      addProductToCart(props.productData.id, apiCall, cart);
+    }
+
+    setIsAdded((prev) => !prev);
   }
 
   return (
@@ -69,8 +92,12 @@ function DetailedProductCard(props: { productData: ProductData }) {
             Back to Catalog
           </Button>
 
-          <Button className="buy-button" variant="contained" disabled>
-            Add to Cart
+          <Button
+            className="buy-button"
+            variant={!isInCart ? 'contained' : 'outlined'}
+            onClick={toggleProduct}
+          >
+            {!isInCart ? 'Add to Cart' : 'Remove from Cart'}
           </Button>
         </div>
       </div>

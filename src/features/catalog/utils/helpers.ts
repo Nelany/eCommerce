@@ -10,8 +10,10 @@ import {
   cartApi,
 } from '../../cart/api/cartApi';
 import { decryptUser } from '../../../common/utils/crypto';
+import { CartValue } from '../../cart/store/cartSlice';
 
 export type ProductData = {
+  id: string;
   name: string;
   description: string | undefined;
   images: string[];
@@ -27,6 +29,7 @@ export function formatProductData(
   serverResponse: ClientResponse<Product>
 ): ProductData | null {
   const product = serverResponse.body.masterData.current;
+  const id = serverResponse.body.id;
   const imagesData = product.masterVariant.images;
   const attributes = product.masterVariant.attributes;
   const priceData = product.masterVariant?.prices;
@@ -44,6 +47,7 @@ export function formatProductData(
   const discounted = priceData[0].discounted;
 
   return {
+    id,
     name,
     description,
     images,
@@ -152,4 +156,10 @@ export function addProductToCart(
       cart.dispatchSetCart(cartResponseData.body);
     }
   });
+}
+
+export function checkProduct(id: string, cart: CartValue) {
+  const isInCart =
+    cart && cart.lineItems.find((product) => product.productId === id);
+  return Boolean(isInCart);
 }
