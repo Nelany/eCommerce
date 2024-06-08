@@ -159,6 +159,38 @@ export function addProductToCart(
   });
 }
 
+export async function deleteProduct(
+  id: string,
+  apiCall: ApiCall,
+  cart: DispatchCart,
+  setFlag: () => void
+) {
+  const storedUserId = localStorage.getItem('userId');
+  const storedCartData = localStorage.getItem('cartData');
+
+  if (!storedCartData || !storedUserId) {
+    return;
+  }
+
+  const cartData = JSON.parse(storedCartData);
+  const cartResponse = await apiCall(
+    cartApi.removeProductById(cartData.cartId, cartData.cartVersion, id)
+  );
+
+  if (!cartResponse) {
+    return;
+  }
+
+  const cartId = cartResponse.body.id;
+  const cartVersion = cartResponse.body.version;
+
+  if (cartId && cartVersion) {
+    saveUserCart(cartId, cartVersion);
+    cart.dispatchSetCart(cartResponse.body);
+    setFlag();
+  }
+}
+
 export function checkProduct(id: string, cart: CartValue) {
   const isInCart =
     cart && cart.lineItems.find((product) => product.productId === id);

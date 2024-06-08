@@ -18,6 +18,7 @@ export const cartSlice = createSlice({
   reducers: {
     setCart: (state, action: PayloadAction<Cart>) => {
       state.value = action.payload;
+      console.log(state.value);
     },
     emptyCart: (state) => {
       state.value = null;

@@ -33,7 +33,6 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
-  console.log(id);
   const currentCart = useSelectCart();
 
   const [isInCart, setIsAdded] = useState(checkProduct(id, currentCart));

@@ -3,6 +3,7 @@ import {
   ProductData,
   addProductToCart,
   checkProduct,
+  deleteProduct,
 } from '../../utils/helpers';
 import CardSlider from '../slider/slider';
 import { useNavigate } from 'react-router-dom';
@@ -40,6 +41,18 @@ function DetailedProductCard(props: { productData: ProductData; id: string }) {
       addProductToCart(props.productData.id, apiCall, cart, () =>
         setIsAdded(true)
       );
+    } else {
+      console.log(currentCart);
+      const product = currentCart?.lineItems.find(
+        (prod) => prod.productId === props.productData.id
+      );
+      console.log(product);
+
+      if (!product) {
+        return;
+      }
+
+      deleteProduct(product.id, apiCall, cart, () => setIsAdded(false));
     }
 
     // setIsAdded((prev) => !prev);
