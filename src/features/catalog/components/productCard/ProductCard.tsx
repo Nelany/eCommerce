@@ -8,7 +8,6 @@ import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-// eslint-disable-next-line import/namespace
 import { addProductToCart, checkProduct } from '../../utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchCartId from '../../../cart/hooks/useDispatchCart';

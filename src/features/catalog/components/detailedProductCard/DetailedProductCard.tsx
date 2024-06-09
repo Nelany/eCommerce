@@ -4,7 +4,6 @@ import {
   addProductToCart,
   checkProduct,
   deleteProduct,
-  // eslint-disable-next-line import/namespace
 } from '../../utils/helpers';
 import CardSlider from '../slider/slider';
 import { useNavigate } from 'react-router-dom';
