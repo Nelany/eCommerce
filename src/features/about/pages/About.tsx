@@ -56,123 +56,145 @@ const About = () => {
       </div>
       <div className="card-wrapper">
         <Card elevation={12} sx={{ p: 2 }} className="card">
-          <Avatar
-            className="avatar"
-            alt="photo"
-            src="/photo1717623586.jpeg"
-            sx={{ width: 200, height: 200 }}
-          />
-          <h2 className="title-h2">Svetlana Nesterova</h2>
-          <Stack spacing={1} alignItems="center">
-            <Stack direction="row" spacing={1}>
-              <Chip
-                label="Team lead"
-                color="primary"
-                variant="outlined"
-                size="small"
+          <div className="about__card-container">
+            <div>
+              <Avatar
+                className="avatar"
+                alt="photo"
+                src="/photo1717623586.jpeg"
+                sx={{ width: 200, height: 200 }}
               />
-            </Stack>
-          </Stack>
-          <CardContent>
-            <Typography paragraph sx={{ mb: 0 }}>
-              With around two years of experience as a designer and
-              approximately three years working as a doctor in various
-              hospitals, I possess a unique combination of creative and
-              analytical skills. I am passionate about learning new, complex,
-              and fascinating things, constantly seeking to understand the
-              diverse aspects of our world. For me, exploring the field of
-              programming is an exciting journey into a new realm where I can
-              apply my knowledge and develop new skills.
-            </Typography>
-          </CardContent>
-          <Link className="link-github" to={'https://github.com/Nelany'}>
-            <img
-              className="logo-github"
-              alt="logo"
-              src="/github-icon-2.svg"
-            ></img>
-            <div className="github-title">Github</div>
-          </Link>
+              <h2 className="title-h2">Svetlana Nesterova</h2>
+              <Stack spacing={1} alignItems="center">
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    label="Team lead"
+                    color="primary"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Stack>
+              </Stack>
+              <CardContent>
+                <Typography paragraph sx={{ mb: 0 }}>
+                  With about two years of experience as a designer and around
+                  three years of working as a doctor in various hospitals, I
+                  have gained valuable experience in both creative and
+                  analytical work. I am passionate about exploring new, complex,
+                  and fascinating subjects, and I constantly strive to expand my
+                  knowledge. For me, delving into the field of programming is an
+                  exciting journey into a new realm. I am incredibly grateful
+                  for the support of our wonderful team and our magical genies
+                  who have helped me along this remarkable path.
+                </Typography>
+              </CardContent>
+            </div>
+            <div>
+              <Link className="link-github" to={'https://github.com/Nelany'}>
+                <img
+                  className="logo-github"
+                  alt="logo"
+                  src="/github-icon-2.svg"
+                ></img>
+                <div className="github-title">Github</div>
+              </Link>
+            </div>
+          </div>
         </Card>
         <Card elevation={12} sx={{ p: 2 }} className="card">
-          <Avatar
-            className="avatar"
-            alt="photo"
-            src="/img1.jpg"
-            sx={{ width: 200, height: 200 }}
-          />
-          <h2 className="title-h2">Volha Paciahievich</h2>
-          <Stack spacing={1} alignItems="center">
-            <Stack direction="row" spacing={1}>
-              <Chip
-                label="Developer"
-                color="primary"
-                variant="outlined"
-                size="small"
+          <div className="about__card-container">
+            <div>
+              <Avatar
+                className="avatar"
+                alt="photo"
+                src="/img1.jpg"
+                sx={{ width: 200, height: 200 }}
               />
-            </Stack>
-          </Stack>
-          <CardContent>
-            <Typography paragraph sx={{ mb: 0 }}>
-              I've had an interest in algorithms, logic challenges, and working
-              with numbers since I was in school. Working as a doctor in a rural
-              outpatient clinic taught me collaboration, time management,
-              multitasking, and the ability to quickly learn new things.
-              Programming attracts for me because it allows me to see the
-              results of my work, discipline, and clear deadlines, as well as
-              the constant opportunity to learn.
-            </Typography>
-          </CardContent>
-          <Link className="link-github" to={'https://github.com/patciahevich'}>
-            <img
-              className="logo-github"
-              alt="logo"
-              src="/github-icon-2.svg"
-            ></img>
-            <div className="github-title">Github</div>
-          </Link>
+              <h2 className="title-h2">Volha Paciahievich</h2>
+              <Stack spacing={1} alignItems="center">
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    label="Developer"
+                    color="primary"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Stack>
+              </Stack>{' '}
+              <CardContent>
+                <Typography paragraph sx={{ mb: 0 }}>
+                  I've had an interest in algorithms, logic challenges, and
+                  working with numbers since I was in school. Working as a
+                  doctor in a rural outpatient clinic taught me collaboration,
+                  time management, multitasking, and the ability to quickly
+                  learn new things. Programming attracts for me because it
+                  allows me to see the results of my work, discipline, and clear
+                  deadlines, as well as the constant opportunity to learn.
+                </Typography>
+              </CardContent>
+            </div>
+            <div>
+              <Link
+                className="link-github"
+                to={'https://github.com/patciahevich'}
+              >
+                <img
+                  className="logo-github"
+                  alt="logo"
+                  src="/github-icon-2.svg"
+                ></img>
+                <div className="github-title">Github</div>
+              </Link>
+            </div>
+          </div>
         </Card>
         <Card elevation={12} sx={{ p: 2 }} className="card">
-          <Avatar
-            className="avatar"
-            alt="photo"
-            src="/img.jpg"
-            sx={{ width: 200, height: 200 }}
-          />
-          <h2 className="title-h2">Oksana Bondareva</h2>
-          <Stack spacing={1} alignItems="center">
-            <Stack direction="row" spacing={1}>
-              <Chip
-                label="Developer"
-                color="primary"
-                variant="outlined"
-                size="small"
+          <div className="about__card-container">
+            <div>
+              <Avatar
+                className="avatar"
+                alt="photo"
+                src="/img.jpg"
+                sx={{ width: 200, height: 200 }}
               />
-            </Stack>
-          </Stack>
-          <CardContent>
-            <Typography paragraph sx={{ mb: 0 }}>
-              Working in technical support about two years has given me the
-              ability to look for solutions to technical problems of varying
-              complexity. The experience of working in a team helped to learn
-              how to listen to colleagues, quickly adapt to changes, take
-              responsibility for work tasks, offer solutions to problems and
-              tasks and correct mistakes. Learning programming for me is an
-              opportunity to gain new skills, upgrade my skills and get an
-              interesting profession in demand.
-            </Typography>
-          </CardContent>
-          <Link
-            className="link-github"
-            to={'https://github.com/Oksana-bondareva'}
-          >
-            <img
-              className="logo-github"
-              alt="logo"
-              src="/github-icon-2.svg"
-            ></img>
-            <div className="github-title">Github</div>
-          </Link>
+              <h2 className="title-h2">Oksana Bondareva</h2>
+              <Stack spacing={1} alignItems="center">
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    label="Developer"
+                    color="primary"
+                    variant="outlined"
+                    size="small"
+                  />
+                </Stack>
+              </Stack>
+              <CardContent>
+                <Typography paragraph sx={{ mb: 0 }}>
+                  Working in technical support about two years has given me the
+                  ability to look for solutions to technical problems of varying
+                  complexity. The experience of working in a team helped to
+                  learn how to listen to colleagues, quickly adapt to changes,
+                  take responsibility for work tasks, offer solutions to
+                  problems and tasks and correct mistakes. Learning programming
+                  for me is an opportunity to gain new skills, upgrade my skills
+                  and get an interesting profession in demand.
+                </Typography>
+              </CardContent>
+            </div>
+            <div>
+              <Link
+                className="link-github"
+                to={'https://github.com/Oksana-bondareva'}
+              >
+                <img
+                  className="logo-github"
+                  alt="logo"
+                  src="/github-icon-2.svg"
+                ></img>
+                <div className="github-title">Github</div>
+              </Link>
+            </div>
+          </div>
         </Card>
       </div>
       <Paper className="logo-rss-wrapper" elevation={12}>

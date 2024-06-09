@@ -43,8 +43,11 @@ const SignInForm = () => {
       localStorage.setItem('userSecret', encryptUser(data));
       const cartId = response.body.cart?.id;
       const cartVersion = response.body.cart?.version;
+      const discountId =
+        response.body.cart?.discountCodes[0]?.discountCode.id || '';
+
       if (cartId && cartVersion) {
-        saveUserCart(cartId, cartVersion);
+        saveUserCart(cartId, cartVersion, discountId);
       }
       removePreviousToken();
       navigateToMain();
