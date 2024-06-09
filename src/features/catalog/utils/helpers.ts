@@ -174,6 +174,7 @@ export async function deleteProduct(
   cart: DispatchCart,
   setFlag: () => void
 ) {
+  console.log('click');
   const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
 
@@ -192,9 +193,10 @@ export async function deleteProduct(
 
   const cartId = cartResponse.body.id;
   const cartVersion = cartResponse.body.version;
+  const discountId = cartResponse?.body.discountCodes[0]?.discountCode.id || '';
 
   if (cartId && cartVersion) {
-    saveUserCart(cartId, cartVersion);
+    saveUserCart(cartId, cartVersion, discountId);
     cart.dispatchSetCart(cartResponse.body);
     setFlag();
   }

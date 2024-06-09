@@ -15,7 +15,7 @@ import useSelectCart from '../../../cart/hooks/useSelectCart';
 import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
 import useApi from '../../../../common/hooks/useApi';
 
-function DetailedProductCard(props: { productData: ProductData; id: string }) {
+function DetailedProductCard(props: { productData: ProductData }) {
   const discount = props.productData.discounted;
   const navigate = useNavigate();
 

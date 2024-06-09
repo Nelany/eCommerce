@@ -38,7 +38,7 @@ const ProductPage = () => {
   } else {
     return (
       <div className="page product-page">
-        <DetailedProductCard productData={product} id={id} />
+        <DetailedProductCard productData={product} />
       </div>
     );
   }
