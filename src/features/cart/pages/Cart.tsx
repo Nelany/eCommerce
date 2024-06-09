@@ -21,16 +21,19 @@ const Cart = () => {
     const idCart = JSON.parse(
       localStorage.getItem('cartData') as string
     ).cartId;
-    const cart = async () => {
-      const cartResponse = await apiCall(getCartById(idCart));
-      return cartResponse;
-    };
-    cart().then((cartResponse) => {
-      if (cartResponse) setProducts(cartResponse?.body.lineItems);
-      setCartSumm(
-        cartResponse?.body.totalPrice.centAmount as unknown as string
-      );
-    });
+    if (idCart) {
+      idCart.cartId;
+      const cart = async () => {
+        const cartResponse = await apiCall(getCartById(idCart));
+        return cartResponse;
+      };
+      cart().then((cartResponse) => {
+        if (cartResponse) setProducts(cartResponse?.body.lineItems);
+        setCartSumm(
+          cartResponse?.body.totalPrice.centAmount as unknown as string
+        );
+      });
+    }
   }, []);
 
   return (
