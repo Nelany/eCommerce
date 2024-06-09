@@ -41,25 +41,28 @@ const Cart = () => {
           return (
             <Card className="cart-card" key={String(index)}>
               <div className="card-cart-wrapper">
-                {product.variant.images && (
-                  <Box sx={{ height: 250, width: 250, overflow: 'hidden' }}>
-                    <CardMedia
-                      component="img"
-                      alt="Photo of the beast Genie"
-                      height="100%"
-                      src={`${product.variant.images[0].url}`}
-                    />
-                  </Box>
-                )}
-                <CardContent>
+                <div className="cart-card-content">
+                  {product.variant.images && (
+                    <Box sx={{ height: 150, width: 150, overflow: 'hidden' }}>
+                      <CardMedia
+                        component="img"
+                        alt="Photo of the beast Genie"
+                        height="100%"
+                        src={`${product.variant.images[0].url}`}
+                      />
+                    </Box>
+                  )}
                   <Typography
                     className="genie-name"
                     gutterBottom
-                    variant="h5"
+                    variant="h6"
                     component="div"
+                    sx={{ width: 250 }}
                   >
                     {product.name['en-GB']}
                   </Typography>
+                </div>
+                <CardContent className="cart-card-content">
                   <div className="product-summa-wrapper">
                     <Typography
                       gutterBottom
@@ -67,12 +70,11 @@ const Cart = () => {
                       component="div"
                       key={String(index)}
                     >
-                      {product.quantity + ' X'}
+                      {product.quantity}
                     </Typography>
                     {product.price.discounted ? (
                       <Typography
                         className="discounted"
-                        gutterBottom
                         variant="h6"
                         component="div"
                       >
@@ -83,9 +85,8 @@ const Cart = () => {
                         {product.price.value.centAmount + ' $'}
                       </Typography>
                     )}
-
-                    <Typography gutterBottom variant="h6" component="div">
-                      {'= ' + product.totalPrice.centAmount + ' $'}
+                    <Typography variant="h6" component="div">
+                      {product.totalPrice.centAmount + ' $'}
                     </Typography>
                   </div>
                 </CardContent>
@@ -94,7 +95,7 @@ const Cart = () => {
           );
         })}
       </div>
-      <Paper className="total-price" elevation={12}>
+      <Paper className="total-price" elevation={6}>
         Total price: {cartSumm + ' $'}
       </Paper>
     </div>
