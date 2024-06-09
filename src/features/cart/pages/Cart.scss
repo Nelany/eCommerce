@@ -1,6 +1,7 @@
 .product-summa-wrapper {
     display: flex;
     gap: 40px;
+    align-items: center;
 }
 
 .card-cart-wrapper {
@@ -53,4 +54,10 @@
 
 .catalog-button {
     width: 200px;
+}
+
+.full-price {
+    color: rgb(111, 109, 109);
+    font-size: 20px;
+    text-decoration: line-through;
 }

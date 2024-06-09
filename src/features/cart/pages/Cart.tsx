@@ -86,13 +86,18 @@ const Cart = () => {
                         {product.quantity}
                       </Typography>
                       {product.price.discounted ? (
-                        <Typography
-                          className="discounted"
-                          variant="h6"
-                          component="div"
-                        >
-                          {product.price.discounted.value.centAmount} $
-                        </Typography>
+                        <div className="price-wrapper">
+                          <Typography
+                            className="discounted"
+                            variant="h6"
+                            component="div"
+                          >
+                            {product.price.discounted.value.centAmount} $
+                          </Typography>
+                          <Typography component="div" className="full-price">
+                            {product.price.value.centAmount} $
+                          </Typography>
+                        </div>
                       ) : (
                         <Typography gutterBottom variant="h6" component="div">
                           {product.price.value.centAmount + ' $'}
