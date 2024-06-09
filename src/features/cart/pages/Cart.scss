@@ -1,6 +1,7 @@
 .product-summa-wrapper {
     display: flex;
     gap: 40px;
+    align-items: center;
 }
 
 .card-cart-wrapper {
@@ -38,4 +39,25 @@
     display: flex;
     justify-content: end;
     padding: 20px;
+}
+
+.message-cart-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 30px;
+    color: rgb(11, 26, 87);
+    padding: 30px 10px;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.catalog-button {
+    width: 200px;
+}
+
+.full-price {
+    color: rgb(111, 109, 109);
+    font-size: 20px;
+    text-decoration: line-through;
 }
