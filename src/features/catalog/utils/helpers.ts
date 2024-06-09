@@ -175,10 +175,9 @@ export async function deleteProduct(
   setFlag: () => void
 ) {
   console.log('click');
-  const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
 
-  if (!storedCartData || !storedUserId) {
+  if (!storedCartData) {
     return;
   }
 
