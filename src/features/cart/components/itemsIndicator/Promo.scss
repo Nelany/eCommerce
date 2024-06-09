@@ -1,0 +1,43 @@
+@import '/src/common/utils/variables.scss';
+
+.promo-h2 {
+  background-image: linear-gradient(45deg, #FF5733, #FF5733, #FF5733, #091D9E, #091D9E, #091D9E);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.promo {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  &__input {
+    height: 29px;
+    box-sizing: border-box;
+    padding: 0 5px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid $darkGrey;
+    border-radius: 5px;
+    color: $darkGrey;
+  }
+
+  &__input_disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  &__button {
+    height: 29px;
+    font-size: 10px;
+  }
+
+  &__price {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -82,12 +82,14 @@ const createCart = async ({
   return cartResponse;
 };
 
-const updateCartById = async ({
+export const updateCartById = async ({
   id,
   version,
   productId,
   quantity = 1,
   apiCall,
+  discountCode,
+  discountId,
 }: UpdateCartByIdData & {
   apiCall: ApiCall;
 }) => {
@@ -97,22 +99,29 @@ const updateCartById = async ({
       version,
       productId,
       quantity,
+      discountCode,
+      discountId,
     })
   );
 
   return cartResponse;
 };
 
-export function saveUserCart(id: string, version: number) {
+export function saveUserCart(id: string, version: number, discountId?: string) {
   const newCartData = {
     cartId: id,
     cartVersion: version,
     customer: true,
+    discountId: discountId || '',
   };
   localStorage.setItem('cartData', JSON.stringify(newCartData));
 }
 
-export function addProductToCart(productId: string, apiCall: ApiCall) {
+export function addProductToCart(
+  productId: string,
+  apiCall: ApiCall,
+  discountCode?: string
+) {
   const storedUserId = localStorage.getItem('userId');
   const storedCartData = localStorage.getItem('cartData');
   let cartResponse;
@@ -124,6 +133,7 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
       version: cartData.cartVersion,
       productId,
       apiCall,
+      discountCode,
     });
   } else {
     const userSecrets = decryptUser(
@@ -140,8 +150,11 @@ export function addProductToCart(productId: string, apiCall: ApiCall) {
   cartResponse.then((cartResponseData) => {
     const cartId = cartResponseData?.body.id;
     const cartVersion = cartResponseData?.body.version;
+    const discountId =
+      cartResponseData?.body.discountCodes[0]?.discountCode.id || '';
 
     if (cartId && cartVersion) {
-    saveUserCart(cartId, cartVersion);}
+      saveUserCart(cartId, cartVersion, discountId);
+    }
   });
 }

@@ -1,3 +1,4 @@
+import { CartUpdateAction } from '@commercetools/platform-sdk';
 import { getApiRoot } from '../../../common/api/sdk';
 
 export interface CreateCart {
@@ -43,6 +44,8 @@ export interface UpdateCartByIdData {
   email?: string;
   productId?: string;
   quantity?: number;
+  discountCode?: string;
+  discountId?: string;
 }
 
 const updateCartById = ({
@@ -52,27 +55,55 @@ const updateCartById = ({
   email,
   productId,
   quantity,
+  discountCode,
+  discountId,
 }: UpdateCartByIdData) => {
+  console.log(discountId);
+
+  const actionsData: CartUpdateAction[] = [];
+
+  if (customerId && email) {
+    actionsData.push({
+      action: 'setCustomerId',
+      customerId: customerId,
+    });
+    actionsData.push({
+      action: 'setCustomerEmail',
+      email: email,
+    });
+  }
+
+  if (productId) {
+    actionsData.push({
+      action: 'addLineItem',
+      productId: productId,
+      quantity: quantity || 1,
+    });
+  }
+
+  if (discountCode) {
+    actionsData.push({
+      action: 'addDiscountCode',
+      code: discountCode,
+    });
+  }
+
+  if (discountId) {
+    actionsData.push({
+      action: 'removeDiscountCode',
+      discountCode: {
+        typeId: 'discount-code',
+        id: discountId,
+      },
+    });
+  }
+
   return getApiRoot()
     .carts()
     .withId({ ID: id })
     .post({
       body: {
-        actions: [
-          {
-            action: 'setCustomerId',
-            customerId: customerId,
-          },
-          {
-            action: 'setCustomerEmail',
-            email: email,
-          },
-          {
-            action: 'addLineItem',
-            productId: productId,
-            quantity: quantity || 1,
-          },
-        ],
+        actions: actionsData,
         version: version,
       },
     })
