@@ -25,7 +25,7 @@ const createCart = ({ id, email, productId }: CreateCart) => {
     .execute();
 };
 
-const getCartById = (id: string) => {
+export const getCartById = (id: string) => {
   return getApiRoot().carts().withId({ ID: id }).get().execute();
 };
 
