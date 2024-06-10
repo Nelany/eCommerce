@@ -211,6 +211,7 @@ describe('formatProductData', () => {
     };
 
     const expectedData: ProductData = {
+      id: '3a9dfb41-231c-4621-953a-7638947cfa51',
       name: 'Giggling Genius Genie',
       description:
         "Provides ingenious solutions to life's problems, all while spreading joy and laughter.", // Изменено на фактическое значение

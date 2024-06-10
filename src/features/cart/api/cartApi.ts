@@ -110,9 +110,28 @@ const updateCartById = ({
     .execute();
 };
 
+const removeProductById = (id: string, version: number, productId: string) => {
+  return getApiRoot()
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: 'removeLineItem',
+            lineItemId: productId,
+          },
+        ],
+        version: version,
+      },
+    })
+    .execute();
+};
+
 export const cartApi = {
   createCart,
   getCartById,
   getCartByCustomerId,
   updateCartById,
+  removeProductById,
 };

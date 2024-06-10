@@ -10,8 +10,11 @@ import {
   cartApi,
 } from '../../cart/api/cartApi';
 import { decryptUser } from '../../../common/utils/crypto';
+import { CartValue } from '../../cart/store/cartSlice';
+import { DispatchCart } from '../../cart/hooks/useDispatchCart';
 
 export type ProductData = {
+  id: string;
   name: string;
   description: string | undefined;
   images: string[];
@@ -27,6 +30,7 @@ export function formatProductData(
   serverResponse: ClientResponse<Product>
 ): ProductData | null {
   const product = serverResponse.body.masterData.current;
+  const id = serverResponse.body.id;
   const imagesData = product.masterVariant.images;
   const attributes = product.masterVariant.attributes;
   const priceData = product.masterVariant?.prices;
@@ -44,6 +48,7 @@ export function formatProductData(
   const discounted = priceData[0].discounted;
 
   return {
+    id,
     name,
     description,
     images,
@@ -120,6 +125,8 @@ export function saveUserCart(id: string, version: number, discountId?: string) {
 export function addProductToCart(
   productId: string,
   apiCall: ApiCall,
+  cart: DispatchCart,
+  setFlag: () => void,
   discountCode?: string
 ) {
   const storedUserId = localStorage.getItem('userId');
@@ -155,6 +162,47 @@ export function addProductToCart(
 
     if (cartId && cartVersion) {
       saveUserCart(cartId, cartVersion, discountId);
+      cart.dispatchSetCart(cartResponseData.body);
+      setFlag();
     }
   });
+}
+
+export async function deleteProduct(
+  id: string,
+  apiCall: ApiCall,
+  cart: DispatchCart,
+  setFlag: () => void
+) {
+  console.log('click');
+  const storedCartData = localStorage.getItem('cartData');
+
+  if (!storedCartData) {
+    return;
+  }
+
+  const cartData = JSON.parse(storedCartData);
+  const cartResponse = await apiCall(
+    cartApi.removeProductById(cartData.cartId, cartData.cartVersion, id)
+  );
+
+  if (!cartResponse) {
+    return;
+  }
+
+  const cartId = cartResponse.body.id;
+  const cartVersion = cartResponse.body.version;
+  const discountId = cartResponse?.body.discountCodes[0]?.discountCode.id || '';
+
+  if (cartId && cartVersion) {
+    saveUserCart(cartId, cartVersion, discountId);
+    cart.dispatchSetCart(cartResponse.body);
+    setFlag();
+  }
+}
+
+export function checkProduct(id: string, cart: CartValue) {
+  const isInCart =
+    cart && cart.lineItems.find((product) => product.productId === id);
+  return Boolean(isInCart);
 }

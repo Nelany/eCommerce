@@ -29,7 +29,7 @@ const ProductPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!product) {
+  if (!product || !id) {
     return (
       <div className="spinner-wrapper">
         <CircularProgress />

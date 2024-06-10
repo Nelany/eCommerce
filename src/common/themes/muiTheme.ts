@@ -5,6 +5,9 @@ const theme = createTheme({
     primary: {
       main: '#091D9E', // Темно-синий цвет как в макете
     },
+    secondary: {
+      main: '#BCC5FF',
+    },
     // Здесь можно добавить другие цвета по необходимости
   },
 });

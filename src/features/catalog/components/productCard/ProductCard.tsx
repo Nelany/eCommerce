@@ -8,8 +8,10 @@ import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { addProductToCart } from '../../utils/helpers';
+import { addProductToCart, checkProduct } from '../../utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
+import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
+import useSelectCart from '../../../cart/hooks/useSelectCart';
 
 type Props = {
   id: string;
@@ -31,13 +33,15 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
-  const [isInCart, setIsAdded] = useState(false);
+  const currentCart = useSelectCart();
+
+  const [isInCart, setIsAdded] = useState(checkProduct(id, currentCart));
   const apiCall = useApi();
 
-  function addToCart() {
-    setIsAdded((isInCart) => !isInCart);
+  const cart = useDispatchCartId();
 
-    addProductToCart(id, apiCall);
+  function addToCart() {
+    addProductToCart(id, apiCall, cart, () => setIsAdded(true));
   }
 
   return (
