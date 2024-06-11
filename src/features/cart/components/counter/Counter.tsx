@@ -1,24 +1,28 @@
-import { useState } from 'react';
 import './Counter.scss';
 import { updateUserCart } from '../../../catalog/utils/helpers';
 import useApi from '../../../../common/hooks/useApi';
 import useDispatchCartId from '../../hooks/useDispatchCart';
 import { cartApi } from '../../api/cartApi';
+import useSelectCart from '../../hooks/useSelectCart';
 
 function Counter(props: { id: string; quantity: number }) {
-  const [currentCount, setCurrentCount] = useState(props.quantity);
+  const currentCart = useSelectCart();
+  const product = currentCart?.lineItems.find((item) => item.id === props.id);
   const storedCartData = localStorage.getItem('cartData');
   const apiCall = useApi();
   const cart = useDispatchCartId();
 
-  if (!storedCartData) {
+  if (!storedCartData || !product) {
     return;
   }
 
   const cartData = JSON.parse(storedCartData);
 
-  async function getNewCart(callback: () => void, flag: 'plus' | 'minus') {
-    const quantity = flag === 'plus' ? currentCount + 1 : currentCount - 1;
+  async function getNewCart(flag: 'plus' | 'minus') {
+    const currentQuantity = product ? product.quantity : 0;
+
+    const quantity =
+      flag === 'plus' ? currentQuantity + 1 : currentQuantity - 1;
     const newCart = await apiCall(
       cartApi.changeProductQuantity({
         id: cartData.cartId,
@@ -33,23 +37,13 @@ function Counter(props: { id: string; quantity: number }) {
     }
 
     updateUserCart(newCart, cart);
-    callback();
   }
-
-  function increaseCounter() {
-    setCurrentCount((prev) => (prev += 1));
-  }
-
-  function decreaseCounter() {
-    setCurrentCount((prev) => (prev -= 1));
-  }
-
   function increaseProduct() {
-    getNewCart(increaseCounter, 'plus');
+    getNewCart('plus');
   }
 
   function decreaseProduct() {
-    getNewCart(decreaseCounter, 'minus');
+    getNewCart('minus');
   }
 
   return (
@@ -57,11 +51,11 @@ function Counter(props: { id: string; quantity: number }) {
       <button
         className="counter-button"
         onClick={decreaseProduct}
-        disabled={currentCount === 1}
+        disabled={product.quantity === 1}
       >
         -
       </button>
-      <p className="current-count">{currentCount}</p>
+      <p className="current-count">{product.quantity}</p>
       <button className="counter-button" onClick={increaseProduct}>
         +
       </button>
