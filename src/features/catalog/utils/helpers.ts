@@ -197,7 +197,7 @@ export async function deleteProduct(
   if (cartId && cartVersion) {
     saveUserCart(cartId, cartVersion, discountId);
     cart.dispatchSetCart(cartResponse.body);
-    setFlag && setFlag();
+    setFlag?.();
   }
 }
 

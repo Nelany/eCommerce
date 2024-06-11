@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import './RemoveButton.scss';
 import useDispatchCartId from '../../hooks/useDispatchCart';
 import useApi from '../../../../common/hooks/useApi';
@@ -12,15 +11,7 @@ function RemoveButton(props: { id: string }) {
     console.log('click');
     deleteProduct(props.id, apiCall, cart);
   }
-  return (
-    <Button
-      variant="contained"
-      className="remove-button"
-      onClick={removeProductFromCart}
-    >
-      Remove from Cart
-    </Button>
-  );
+  return <button className="remove-button" onClick={removeProductFromCart} />;
 }
 
 export default RemoveButton;

@@ -23,7 +23,7 @@ const Cart = () => {
   return (
     <div className="page cart-page">
       <h1>CART</h1>
-      {currentCart ? (
+      {currentCart && currentCart.lineItems.length > 0 ? (
         <div className="cart-products-wrapper">
           {currentCart.lineItems.map((product, index) => {
             return (

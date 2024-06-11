@@ -1,5 +1,16 @@
-// .remove-button {
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-// }
+.remove-button {
+ width: 25px;
+ height: 25px;
+
+ background-image: url(../../../../assets/trash.png);
+ background-size: cover;
+ border: none;
+
+ &:active {
+  outline: none;
+ }
+
+ &:focus {
+  outline: none;
+ }
+}
