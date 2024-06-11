@@ -1,4 +1,5 @@
 import {
+  Cart,
   ClientResponse,
   DiscountedPrice,
   Product,
@@ -168,13 +169,26 @@ export function addProductToCart(
   });
 }
 
+export function updateUserCart(
+  response: ClientResponse<Cart>,
+  cart: DispatchCart
+) {
+  const cartId = response.body.id;
+  const cartVersion = response.body.version;
+  const discountId = response.body.discountCodes[0]?.discountCode.id || '';
+
+  if (cartId && cartVersion) {
+    saveUserCart(cartId, cartVersion, discountId);
+    cart.dispatchSetCart(response.body);
+  }
+}
+
 export async function deleteProduct(
   id: string,
   apiCall: ApiCall,
   cart: DispatchCart,
   setFlag?: () => void
 ) {
-  console.log('click');
   const storedCartData = localStorage.getItem('cartData');
 
   if (!storedCartData) {
@@ -183,22 +197,19 @@ export async function deleteProduct(
 
   const cartData = JSON.parse(storedCartData);
   const cartResponse = await apiCall(
-    cartApi.removeProductById(cartData.cartId, cartData.cartVersion, id)
+    cartApi.removeProductById({
+      id: cartData.cartId,
+      version: cartData.cartVersion,
+      productId: id,
+    })
   );
 
   if (!cartResponse) {
     return;
   }
 
-  const cartId = cartResponse.body.id;
-  const cartVersion = cartResponse.body.version;
-  const discountId = cartResponse?.body.discountCodes[0]?.discountCode.id || '';
-
-  if (cartId && cartVersion) {
-    saveUserCart(cartId, cartVersion, discountId);
-    cart.dispatchSetCart(cartResponse.body);
-    setFlag?.();
-  }
+  updateUserCart(cartResponse, cart);
+  setFlag?.();
 }
 
 export function checkProduct(id: string, cart: CartValue) {

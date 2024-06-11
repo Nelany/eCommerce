@@ -8,7 +8,6 @@ function RemoveButton(props: { id: string }) {
   const apiCall = useApi();
 
   function removeProductFromCart() {
-    console.log('click');
     deleteProduct(props.id, apiCall, cart);
   }
   return <button className="remove-button" onClick={removeProductFromCart} />;

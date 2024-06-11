@@ -7,6 +7,12 @@ export interface CreateCart {
   productId?: string;
 }
 
+export interface ChangeProduct {
+  id: string;
+  version: number;
+  productId: string;
+}
+
 const createCart = ({ id, email, productId }: CreateCart) => {
   return getApiRoot()
     .carts()
@@ -110,7 +116,7 @@ const updateCartById = ({
     .execute();
 };
 
-const removeProductById = (id: string, version: number, productId: string) => {
+const removeProductById = ({ id, version, productId }: ChangeProduct) => {
   return getApiRoot()
     .carts()
     .withId({ ID: id })
@@ -128,10 +134,36 @@ const removeProductById = (id: string, version: number, productId: string) => {
     .execute();
 };
 
+const changeProductQuantity = ({
+  id,
+  version,
+  productId,
+  quantity,
+}: ChangeProduct & { quantity: number }) => {
+  console.log(productId);
+  return getApiRoot()
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: 'changeLineItemQuantity',
+            lineItemId: productId,
+            quantity,
+          },
+        ],
+        version: version,
+      },
+    })
+    .execute();
+};
+
 export const cartApi = {
   createCart,
   getCartById,
   getCartByCustomerId,
   updateCartById,
   removeProductById,
+  changeProductQuantity,
 };

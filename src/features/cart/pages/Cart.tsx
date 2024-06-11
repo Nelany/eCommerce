@@ -11,10 +11,12 @@ import './Cart.scss';
 import { useNavigate } from 'react-router-dom';
 import RemoveButton from '../components/removeButton/RemoveButton';
 import useSelectCart from '../hooks/useSelectCart';
+import Counter from '../components/counter/Counter';
 
 const Cart = () => {
   const currentCart = useSelectCart();
   const navigate = useNavigate();
+  console.log(currentCart);
 
   const handleClick = () => {
     navigate('/catalog');
@@ -85,6 +87,7 @@ const Cart = () => {
                   </CardContent>
                 </div>
                 <RemoveButton id={product.id} />
+                <Counter id={product.id} quantity={product.quantity} />
               </Card>
             );
           })}
