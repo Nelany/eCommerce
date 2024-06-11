@@ -8,38 +8,13 @@ import {
   Button,
 } from '@mui/material';
 import './Cart.scss';
-import { getCartById } from '../api/cartApi';
-import { LineItem } from '@commercetools/platform-sdk';
-import { useEffect, useState } from 'react';
-import useApi from '../../../common/hooks/useApi';
 import { useNavigate } from 'react-router-dom';
+import RemoveButton from '../components/removeButton/RemoveButton';
+import useSelectCart from '../hooks/useSelectCart';
 
 const Cart = () => {
-  const [products, setProducts] = useState<LineItem[]>([]);
-  const [cartSumm, setCartSumm] = useState('');
-  const apiCall = useApi();
+  const currentCart = useSelectCart();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem('cartData')) {
-      const idCart = JSON.parse(
-        localStorage.getItem('cartData') as string
-      ).cartId;
-      if (idCart) {
-        idCart.cartId;
-        const cart = async () => {
-          const cartResponse = await apiCall(getCartById(idCart));
-          return cartResponse;
-        };
-        cart().then((cartResponse) => {
-          if (cartResponse) setProducts(cartResponse?.body.lineItems);
-          setCartSumm(
-            cartResponse?.body.totalPrice.centAmount as unknown as string
-          );
-        });
-      }
-    }
-  }, []);
 
   const handleClick = () => {
     navigate('/catalog');
@@ -48,9 +23,9 @@ const Cart = () => {
   return (
     <div className="page cart-page">
       <h1>CART</h1>
-      {localStorage.getItem('cartData') ? (
+      {currentCart ? (
         <div className="cart-products-wrapper">
-          {products?.map((product, index) => {
+          {currentCart.lineItems.map((product, index) => {
             return (
               <Card className="cart-card" key={String(index)}>
                 <div className="card-cart-wrapper">
@@ -109,11 +84,12 @@ const Cart = () => {
                     </div>
                   </CardContent>
                 </div>
+                <RemoveButton id={product.id} />
               </Card>
             );
           })}
           <Paper className="total-price" elevation={6}>
-            Total price: {cartSumm + ' $'}
+            Total price: {currentCart.totalPrice.centAmount + ' $'}
           </Paper>
         </div>
       ) : (
