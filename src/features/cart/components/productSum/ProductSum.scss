@@ -2,6 +2,10 @@
   display: flex;
   gap: 40px;
   align-items: center;
+
+  & div {
+    margin-bottom: 0;
+  }
 }
 
 .full-price {
@@ -9,3 +13,4 @@
   font-size: 20px;
   text-decoration: line-through;
 }
+

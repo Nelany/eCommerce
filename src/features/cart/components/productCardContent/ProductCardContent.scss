@@ -6,3 +6,12 @@
   gap: 20px;
   flex-wrap: wrap;
 }
+
+
+@media  screen and (width < 510px) {
+  .cart-card-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+}

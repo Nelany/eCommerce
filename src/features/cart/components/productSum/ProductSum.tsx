@@ -1,12 +1,10 @@
 import { Typography } from '@mui/material';
-import Counter from '../counter/Counter';
 import { LineItem } from '@commercetools/platform-sdk';
 import './ProductSum.scss';
 
 function ProductSum(props: { product: LineItem }) {
   return (
     <div className="product-summa-wrapper">
-      <Counter id={props.product.id} quantity={props.product.quantity} />
       {props.product.price.discounted ? (
         <div className="price-wrapper">
           <Typography className="discounted" variant="h6" component="div">

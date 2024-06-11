@@ -5,6 +5,7 @@ import useSelectCart from '../hooks/useSelectCart';
 import ProductCardContent from '../components/productCardContent/ProductCardContent';
 import ProductSum from '../components/productSum/ProductSum';
 import EmptyMessage from '../components/emptyMessage/EmptyMessage';
+import Counter from '../components/counter/Counter';
 
 const Cart = () => {
   const currentCart = useSelectCart();
@@ -19,10 +20,12 @@ const Cart = () => {
               <Card className="cart-card" key={String(index)}>
                 <div className="card-cart-wrapper">
                   <ProductCardContent product={product} />
+
                   <CardContent className="cart-card-content">
+                    <Counter id={product.id} quantity={product.quantity} />
                     <ProductSum product={product} />
+                    <RemoveButton id={product.id} />
                   </CardContent>
-                  <RemoveButton id={product.id} />
                 </div>
               </Card>
             );

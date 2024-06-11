@@ -1,6 +1,7 @@
 @import '../../../../common/utils/variables.scss';
 
 .counter {
+  grid-area: counter;
   width: auto;
   display: flex;
   align-items: center;
