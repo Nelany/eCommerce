@@ -8,8 +8,10 @@ import { FilterItem } from './FilterItem';
 import { DiscountSwitch } from './DiscountSwitch';
 import { CountryRadio } from './CountryRadio';
 import { useDispatchFilter } from '../../hooks/useDispatchFilter';
+import { useSearchParams } from 'react-router-dom';
 
 export const Drawer = () => {
+  const setPage = useSearchParams()[1];
   const [isOpen, setIsOpen] = useState(false);
   const { dispatchFilter } = useDispatchFilter();
   const [minPrice, setMinPrice] = useState(1);
@@ -52,6 +54,7 @@ export const Drawer = () => {
         discount: onDiscount,
       });
     }
+    setPage({});
   }
 
   return (

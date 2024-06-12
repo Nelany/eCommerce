@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from 'react';
 import { useDispatchSort } from '../../hooks/useDispatchSort';
 import { useSelectSort } from '../../hooks/useSelectSort';
+import { useSearchParams } from 'react-router-dom';
 const sortVariants = [
   '',
   'name.en-GB asc',
@@ -17,6 +18,7 @@ export function SortSelect() {
   const { dispatchSort } = useDispatchSort();
   const lastSort = useSelectSort();
   const [sort, setSort] = useState('');
+  const setPage = useSearchParams()[1];
 
   useEffect(() => {
     const index = sortVariants.findIndex((variant) => variant === lastSort);
@@ -24,6 +26,7 @@ export function SortSelect() {
   }, [lastSort]);
 
   const handleChange = (event: SelectChangeEvent) => {
+    setPage({});
     setSort(event.target.value);
     dispatchSort(sortVariants[+event.target.value]);
   };
