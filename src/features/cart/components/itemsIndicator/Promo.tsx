@@ -1,14 +1,16 @@
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import useApi from '../../../../common/hooks/useApi';
 import { saveUserCart, updateCartById } from '../../../catalog/utils/helpers';
 import { useEffect, useState } from 'react';
 import './Promo.scss';
+import useDispatchCartId from '../../hooks/useDispatchCart';
 
 export const Promo = () => {
+  const cart = useDispatchCartId();
+
   const apiCall = useApi();
   const [storedCartData] = useState(localStorage.getItem('cartData'));
 
-  const [priceValue, setPriceValue] = useState('0');
   const [inputValue, setInputValue] = useState('');
   const [isDiscounted, setIsDiscounted] = useState(false);
 
@@ -22,12 +24,6 @@ export const Promo = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // При получении корзины с сервера нужно добавить проверку, применен ли уже дисконт для корзины:
-  // const discountResponse =
-  //           cartResponseData?.body.discountCodes;
-  //         if (discountResponse?.length) {
-  //           setIsDiscounted(true);
-  //         }...
 
   function cancelPromo() {
     const lastStoredCartData = localStorage.getItem('cartData');
@@ -47,15 +43,11 @@ export const Promo = () => {
         if (discountResponse && discountResponse.length === 0) {
           setIsDiscounted(false);
           setInputValue('');
-
-          const totalPrice = cartResponseData?.body.totalPrice?.centAmount;
-          if (totalPrice) {
-            setPriceValue(`${totalPrice}`);
-          }
         }
 
         if (cartId && cartVersion) {
           saveUserCart(cartId, cartVersion);
+          cart.dispatchSetCart(cartResponseData.body);
         }
       });
     }
@@ -80,15 +72,11 @@ export const Promo = () => {
         const discountResponse = cartResponseData?.body.discountCodes;
         if (discountResponse?.length && discountId) {
           setIsDiscounted(true);
-
-          const totalPrice = cartResponseData?.body.totalPrice?.centAmount;
-          if (totalPrice) {
-            setPriceValue(`${totalPrice}`);
-          }
         }
 
         if (cartId && cartVersion && discountId) {
           saveUserCart(cartId, cartVersion, discountId);
+          cart.dispatchSetCart(cartResponseData.body);
         }
       });
     }
@@ -96,17 +84,16 @@ export const Promo = () => {
 
   return (
     <>
-      <h2 className="promo-h2">promoForBestStudents</h2>
-
       <div className="promo">
-        <input
+        <TextField
           className={
             isDiscounted ? 'promo__input promo__input_disabled' : 'promo__input'
           }
           id="inputPROMO"
-          placeholder="Enter PROMO"
-          type="text"
+          label="Enter PROMO"
+          variant="standard"
           value={inputValue}
+          // ПРОМОКОД: promoForBestStudents !!!!!!!!!!!!
           onChange={(e) => setInputValue(e.target.value)}
         />
 
@@ -114,7 +101,7 @@ export const Promo = () => {
           <Button
             disabled={!storedCartData}
             className="promo__button"
-            variant="contained"
+            variant="outlined"
             onClick={cancelPromo}
           >
             {'CANCEL PROMO'}
@@ -123,14 +110,13 @@ export const Promo = () => {
           <Button
             disabled={!storedCartData || !inputValue}
             className="promo__button"
-            variant="contained"
+            variant="outlined"
             onClick={applyPromo}
           >
             {'APPLY PROMO'}
           </Button>
         )}
       </div>
-      <h3 className="promo__price">Total price: {priceValue}$</h3>
     </>
   );
 };

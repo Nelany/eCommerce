@@ -1,19 +1,20 @@
 .remove-button {
- grid-area: trash;
- width: 25px;
- height: 25px;
+  grid-area: trash;
+  width: 25px;
+  height: 25px;
 
- padding: 0;
+  padding: 0;
 
- background-image: url(../../../../assets/trash.png);
- background-size: cover;
- border: none;
+  background-image: url(../../../../assets/trash.png);
+  background-size: cover;
+  border: none;
 
- &:active {
-  outline: none;
- }
 
- &:focus {
-  outline: none;
- }
+  &:active {
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }

@@ -1,8 +1,11 @@
+@import '/src/common/utils/variables.scss';
+
 .card-cart-wrapper {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
 }
 
 .cart-products-wrapper {
@@ -18,19 +21,23 @@
 }
 
 
-.total-price {
+.total-price.total-price {
     font-size: 25px;
     width: 100%;
     margin: 0 auto;
-    color: rgb(11, 26, 87);
+    color: $blue;
     display: flex;
     justify-content: end;
     padding: 20px;
 }
 
-@media  screen and (width < 510px) {
+.total-price-container {
+    margin: 0 0 0 20px;
+}
+
+@media screen and (width < 510px) {
     .card-cart-wrapper {
-      justify-content: center;
-      gap: 0;
+        justify-content: center;
+        gap: 0;
     }
-  }
+}
