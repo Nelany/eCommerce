@@ -64,8 +64,6 @@ const updateCartById = ({
   discountCode,
   discountId,
 }: UpdateCartByIdData) => {
-  console.log(discountId);
-
   const actionsData: CartUpdateAction[] = [];
 
   if (customerId && email) {
@@ -140,7 +138,6 @@ const changeProductQuantity = ({
   productId,
   quantity,
 }: ChangeProduct & { quantity: number }) => {
-  console.log(productId);
   return getApiRoot()
     .carts()
     .withId({ ID: id })
