@@ -9,7 +9,11 @@ function ItemsIndicator() {
     return null;
   }
 
-  return <div className="items-indicator">{cart.lineItems.length}</div>;
+  return (
+    <div className="items-indicator">
+      {cart.lineItems.reduce((acc, product) => (acc += product.quantity), 0)}
+    </div>
+  );
 }
 
 export default ItemsIndicator;
