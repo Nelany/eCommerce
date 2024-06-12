@@ -25,13 +25,3 @@ export const Paginator = ({ total }: Props) => {
     />
   );
 };
-
-// export default function PaginationLink() {
-//   return (
-//     <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>
-//       <Routes>
-//         <Route path="*" element={<Content />} />
-//       </Routes>
-//     </MemoryRouter>
-//   );
-// }
