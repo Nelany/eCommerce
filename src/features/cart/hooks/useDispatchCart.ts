@@ -15,6 +15,7 @@ const useDispatchCartId = (): DispatchCart => {
     },
     dispatchEmptyCart: () => {
       dispatch(emptyCart());
+      localStorage.removeItem('cartData');
     },
   };
 };
