@@ -7,11 +7,16 @@ import ProductSum from '../components/productSum/ProductSum';
 import EmptyMessage from '../components/emptyMessage/EmptyMessage';
 import Counter from '../components/counter/Counter';
 import { Promo } from '../components/itemsIndicator/Promo';
+import { EmptyCartButtonNModal } from '../components/emptyCartModal/EmptyCartButtonNModal';
+import { useMemo } from 'react';
 
 const Cart = () => {
   const currentCart = useSelectCart();
-  const moneySaved =
-    currentCart?.discountOnTotalPrice?.discountedAmount.centAmount;
+
+  const moneySaved = useMemo(
+    () => currentCart?.discountOnTotalPrice?.discountedAmount.centAmount,
+    [currentCart]
+  );
 
   return (
     <div className="page cart-page">
@@ -34,21 +39,24 @@ const Cart = () => {
             );
           })}
 
-          <Paper className="total-price">
+          <Paper className="cart__promo-container">
             <Promo />
           </Paper>
 
           <Paper className="total-price" elevation={6}>
-            <div>Total price: </div>
-            <div className="total-price-container">
-              <div className={moneySaved ? 'discounted' : 'not-discounted'}>
-                {currentCart.totalPrice.centAmount + ' $'}
-              </div>
-              {moneySaved && (
-                <div className="full-price">
-                  {+moneySaved + currentCart.totalPrice.centAmount + '$'}
+            <EmptyCartButtonNModal />
+            <div className="cart__total-price-wrapper">
+              <div>Total price: </div>
+              <div className="cart__total-price-container">
+                <div className={moneySaved ? 'discounted' : 'not-discounted'}>
+                  {currentCart.totalPrice.centAmount + ' $'}
                 </div>
-              )}
+                {moneySaved && (
+                  <div className="full-price">
+                    {+moneySaved + currentCart.totalPrice.centAmount + '$'}
+                  </div>
+                )}
+              </div>
             </div>
           </Paper>
         </div>

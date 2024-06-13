@@ -156,6 +156,18 @@ const changeProductQuantity = ({
     .execute();
 };
 
+const removeCartById = (ID: string, version: number) => {
+  return getApiRoot()
+    .carts()
+    .withId({ ID })
+    .delete({
+      queryArgs: {
+        version,
+      },
+    })
+    .execute();
+};
+
 export const cartApi = {
   createCart,
   getCartById,
@@ -163,4 +175,5 @@ export const cartApi = {
   updateCartById,
   removeProductById,
   changeProductQuantity,
+  removeCartById,
 };
