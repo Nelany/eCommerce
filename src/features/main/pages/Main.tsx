@@ -1,11 +1,62 @@
-import { Promo } from '../../cart/components/itemsIndicator/Promo';
+import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import './Main.scss';
+import { useNavigate } from 'react-router-dom';
+import FilterNoneIcon from '@mui/icons-material/FilterNone';
 
 function App() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/catalog');
+  };
+
+  const copyTextToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  };
+
   return (
     <>
       <h1>COOLSTORE</h1>
-      <Promo />
+      <Box className="container-title">
+        <Box className="main-title">
+          <Typography gutterBottom component="div" className="text-wrapper">
+            <span>Magic is at your fingertips - </span>
+            <span> only here you can fulfill</span>
+            <span>all your desires!</span>
+            <span>Choose the best genie!</span>
+          </Typography>
+          <Button
+            variant="contained"
+            className="catalog-button"
+            onClick={handleClick}
+          >
+            Go to shopping!
+          </Button>
+        </Box>
+        <Box>
+          <CardMedia
+            sx={{ height: 320, width: 320, overflow: 'hidden' }}
+            component="img"
+            alt="Photo of the beast Genie"
+            height="100%"
+            src="/1696526421_gas-kvas-com-p-kartinki-dzhin-9.png"
+          />
+        </Box>
+      </Box>
+      <Paper elevation={6} className="promo-wrapper">
+        <p className="about-promo">
+          Promo code only for the best students Rs School. Go to the catalog and
+          choose your most cherished wish. Add the genie to the cart and enter
+          the promo code!
+        </p>
+        <Box className="promo-text-wrapper">
+          <h1 className="promo-title">promoForBestStudents</h1>
+          <FilterNoneIcon
+            className="icon-copy-promo"
+            onClick={() => copyTextToClipboard('promoForBestStudents')}
+          />
+        </Box>
+      </Paper>
     </>
   );
 }
