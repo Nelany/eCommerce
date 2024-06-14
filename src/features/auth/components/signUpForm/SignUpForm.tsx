@@ -28,7 +28,7 @@ const SignUpForm = () => {
   const navigateToMain = useNavigateToMain();
   const saveUserId = useDispatchUserId();
   const setToast = useDispatchToast();
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const userMessage = useNewUser();
 
   const onSubmit: SubmitHandler<registerData> = async (data) => {
@@ -418,7 +418,12 @@ const SignUpForm = () => {
           </div>
         )}
 
-        <Button variant="contained" type="submit" fullWidth>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isLoading}
+          fullWidth
+        >
           Sign Up
         </Button>
       </form>

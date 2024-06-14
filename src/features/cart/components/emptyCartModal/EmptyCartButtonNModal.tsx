@@ -29,15 +29,12 @@ const style = {
 export function EmptyCartButtonNModal() {
   const { dispatchEmptyCart } = useDispatchCartId();
   const currentCart = useSelectCart();
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-  const [isDisabled, setIsDisabled] = useState(false);
-
   function handleEmptyCart() {
-    setIsDisabled(true);
     setOpenModal(false);
     const cartId = currentCart?.id;
     const cartVersion = currentCart?.version;
@@ -47,7 +44,6 @@ export function EmptyCartButtonNModal() {
           if (emptyCartResponse) {
             dispatchEmptyCart();
           }
-          setIsDisabled(false);
         }
       );
     }
@@ -79,7 +75,7 @@ export function EmptyCartButtonNModal() {
             </Typography>
             <div className="empty-cart__buttons-container">
               <Button
-                disabled={isDisabled}
+                disabled={isLoading}
                 onClick={handleEmptyCart}
                 variant="outlined"
               >

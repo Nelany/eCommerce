@@ -9,7 +9,7 @@ function Counter(props: { id: string; quantity: number }) {
   const currentCart = useSelectCart();
   const product = currentCart?.lineItems.find((item) => item.id === props.id);
   const storedCartData = localStorage.getItem('cartData');
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const cart = useDispatchCartId();
 
   if (!storedCartData || !product) {
@@ -51,12 +51,16 @@ function Counter(props: { id: string; quantity: number }) {
       <button
         className="counter-button"
         onClick={decreaseProduct}
-        disabled={product.quantity === 1}
+        disabled={product.quantity === 1 || isLoading}
       >
         -
       </button>
       <p className="current-count">{product.quantity}</p>
-      <button className="counter-button" onClick={increaseProduct}>
+      <button
+        className="counter-button"
+        disabled={isLoading}
+        onClick={increaseProduct}
+      >
         +
       </button>
     </div>

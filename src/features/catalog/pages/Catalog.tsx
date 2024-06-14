@@ -16,7 +16,7 @@ import { useSelectFilter } from '../hooks/useSelectFilter';
 import { Paginator } from '../components/pagination/Pagination';
 
 const Catalog = () => {
-  const apiCall = useApi();
+  const [apiCall] = useApi();
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
   const sort = useSelectSort();
