@@ -7,12 +7,11 @@ import useSelectUser from '../../../features/auth/hooks/useSelectUser';
 import useDispatchCartId from '../../../features/cart/hooks/useDispatchCart';
 import { useNavigateToMain } from '../../hooks/useNavigateToMain';
 import { removePreviousToken } from '../../api/sdk';
-import aboutPath from '../../../assets/searchicon.png';
 
 const nav = [
   { text: 'Home', imgSrc: '/home2.png', path: '/main' },
   { text: 'Catalog', imgSrc: '/book2.png', path: '/catalog' },
-  { text: 'About', imgSrc: aboutPath, path: '/about' },
+  { text: 'About', imgSrc: '/searchicon.png', path: '/about' },
   { text: 'Cart', imgSrc: '/cart.png', path: '/cart' },
   { text: 'Profile', imgSrc: '/hindu2.png', path: '/profile' },
 ];
