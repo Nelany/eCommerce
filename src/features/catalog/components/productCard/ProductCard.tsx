@@ -36,7 +36,7 @@ const ProductCard = ({
   const currentCart = useSelectCart();
 
   const [isInCart, setIsAdded] = useState(checkProduct(id, currentCart));
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
 
   const cart = useDispatchCartId();
 
@@ -99,7 +99,7 @@ const ProductCard = ({
         </Link>
         <CardActions>
           <Button
-            disabled={isInCart}
+            disabled={isInCart || isLoading}
             onClick={addToCart}
             sx={{ width: 240 }}
             size="small"

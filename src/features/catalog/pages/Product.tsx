@@ -9,7 +9,7 @@ import useApi from '../../../common/hooks/useApi';
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
-  const apiCall = useApi();
+  const [apiCall] = useApi();
 
   useEffect(() => {
     async function getProduct() {

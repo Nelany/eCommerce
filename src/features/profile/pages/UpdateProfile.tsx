@@ -24,7 +24,7 @@ const UpdateProfile = () => {
   } = useForm<updateData>({ mode: 'onChange' });
 
   const key = localStorage.getItem('userId') as string;
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Customer | null>(null);
 
@@ -173,6 +173,7 @@ const UpdateProfile = () => {
         <Button
           className="edit-button"
           variant="contained"
+          disabled={isLoading}
           onClick={handleCancel}
         >
           Cancel

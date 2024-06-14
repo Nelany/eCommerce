@@ -8,7 +8,7 @@ import useDispatchCartId from '../../hooks/useDispatchCart';
 export const Promo = () => {
   const cart = useDispatchCartId();
 
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const [storedCartData] = useState(localStorage.getItem('cartData'));
 
   const [inputValue, setInputValue] = useState('');
@@ -99,7 +99,7 @@ export const Promo = () => {
 
         {isDiscounted ? (
           <Button
-            disabled={!storedCartData}
+            disabled={!storedCartData || isLoading}
             className="promo__button"
             variant="outlined"
             onClick={cancelPromo}
@@ -108,7 +108,7 @@ export const Promo = () => {
           </Button>
         ) : (
           <Button
-            disabled={!storedCartData || !inputValue}
+            disabled={!storedCartData || !inputValue || isLoading}
             className="promo__button"
             variant="outlined"
             onClick={applyPromo}

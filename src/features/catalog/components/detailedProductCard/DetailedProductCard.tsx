@@ -26,7 +26,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
 
   const currentCart = useSelectCart();
   const cart = useDispatchCartId();
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
 
   const [isInCart, setIsAdded] = useState(
     checkProduct(props.productData.id, currentCart)
@@ -108,6 +108,7 @@ function DetailedProductCard(props: { productData: ProductData }) {
             variant="contained"
             color={!isInCart ? 'primary' : 'secondary'}
             onClick={toggleProduct}
+            disabled={isLoading}
           >
             {!isInCart ? 'Add to Cart' : 'Remove from Cart'}
           </Button>
