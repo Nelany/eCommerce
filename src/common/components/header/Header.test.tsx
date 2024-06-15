@@ -19,9 +19,7 @@ describe('Header component', () => {
     const headerElement = screen.getByRole('banner');
     expect(headerElement).toBeTruthy();
   });
-});
 
-describe('Header component', () => {
   it('renders the store name correctly', () => {
     render(
       <Provider store={store}>
@@ -33,9 +31,7 @@ describe('Header component', () => {
     const storeNameElement = screen.getByText('COOLSTORE');
     expect(storeNameElement).toBeTruthy();
   });
-});
 
-describe('Header component', () => {
   it('renders navigation items correctly', () => {
     render(
       <Provider store={store}>
@@ -68,6 +64,16 @@ describe('Header component', () => {
       'Catalog'
     );
 
+    const aboutNavItem = screen.getByRole('link', { name: /about/i });
+    expect(aboutNavItem).toBeTruthy();
+    expect(aboutNavItem).toHaveAttribute('href', '/about');
+    expect(aboutNavItem.querySelector('img')).toBeTruthy();
+    expect(aboutNavItem.querySelector('img')).toHaveAttribute(
+      'src',
+      '/searchicon.png'
+    );
+    expect(aboutNavItem.querySelector('img')).toHaveAttribute('alt', 'About');
+
     const cartNavItem = screen.getByRole('link', { name: /cart/i });
     expect(cartNavItem).toBeTruthy();
     expect(cartNavItem).toHaveAttribute('href', '/cart');
@@ -77,13 +83,5 @@ describe('Header component', () => {
       '/cart.png'
     );
     expect(cartNavItem.querySelector('img')).toHaveAttribute('alt', 'Cart');
-
-    // // Проверка Profile
-    // const profileNavItem = screen.getByRole('link', { name: /profile/i });
-    // expect(profileNavItem).toBeTruthy();
-    // expect(profileNavItem).toHaveAttribute('href', '/profile');
-    // expect(profileNavItem.querySelector('img')).toBeTruthy();
-    // expect(profileNavItem.querySelector('img')).toHaveAttribute('src', '/hindu2.png');
-    // expect(profileNavItem.querySelector('img')).toHaveAttribute('alt', 'Profile');
   });
 });

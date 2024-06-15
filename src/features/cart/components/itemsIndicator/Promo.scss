@@ -7,15 +7,6 @@
   align-items: center;
   flex-wrap: wrap;
 
-  // &__input {
-  //   height: 29px;
-  //   box-sizing: border-box;
-  //   padding: 0 5px;
-  //   border: 1px solid $grey;
-  //   border-radius: 5px;
-  //   color: $darkGrey;
-  // }
-
   &__input_disabled.promo__input_disabled {
     pointer-events: none;
     opacity: 0.4;
