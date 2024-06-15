@@ -29,6 +29,14 @@ function App() {
         sx={{ bgcolor: '#f5f5f5' }}
         className="container-title"
       >
+        <img className="decor" src="/decor.png" alt="decor" />
+        <img
+          className="decor decor-bottom-right"
+          src="/decor.png"
+          alt="decor"
+        />
+        <img className="decor decor-bottom-left" src="/decor.png" alt="decor" />
+        <img className="decor decor-top-left" src="/decor.png" alt="decor" />
         <Box className="main-title">
           <Typography gutterBottom component="div" className="text-wrapper">
             <span className="span-text">Magic is at your fingertips - </span>
@@ -46,6 +54,7 @@ function App() {
         </Box>
         <Box>
           <CardMedia
+            className="main-genie"
             sx={{ height: 320, width: 320, overflow: 'hidden' }}
             component="img"
             alt="Photo of the beast Genie"
