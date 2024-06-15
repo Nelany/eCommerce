@@ -20,8 +20,9 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <CartLoader />
-        <RouterProvider router={router} />
+        <CartLoader>
+          <RouterProvider router={router} />
+        </CartLoader>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>
