@@ -19,8 +19,7 @@ function CartLoader(props: { children: JSX.Element }) {
           cartDispatch.dispatchSetCart(response.body);
           setIsLoaded(true);
         })
-        .catch((err) => {
-          console.warn(err);
+        .catch(() => {
           localStorage.removeItem('cartData');
           setIsLoaded(true);
         });
