@@ -13,6 +13,8 @@ export interface ChangeProduct {
   productId: string;
 }
 
+const CART_VERSION_ERROR = 'ConcurrentModification';
+
 const createCart = ({ id, email, productId }: CreateCart) => {
   return getApiRoot()
     .carts()
@@ -54,7 +56,7 @@ export interface UpdateCartByIdData {
   discountId?: string;
 }
 
-const updateCartById = ({
+const updateCartById = async ({
   id,
   version,
   customerId,
@@ -101,21 +103,39 @@ const updateCartById = ({
       },
     });
   }
-
-  return getApiRoot()
-    .carts()
-    .withId({ ID: id })
-    .post({
-      body: {
-        actions: actionsData,
-        version: version,
-      },
-    })
-    .execute();
+  try {
+    const response = await getApiRoot()
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          actions: actionsData,
+          version: version,
+        },
+      })
+      .execute();
+    return response;
+  } catch (error) {
+    if ((error as { name: string })?.name === CART_VERSION_ERROR) {
+      const cartResponse = await getCartById(id);
+      return getApiRoot()
+        .carts()
+        .withId({ ID: id })
+        .post({
+          body: {
+            actions: actionsData,
+            version: cartResponse.body.version,
+          },
+        })
+        .execute();
+    }
+    throw error;
+  }
 };
 
-const removeProductById = ({ id, version, productId }: ChangeProduct) => {
-  return getApiRoot()
+const removeProductById = async ({ id, version, productId }: ChangeProduct) => {
+  try {
+    const response = await getApiRoot()
     .carts()
     .withId({ ID: id })
     .post({
@@ -130,42 +150,108 @@ const removeProductById = ({ id, version, productId }: ChangeProduct) => {
       },
     })
     .execute();
+    return response;
+  } catch (error) {
+    if ((error as { name: string })?.name === CART_VERSION_ERROR) {
+      const cartResponse = await getCartById(id);
+
+      return getApiRoot()
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+          version: cartResponse.body.version,
+        },
+      })
+      .execute();
+    }
+    throw error;
+  }
 };
 
-const changeProductQuantity = ({
+const changeProductQuantity = async ({
   id,
   version,
   productId,
   quantity,
 }: ChangeProduct & { quantity: number }) => {
-  return getApiRoot()
-    .carts()
-    .withId({ ID: id })
-    .post({
-      body: {
-        actions: [
-          {
-            action: 'changeLineItemQuantity',
-            lineItemId: productId,
-            quantity,
+  try {
+    const response = await getApiRoot()
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId: productId,
+              quantity,
+            },
+          ],
+          version: version,
+        },
+      })
+      .execute();
+    return response;
+  } catch (error) {
+    if ((error as { name: string })?.name === CART_VERSION_ERROR) {
+      const cartResponse = await getCartById(id);
+      return getApiRoot()
+        .carts()
+        .withId({ ID: id })
+        .post({
+          body: {
+            actions: [
+              {
+                action: 'changeLineItemQuantity',
+                lineItemId: productId,
+                quantity,
+              },
+            ],
+            version: cartResponse.body.version,
           },
-        ],
-        version: version,
-      },
-    })
-    .execute();
+        })
+        .execute();
+    }
+    throw error;
+  }
 };
 
-const removeCartById = (ID: string, version: number) => {
-  return getApiRoot()
-    .carts()
-    .withId({ ID })
-    .delete({
-      queryArgs: {
-        version,
-      },
-    })
-    .execute();
+const removeCartById = async (ID: string, version: number) => {
+  try {
+    const response = await getApiRoot()
+      .carts()
+      .withId({ ID })
+      .delete({
+        queryArgs: {
+          version: version,
+        },
+      })
+      .execute();
+    return response;
+  } catch (error) {
+    if ((error as { name: string })?.name === CART_VERSION_ERROR) {
+      const cartResponse = await getCartById(ID);
+
+      return getApiRoot()
+        .carts()
+        .withId({ ID })
+        .delete({
+          queryArgs: {
+            version: cartResponse.body.version,
+          },
+        })
+        .execute();
+    }
+    throw error;
+  }
+
 };
 
 export const cartApi = {
