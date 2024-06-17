@@ -35,8 +35,6 @@
   opacity: 0.95;
 
   filter: brightness(0) saturate(100%) invert(14%) sepia(62%) saturate(5797%) hue-rotate(229deg) brightness(69%) contrast(99%);
-  // filter: brightness(0) saturate(100%) invert(45%) sepia(68%) saturate(3615%) hue-rotate(218deg) brightness(96%) contrast(92%);
-  // filter: brightness(0) saturate(100%) invert(24%) sepia(9%) saturate(18%) hue-rotate(45deg) brightness(104%) contrast(92%);
 }
 
 .decor-bottom-right {
@@ -78,9 +76,6 @@
 .text-wrapper {
   margin: auto;
   text-align: center;
-  // text-shadow: 1px 1px 0 rgb(94, 110, 236), 1px 2px 0 rgb(94, 110, 236), 1px 3px 0 rgb(94, 110, 236), 1px 4px 0 rgb(94, 110, 236),
-  //   1px 5px 0 rgb(94, 110, 236), 1px 6px 0 rgb(94, 110, 236), 1px 7px 0 rgb(94, 110, 236), 1px 8px 0 rgb(94, 110, 236),
-  //   5px 13px 15px black;
 
   text-shadow: 1px 2px 3px rgb(94, 110, 236), 5px 13px 15px #091D9E;
   font-family: sans-serif;
@@ -88,8 +83,6 @@
 
 .span-text {
   display: inline-block;
-  // color: #0f1140;
-  // color: #5a1b14;
   color: #0b1655;
 
 
