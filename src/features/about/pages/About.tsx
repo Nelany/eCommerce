@@ -33,21 +33,30 @@ const About = () => {
             app. The basic principles of our work:
           </p>
           <List sx={{ width: '100%' }}>
-            <ListItem sx={{ fontSize: 14, pb: 0, pt: 0 }}>
+            <ListItem
+              sx={{ fontSize: 14, pb: 0, pt: 0 }}
+              className="about-list"
+            >
               <ListItemIcon>
-                <StarIcon color="primary" />
+                <StarIcon color="primary" className="about-star" />
               </ListItemIcon>
               <ListItemText primary="Synchronized work in achieving a common goal. For effective application development, we share our knowledge and ideas" />
             </ListItem>
-            <ListItem sx={{ fontSize: 14, pb: 0, pt: 0 }}>
+            <ListItem
+              sx={{ fontSize: 14, pb: 0, pt: 0 }}
+              className="about-list"
+            >
               <ListItemIcon>
-                <StarIcon color="primary" />
+                <StarIcon color="primary" className="about-star" />
               </ListItemIcon>
               <ListItemText primary="Effective communication for successful development. Each member of our team is ready to discuss and quickly solve problems" />
             </ListItem>
-            <ListItem sx={{ fontSize: 14, pb: 0, pt: 0 }}>
+            <ListItem
+              sx={{ fontSize: 14, pb: 0, pt: 0 }}
+              className="about-list"
+            >
               <ListItemIcon>
-                <StarIcon color="primary" />
+                <StarIcon color="primary" className="about-star" />
               </ListItemIcon>
               <ListItemText primary="Modern Web Development" />
             </ListItem>
@@ -130,6 +139,8 @@ const About = () => {
                   learn new things. Programming attracts for me because it
                   allows me to see the results of my work, discipline, and clear
                   deadlines, as well as the constant opportunity to learn.
+                  Working on this project taught me to listen to advice and work
+                  on mistakes.
                 </Typography>
               </CardContent>
             </div>
