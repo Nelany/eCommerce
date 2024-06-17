@@ -110,4 +110,14 @@
     .logo {
         width: 300px;
     }
+
+    .about-list {
+        flex-direction: column;
+    }
+
+    .about-star {
+        margin-top: 5px;
+        min-width: 100%;
+        justify-content: center;
+    }
 }
