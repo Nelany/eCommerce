@@ -14,10 +14,16 @@ function CartLoader(props: { children: JSX.Element }) {
     }
 
     if (cartData) {
-      getCart(JSON.parse(cartData).cartId).then((response) => {
-        cartDispatch.dispatchSetCart(response.body);
-        setIsLoaded(true);
-      });
+      getCart(JSON.parse(cartData).cartId)
+        .then((response) => {
+          cartDispatch.dispatchSetCart(response.body);
+          setIsLoaded(true);
+        })
+        .catch((err) => {
+          console.warn(err);
+          localStorage.removeItem('cartData');
+          setIsLoaded(true);
+        });
     } else {
       setIsLoaded(true);
     }
