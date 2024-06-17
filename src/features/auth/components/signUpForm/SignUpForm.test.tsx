@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 
 import { store } from '../../../../common/store/store';
 import { MemoryRouter } from 'react-router-dom';
-// import 'jest-localstorage-mock';
 
 jest.mock('../../../../common/hooks/useApi', () => ({
   __esModule: true,
