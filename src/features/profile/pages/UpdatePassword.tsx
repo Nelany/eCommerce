@@ -23,7 +23,7 @@ const UpdatePassword = () => {
   } = useForm<updatePasswordData>({ mode: 'onChange' });
 
   const key = localStorage.getItem('userId') as string;
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Customer | null>(null);
 
@@ -123,7 +123,12 @@ const UpdatePassword = () => {
         {errors?.newPassword && (
           <span className="error-validation">{errors.newPassword.message}</span>
         )}
-        <Button className="edit-button" variant="contained" type="submit">
+        <Button
+          className="edit-button"
+          variant="contained"
+          type="submit"
+          disabled={isLoading}
+        >
           Change Password
         </Button>
         <Button

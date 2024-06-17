@@ -7,8 +7,14 @@ import Typography from '@mui/material/Typography';
 import { Box, CardActionArea } from '@mui/material';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { addProductToCart, checkProduct } from '../../utils/helpers';
+import useApi from '../../../../common/hooks/useApi';
+import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
+import useSelectCart from '../../../cart/hooks/useSelectCart';
 
 type Props = {
+  id: string;
   genieName: string;
   price: string;
   description: string;
@@ -19,6 +25,7 @@ type Props = {
 };
 
 const ProductCard = ({
+  id,
   genieName,
   price,
   description,
@@ -26,6 +33,17 @@ const ProductCard = ({
   productKey,
   discounted,
 }: Props) => {
+  const currentCart = useSelectCart();
+
+  const [isInCart, setIsAdded] = useState(checkProduct(id, currentCart));
+  const [apiCall, isLoading] = useApi();
+
+  const cart = useDispatchCartId();
+
+  function addToCart() {
+    addProductToCart(id, apiCall, cart, () => setIsAdded(true));
+  }
+
   return (
     <Card
       className={price && productKey ? 'product-card' : 'disabled-product-card'}
@@ -80,8 +98,17 @@ const ProductCard = ({
           </CardActionArea>
         </Link>
         <CardActions>
-          <Button sx={{ width: 240 }} size="small">
-            <img className="cart" src="/cart.png" alt="ADD TO CART" />
+          <Button
+            disabled={isInCart || isLoading}
+            onClick={addToCart}
+            sx={{ width: 240 }}
+            size="small"
+          >
+            {isInCart ? (
+              'Added'
+            ) : (
+              <img className="cart" src="/cart.png" alt="ADD TO CART" />
+            )}
           </Button>
         </CardActions>
       </div>

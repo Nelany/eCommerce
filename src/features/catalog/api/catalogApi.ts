@@ -25,10 +25,10 @@ export interface getProductsArgs {
 }
 
 const getProducts = ({
-  limit = 51,
+  limit = 12,
   sort = 'createdAt desc',
   offset = 0,
-  count = 51,
+  count = 12,
   text = '',
   categoryId,
   filters,

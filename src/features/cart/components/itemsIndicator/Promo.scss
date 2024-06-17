@@ -1,0 +1,27 @@
+@import '/src/common/utils/variables.scss';
+
+.promo {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &__input_disabled.promo__input_disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  &__button {
+    height: 29px;
+    font-size: 10px;
+  }
+
+  &__price {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

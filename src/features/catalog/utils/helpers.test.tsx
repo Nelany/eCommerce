@@ -5,6 +5,8 @@ import {
   formatProductData,
 } from './helpers';
 
+jest.mock('../../../common/utils/constants');
+
 describe('formatProductData', () => {
   it('should format the product data correctly', () => {
     const serverResponse: ClientResponse<Product> = {
@@ -211,9 +213,10 @@ describe('formatProductData', () => {
     };
 
     const expectedData: ProductData = {
+      id: '3a9dfb41-231c-4621-953a-7638947cfa51',
       name: 'Giggling Genius Genie',
       description:
-        "Provides ingenious solutions to life's problems, all while spreading joy and laughter.", // Изменено на фактическое значение
+        "Provides ingenious solutions to life's problems, all while spreading joy and laughter.",
       images: [
         'https://images.cdn.us-central1.gcp.commercetools.com/7221fe9f-2096-4b50-844b-1dece4556290/1-DUTBt1u2.jpg',
         'https://images.cdn.us-central1.gcp.commercetools.com/7221fe9f-2096-4b50-844b-1dece4556290/2-BLkMo2qR.jpg',

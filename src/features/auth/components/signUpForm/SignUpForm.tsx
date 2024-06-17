@@ -12,6 +12,7 @@ import useDispatchToast from '../../../../common/hooks/useDispatchToast';
 import { HttpErrorType } from '@commercetools/sdk-client-v2';
 import { encryptUser } from '../../../../common/utils/crypto';
 import { removePreviousToken } from '../../../../common/api/sdk';
+import { saveUserCart } from '../../../catalog/utils/helpers';
 
 const SignUpForm = () => {
   const {
@@ -27,7 +28,7 @@ const SignUpForm = () => {
   const navigateToMain = useNavigateToMain();
   const saveUserId = useDispatchUserId();
   const setToast = useDispatchToast();
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const userMessage = useNewUser();
 
   const onSubmit: SubmitHandler<registerData> = async (data) => {
@@ -63,6 +64,14 @@ const SignUpForm = () => {
         if (userData) {
           saveUserId(response.body.customer.id);
           localStorage.setItem('userSecret', encryptUser(user));
+          const cartId = response.body.cart?.id;
+          const cartVersion = response.body.cart?.version;
+          const discountId =
+            response.body.cart?.discountCodes[0]?.discountCode.id || '';
+
+          if (cartId && cartVersion) {
+            saveUserCart(cartId, cartVersion, discountId);
+          }
           removePreviousToken();
           navigateToMain();
         }
@@ -409,7 +418,12 @@ const SignUpForm = () => {
           </div>
         )}
 
-        <Button variant="contained" type="submit" fullWidth>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isLoading}
+          fullWidth
+        >
           Sign Up
         </Button>
       </form>

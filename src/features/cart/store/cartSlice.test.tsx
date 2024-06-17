@@ -1,19 +1,20 @@
 import { setCart, emptyCart, cartSlice, CartState } from './cartSlice';
+import { testCart } from '../utils/testCart';
 
 describe('cart slice', () => {
   const initialState: CartState = {
-    value: '',
+    value: null,
   };
 
   it('should handle setCart', () => {
-    const newState = cartSlice.reducer(initialState, setCart('new cart value'));
-    expect(newState.value).toEqual('new cart value');
+    const newState = cartSlice.reducer(initialState, setCart(testCart));
+    expect(newState.value).toEqual(testCart);
   });
 
   it('should handle emptyCart', () => {
-    const state = { value: 'current cart value' };
+    const state = { value: testCart };
     const newState = cartSlice.reducer(state, emptyCart());
-    expect(newState.value).toEqual('');
+    expect(newState.value).toEqual(null);
   });
 
   it('should return the initial state', () => {

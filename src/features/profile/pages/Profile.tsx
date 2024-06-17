@@ -21,7 +21,7 @@ const Profile = () => {
   const [keyForReload, setKeyforReload] = useState(0);
   const [selectedAddress, setSelectedAddress] =
     useState<AddressResponse | null>(null);
-  const apiCall = useApi();
+  const [apiCall, isLoading] = useApi();
   const navigate = useNavigate();
   const {
     register,
@@ -407,7 +407,12 @@ const Profile = () => {
               </span>
             )}
           </div>
-          <Button variant="contained" className="edit-button" type="submit">
+          <Button
+            disabled={isLoading}
+            variant="contained"
+            className="edit-button"
+            type="submit"
+          >
             SAVE
           </Button>
           <Button variant="contained" className="edit-button" onClick={cancel}>

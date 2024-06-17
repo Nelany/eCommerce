@@ -18,15 +18,165 @@
   flex-direction: column;
 }
 
+.container-title {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
 
+.decor {
+  height: 110px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.95;
 
+  filter: brightness(0) saturate(100%) invert(14%) sepia(62%) saturate(5797%) hue-rotate(229deg) brightness(69%) contrast(99%);
+}
+
+.decor-bottom-right {
+  transform: scaleY(-1);
+  right: 0;
+  top: auto;
+  bottom: 0;
+}
+
+.decor-bottom-left {
+  transform: scaleX(-1) scaleY(-1);
+  left: 0;
+  right: auto;
+  top: auto;
+  bottom: 0;
+}
+
+.decor-top-left {
+  transform: scaleX(-1);
+  left: 0;
+  right: auto;
+  top: 0;
+  bottom: auto;
+}
+
+.main-title {
+  display: flex;
+  padding: 45px;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  width: 60%;
+}
 
 .card {
   padding: 2em;
 }
 
+.text-wrapper {
+  margin: auto;
+  text-align: center;
+
+  text-shadow: 1px 2px 3px rgb(94, 110, 236), 5px 13px 15px #091D9E;
+  font-family: sans-serif;
+}
+
+.span-text {
+  display: inline-block;
+  color: #0b1655;
+
+
+  font-size: 40px;
+  transform-origin: 50% 70%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.span-text:nth-child(1) {
+  animation: flipUp 1.5s cubic-bezier(0.68, -0.55, 0.26, 1.55) .2s both;
+}
+
+.span-text:nth-child(2) {
+  animation: flipUp 1.5s cubic-bezier(0.68, -0.55, 0.26, 1.55).4s both;
+}
+
+.span-text:nth-child(3) {
+  animation: flipUp 1.5s cubic-bezier(0.68, -0.55, 0.26, 1.55).6s both;
+}
+
+.span-text:nth-child(4) {
+  animation: flipUp 1.5s cubic-bezier(0.68, -0.55, 0.26, 1.55) .8s both;
+}
+
+
+@keyframes flipUp {
+  from {
+    transform: rotateX(90deg);
+  }
+
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+.promo-text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.promo-wrapper {
+  display: flex;
+  margin-top: 30px;
+  padding: 30px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.promo-title {
+  font-size: 2rem;
+}
+
+.about-promo {
+  font-size: 1.6rem;
+  color: rgb(65, 64, 64);
+  font-weight: 700;
+  margin: 0;
+}
+
+.icon-copy-promo {
+  margin-top: 8px;
+  cursor: pointer;
+
+  &:hover {
+    scale: 1.1;
+  }
+}
+
 @media screen and (width < 360px) {
   #root {
     padding: 10px;
+  }
+}
+
+@media screen and (width < 865px) {
+  .main-title {
+    padding: 30px;
+  }
+
+  .promo-wrapper {
+    padding: 10px;
+  }
+
+  .about-promo {
+    font-size: 1.2rem;
+  }
+
+  .promo-title {
+    font-size: 1.5rem;
+  }
+
+  .main-genie{
+    margin-bottom: 30px;
   }
 }

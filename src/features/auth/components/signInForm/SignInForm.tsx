@@ -12,6 +12,7 @@ import type { HttpErrorType } from '@commercetools/sdk-client-v2/dist/declaratio
 import './SignInForm.scss';
 import { removePreviousToken } from '../../../../common/api/sdk';
 import { encryptUser } from '../../../../common/utils/crypto';
+import { saveUserCart } from '../../../catalog/utils/helpers';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
@@ -40,6 +41,14 @@ const SignInForm = () => {
       reset();
       saveUserId(response.body.customer.id);
       localStorage.setItem('userSecret', encryptUser(data));
+      const cartId = response.body.cart?.id;
+      const cartVersion = response.body.cart?.version;
+      const discountId =
+        response.body.cart?.discountCodes[0]?.discountCode.id || '';
+
+      if (cartId && cartVersion) {
+        saveUserCart(cartId, cartVersion, discountId);
+      }
       removePreviousToken();
       navigateToMain();
     } catch (error) {

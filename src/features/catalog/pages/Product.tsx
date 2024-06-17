@@ -9,7 +9,7 @@ import useApi from '../../../common/hooks/useApi';
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
-  const apiCall = useApi();
+  const [apiCall] = useApi();
 
   useEffect(() => {
     async function getProduct() {
@@ -29,7 +29,7 @@ const ProductPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!product) {
+  if (!product || !id) {
     return (
       <div className="spinner-wrapper">
         <CircularProgress />

@@ -8,14 +8,15 @@ import { SearchBar } from '../components/searchBar/SearchBar';
 import { Category } from '../types/catalogTypes';
 import useDispatchCategories from '../hooks/useDispatchCategories';
 import { useSelectSort } from '../hooks/useSelectSort';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useSelectCategories from '../hooks/useSelectCategories';
 import { findCategoryIdByName } from '../utils/helpers';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelectFilter } from '../hooks/useSelectFilter';
+import { Paginator } from '../components/pagination/Pagination';
 
 const Catalog = () => {
-  const apiCall = useApi();
+  const [apiCall] = useApi();
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { dispatchSetCategories } = useDispatchCategories();
   const sort = useSelectSort();
@@ -25,6 +26,10 @@ const Catalog = () => {
   const [searchValue, setSearchValue] = useState('');
   const [spinner, setSpinner] = useState(true);
   const filter = useSelectFilter();
+  const location = useLocation();
+  const [total, setTotal] = useState(0);
+  const query = new URLSearchParams(location.search);
+  const page = parseInt(query.get('page') || '1', 10);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -83,6 +88,7 @@ const Catalog = () => {
         params.sort = sort;
       }
       params.filters = filter;
+      params.offset = (page - 1) * 12;
 
       const productsResponse = await apiCall(catalogApi.getProducts(params));
       return productsResponse;
@@ -90,17 +96,16 @@ const Catalog = () => {
     getProducts().then((productsResponse) => {
       if (productsResponse?.body.results) {
         setSpinner(false);
+        setTotal(productsResponse?.body.total || 0);
         setProducts(productsResponse?.body.results);
       }
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, subId, categories, sort, searchValue, filter]);
-
+  }, [id, subId, categories, sort, searchValue, filter, page]);
   return (
     <div className="page catalog-page">
       <SearchBar changeSearchInput={setSearchValue} />
-
       {spinner ? (
         <div className="spinner-wrapper">
           <CircularProgress />
@@ -110,6 +115,7 @@ const Catalog = () => {
           {products?.map((product, index) => {
             return (
               <ProductCard
+                id={product.id}
                 genieName={product.name['en-GB']}
                 price={String(
                   product.masterVariant.prices?.length
@@ -138,6 +144,7 @@ const Catalog = () => {
       ) : (
         <div>Ooops.... Nothing was found </div>
       )}
+      {total && <Paginator total={total} />}
     </div>
   );
 };

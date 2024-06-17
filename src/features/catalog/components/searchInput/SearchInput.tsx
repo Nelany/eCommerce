@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { SetSearchValue } from '../../types/catalogTypes';
 import './SearchInput.scss';
+import { useSearchParams } from 'react-router-dom';
 
 type FormInput = {
   searchValue: string;
@@ -8,6 +9,7 @@ type FormInput = {
 
 function SearchInput(props: SetSearchValue) {
   const { register, getValues, reset } = useForm<FormInput>();
+  const setPage = useSearchParams()[1];
 
   function resetForm() {
     props.changeSearchInput('');
@@ -19,6 +21,7 @@ function SearchInput(props: SetSearchValue) {
       className="search-form"
       onSubmit={(e) => {
         e.preventDefault();
+        setPage({});
         const value = getValues('searchValue');
         props.changeSearchInput(value);
       }}
