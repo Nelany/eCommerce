@@ -1,0 +1,172 @@
+@import '../../../../common/utils/variables.scss';
+
+.spinner-wrapper {
+  height: 400px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-page {
+  padding-top: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & p {
+    margin: 5px 0;
+  }
+}
+
+.product-wrapper {
+  position: relative;
+
+  max-width: 800px;
+  max-height: 390px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  grid-template-areas: 'slider description'
+                        'slider buttons';
+
+  & .slider {
+    cursor: zoom-in;
+  }
+}
+
+.product-description {
+  grid-area: description;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: start;
+
+  & .card-clue {
+    text-align: start;
+    font-weight: 800;
+    color: $violet;
+  }
+
+  & .prices {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+  }
+
+  & h2 {
+    margin: 0;
+    color: $blue;
+    font-weight: 800;
+    font-size: 26px;
+  }
+
+  & .discounted {
+    color: red;
+    font-size: large;
+    font-weight: 600;
+  }
+
+  & .price {
+    color: black;
+    font-size: large;
+
+    &.discount {
+      color: $grey;
+      text-decoration: line-through;
+      font-size: larger;
+    }
+  }
+}
+
+.buttons {
+  grid-area: buttons;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.buy-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@media screen and (width < 865px) {
+  .product-wrapper {
+    width: 100%;
+
+    gap: 8px;
+    grid-template-areas: 'slider description'
+                          'buttons buttons';
+  }
+
+  .product-description {
+    justify-content: flex-start;
+    gap: 10px;
+
+    font-size: smaller;
+  }
+
+}
+
+@media screen and (width < 636px) {
+  .product-description {
+    & h2 {
+      font-size: 18px;
+    }
+
+    & .card-clue {
+      font-size: smaller;
+    }
+
+      
+    & .prices {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      
+      & p {
+        margin: 0;
+      }
+    }
+  }
+
+
+}
+
+@media screen and (width < 485px) {
+  .product-page {
+    padding-top: 20px;
+  }
+
+  .product-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'description'
+                          'slider'
+                          'buttons';
+  }
+
+  .product-description {
+    gap: 5px;
+
+    & .prices {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      
+      & p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+  
