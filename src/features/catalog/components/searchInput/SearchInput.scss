@@ -1,0 +1,85 @@
+@import '../../../../common/utils/variables.scss';
+
+.search-form {
+  grid-area: search;
+  position: relative;
+  width: calc(100% - 250px);
+}
+
+.search-input {
+  height: 40px;
+  width: 100%;
+  padding-left: 10px;
+
+  border-radius: 5px;
+  font-size: 18px;
+  border: 0.5px solid $grey;
+  background-color: white;
+  color: black;
+
+  &:focus {
+    outline-color: $blue;
+  }
+
+}
+
+.search-button {
+  margin: 0;
+  padding: 0;
+
+  width: 20px;
+  height: 20px;
+
+  background-size: cover;
+  border: none;
+  background-color: inherit;
+
+  transition: all 0.3s;
+
+  &:hover {
+    outline: none;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.search {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    background-image: url(../../../../assets/search.png);
+  }
+
+  &.reset {
+    position: absolute;
+    right: 40px;
+    top: 10px;
+
+    background-image: url(../../../../assets/close2.png);
+  }
+}
+
+@media screen and (width < 550px) {
+  .search-form {
+    width: 100%;
+    padding-right: 8px;
+  }
+
+  .search-button{
+
+    &.reset {
+      right: 45px;
+    }
+
+    &.search {
+      right: 15px;
+    }
+  }
+}
