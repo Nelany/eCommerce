@@ -13,6 +13,8 @@ import './SignInForm.scss';
 import { removePreviousToken } from '../../../../common/api/sdk';
 import { encryptUser } from '../../../../common/utils/crypto';
 import { saveUserCart } from '../../../catalog/utils/helpers';
+import useSelectCart from '../../../cart/hooks/useSelectCart';
+import useDispatchCartId from '../../../cart/hooks/useDispatchCart';
 
 const SignInForm = () => {
   const navigateToMain = useNavigateToMain();
@@ -21,6 +23,8 @@ const SignInForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState('');
+  const cart = useSelectCart();
+  const { dispatchSetCart } = useDispatchCartId();
 
   const changePasswordIcon = useCallback(() => {
     setShowPassword((prev) => !prev);
@@ -36,8 +40,16 @@ const SignInForm = () => {
   const onSubmit: SubmitHandler<UserData> = async (data) => {
     setServerError('');
 
+    if (cart?.id) {
+      data.anonymousCart = {
+        id: cart.id,
+        typeId: 'cart',
+      };
+    }
+
     try {
       const response = await auth.login(data);
+      console.log(response);
       reset();
       saveUserId(response.body.customer.id);
       localStorage.setItem('userSecret', encryptUser(data));
@@ -46,8 +58,9 @@ const SignInForm = () => {
       const discountId =
         response.body.cart?.discountCodes[0]?.discountCode.id || '';
 
-      if (cartId && cartVersion) {
+      if (response.body.cart && cartId && cartVersion) {
         saveUserCart(cartId, cartVersion, discountId);
+        dispatchSetCart(response.body.cart);
       }
       removePreviousToken();
       navigateToMain();

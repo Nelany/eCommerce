@@ -3,7 +3,7 @@ import { UserData } from '../../../common/types';
 import { AddressBilling, AddressShipping } from '../types/app.interface';
 
 const getCustomers = (key: string | null) => {
- return getApiRoot()
+  return getApiRoot()
     .customers()
     .get({ queryArgs: { where: `id="${key}"` } })
     .execute();
@@ -25,26 +25,26 @@ const createCustomer = (customerData: {
 };
 
 const login = (user: UserData) => {
-  const body: UserData = {
-    username: user.username,
-    password: user.password,
-  };
+  // const body: UserData = {
+  //   username: user.username,
+  //   password: user.password,
+  // };
 
-  const storedCartData = localStorage.getItem('cartData');
+  // const storedCartData = localStorage.getItem('cartData');
 
-  if (storedCartData) {
-    const cartData = JSON.parse(storedCartData);
+  // if (storedCartData) {
+  //   const cartData = JSON.parse(storedCartData);
 
-    body.anonymousCart = { id: cartData.cartId, typeId: 'cart' };
-  }
-
+  //   // body.anonymousCart = { id: cartData.cartId, typeId: 'cart' };
+  // }
+  console.warn(user);
   return getApiRoot()
     .login()
     .post({
       body: {
         email: user.username,
         password: user.password,
-        anonymousCart: body.anonymousCart,
+        anonymousCart: user.anonymousCart,
       },
     })
     .execute();
