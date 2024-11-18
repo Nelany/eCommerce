@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+}
+
+.form-wrapper {
+    width: 550px;
+    height: max-content;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+.form-register {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 550px;
+}
+
+.form-register__input {
+    width: 100%;
+    height: 30px;
+    
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 14px;
+    border: 2px solid black;
+}
+
+.error-validation {
+    color: red;
+    font-size: 10px;
+    align-self: flex-start;
+    margin-top: -5px;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-controller {
+    position: absolute;
+    top: calc(50% - 10px);
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-image: url(../../../../assets/show-password.png);
+    background-size: cover;
+  
+    &.show {
+      background-image: url(../../../../assets/hide-password.png);
+    }
+}
+
+.address-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.address-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.checkbox-input-wrapper {
+    display: flex;
+    text-align: center;
+}
+
+.address-title {
+    margin: 5px;
+}
+
+@media screen and (width < 650px) {
+    .form-wrapper {
+        width: 100%;
+    }
+
+    .form-register {
+        width: 100%;
+    }
+
+    .error-validation {
+    font-size: 8px;
+    }
+}
+
+@media screen and (width < 360px) {
+    .form-wrapper {
+        width: 90%;
+    }
+
+    .address-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .register-clue {
+        font-size: 12px;
+        text-align: start;
+    }
+}
